@@ -1,8 +1,12 @@
+import 'package:clipboard/clipboard.dart';
+import 'package:codebook/widgets/codeblock/code_field.dart';
 import 'package:codebook/widgets/language_tag/language_input.dart';
 import 'package:codebook/widgets/language_tag/language_tag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:nekolib.ui/ui.dart';
+
+import 'view_mode.dart';
 
 class CodeBlock extends StatefulWidget {
   const CodeBlock({Key? key, required this.description, required this.language, required this.tags, required this.code}) : super(key: key);
@@ -13,15 +17,65 @@ class CodeBlock extends StatefulWidget {
   final List<String> tags;
 
   static const double elevation = 3;
-  static const double padding = 20;
+  static const int copiedDelay = 1;
+  static const double padding = 10;
   static const double borderRadius = LanguageInput.borderRadius;
   static const double iconSize = 20;
+  static const copy_text_preset = "COPY";
+  static const copied_text_preset = "COPIED";
+  static const copied_icon_preset = Icons.check;
+  static const copy_icon_preset = Icons.copy;
 
   @override
   State<CodeBlock> createState() => _CodeBlockState();
 }
 
 class _CodeBlockState extends State<CodeBlock> {
+  ViewMode _mode = ViewMode.Format;
+  late String _language;
+  late String _code;
+  late IconData _copyIcon = CodeBlock.copy_icon_preset;
+  late String _copyText = CodeBlock.copy_text_preset;
+
+  void saveCodeToClipboard() {
+    setState(() {
+      _copyIcon = CodeBlock.copied_icon_preset;
+      _copyText = CodeBlock.copied_text_preset;
+    });
+
+    FlutterClipboard.copy(_code);
+
+    Future.delayed(
+      const Duration(seconds: CodeBlock.copiedDelay),
+    ).then(
+      (value) => setState(() {
+        _copyIcon = CodeBlock.copy_icon_preset;
+        _copyText = CodeBlock.copy_text_preset;
+      }),
+    );
+  }
+
+  void updateLanguage(String lang) {
+    _language = lang;
+  }
+
+  void updateCode(String code) {
+    _code = code;
+  }
+
+  void changeMode(ViewMode mode) {
+    setState(() {
+      _mode = mode;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _language = widget.language;
+    _code = widget.code;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,59 +86,15 @@ class _CodeBlockState extends State<CodeBlock> {
           overflow: TextOverflow.visible,
         ),
         NcSpacing.xs(),
-        Material(
-          borderRadius: BorderRadius.circular(CodeBlock.borderRadius),
-          elevation: CodeBlock.elevation,
-          child: Container(
-            padding: const EdgeInsets.all(CodeBlock.padding),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(CodeBlock.borderRadius),
-              color: NcThemes.current.primaryColor,
-            ),
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.remove_red_eye,
-                          color: NcThemes.current.accentColor,
-                          size: CodeBlock.iconSize,
-                        ),
-                        NcSpacing.small(),
-                        Icon(
-                          Icons.short_text,
-                          color: NcThemes.current.tertiaryColor,
-                          size: CodeBlock.iconSize,
-                        ),
-                        NcSpacing.small(),
-                        Icon(
-                          Icons.edit,
-                          color: NcThemes.current.tertiaryColor,
-                          size: CodeBlock.iconSize,
-                        ),
-                      ],
-                    ),
-                    OutlinedButton.icon(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.copy,
-                        color: NcThemes.current.tertiaryColor,
-                        size: CodeBlock.iconSize,
-                      ),
-                      label: NcCaptionText("COPY", buttonText: true),
-                    )
-                  ],
-                ),
-                NcSpacing.medium(),
-                NcBodyText(widget.code),
-              ],
-            ),
-          ),
+        CodeField(
+          mode: _mode,
+          onModeChange: changeMode,
+          code: _code,
+          language: _language,
+          onCodeChange: updateCode,
+          copyIcon: _copyIcon,
+          copyText: _copyText,
+          onCopy: saveCodeToClipboard,
         ),
         NcSpacing.small(),
         Row(
@@ -92,7 +102,9 @@ class _CodeBlockState extends State<CodeBlock> {
           children: [
             Row(children: generateTags()),
             LanguageTag(
-              initialValue: widget.language,
+              initialValue: _language,
+              editMode: _mode == ViewMode.Edit,
+              onValueChange: updateLanguage,
             )
           ],
         )
