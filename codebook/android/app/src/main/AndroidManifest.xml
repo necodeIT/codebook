@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.codebook">
    <application
-        android:label="codebook"
+        android:label="CodeBook"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

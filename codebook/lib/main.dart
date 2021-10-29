@@ -1,9 +1,11 @@
 import 'package:codebook/codebook.dart';
+import 'package:codebook/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
 void main() {
-  NcThemes.current = NcThemes.dark;
+  CustomThemes.registerAll();
+  NcThemes.current = CustomThemes.lightPurple;
   runApp(const App());
 }
 
@@ -24,7 +26,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'CodeBook',
       home: Scaffold(
         body: const CodeBook(),
         backgroundColor: NcThemes.current.secondaryColor,

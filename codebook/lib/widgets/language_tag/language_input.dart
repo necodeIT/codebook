@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
 class LanguageInput extends StatelessWidget {
-  const LanguageInput({Key? key, required this.controller, required this.focus, this.disabled = false}) : super(key: key);
+  const LanguageInput({Key? key, required this.controller, required this.focus, this.disabled = false, this.onValueChange}) : super(key: key);
 
   final TextEditingController controller;
   final FocusNode focus;
   final bool disabled;
+  final Function(String)? onValueChange;
 
   InputBorder get border => OutlineInputBorder(
       borderSide: BorderSide(
@@ -14,7 +15,7 @@ class LanguageInput extends StatelessWidget {
       ),
       borderRadius: BorderRadius.circular(borderRadius));
 
-  static const double backgroundOpacity = .2;
+  static const double backgroundOpacity = .11;
   static const double borderRadius = 5;
   static const double fontSize = 15;
   static const double elevation = 3;
@@ -34,6 +35,7 @@ class LanguageInput extends StatelessWidget {
   Widget buildField() {
     return IntrinsicWidth(
       child: TextField(
+        onChanged: onValueChange,
         enabled: !disabled,
         textAlign: TextAlign.center,
         textAlignVertical: TextAlignVertical.center,
