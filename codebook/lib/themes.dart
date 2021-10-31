@@ -5,9 +5,8 @@ class CustomThemes {
   static final darkPurple = NcThemes.dark.copyWith(
     "Dark Purple",
     icon: NcThemes.dark.icon,
-    iconColor: const Color(0xFF6200EE),
-    accentColor: const Color(0xFF6200EE),
-    buttonTextColor: const Color(0xFF6200EE),
+    iconColor: const Color(0xFF8E45F6),
+    accentColor: const Color(0xFF8E45F6),
   );
 
   static final lightPurple = NcThemes.light.copyWith(
@@ -15,7 +14,6 @@ class CustomThemes {
     icon: NcThemes.light.icon,
     iconColor: const Color(0xFF6200EE),
     accentColor: const Color(0xFF6200EE),
-    buttonTextColor: const Color(0xFF6200EE),
   );
 
   static void registerAll() {

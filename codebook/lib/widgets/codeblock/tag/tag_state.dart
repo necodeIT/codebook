@@ -1,0 +1,1 @@
+enum TagState { standard, input }

@@ -1,1 +1,1 @@
-enum ViewMode { Edit, Raw, Format }
+enum ViewMode { edit, raw, format }

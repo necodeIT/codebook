@@ -1,6 +1,6 @@
+import 'package:codebook/supported_languages.dart';
 import 'package:flutter/material.dart';
 
-import '../../supported_languages.dart';
 import 'language_input.dart';
 
 class LanguageTag extends StatelessWidget {

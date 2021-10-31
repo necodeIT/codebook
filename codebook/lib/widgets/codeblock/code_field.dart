@@ -1,5 +1,6 @@
 import 'package:codebook/widgets/codeblock/view_mode.dart';
-import 'package:codebook/widgets/language_tag/language_input.dart';
+import 'package:codebook/widgets/codeblock/language_tag/language_input.dart';
+import 'package:codebook/widgets/text_input/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/github.dart';
@@ -9,20 +10,25 @@ import 'package:nekolib.ui/ui.dart';
 import 'code_block.dart';
 
 class CodeField extends StatelessWidget {
-  const CodeField({Key? key, required this.mode, required this.onModeChange, required this.code, required this.language, required this.onCodeChange, required this.copyText, required this.copyIcon, required this.onCopy}) : super(key: key);
+  const CodeField({Key? key, required this.mode, required this.onModeChange, required this.code, required this.language, required this.onCodeChange, required this.copyText, required this.copyIcon, required this.onCopy, required this.onDelete})
+      : super(key: key);
 
   final ViewMode mode;
   final String code;
   final String copyText;
   final IconData copyIcon;
   final String language;
-  final void Function(ViewMode) onModeChange;
-  final void Function(String) onCodeChange;
-  final void Function() onCopy;
+  final Function(ViewMode) onModeChange;
+  final Function(String) onCodeChange;
+  final Function() onDelete;
+  final Function() onCopy;
+
+  static const deleteText = "DELETE";
 
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: NcThemes.current.primaryColor,
       borderRadius: BorderRadius.circular(CodeBlock.borderRadius),
       elevation: CodeBlock.elevation,
       child: Container(
@@ -41,65 +47,72 @@ class CodeField extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () => onModeChange(ViewMode.Format),
+                      onPressed: () => onModeChange(ViewMode.format),
                       icon: Icon(
                         Icons.remove_red_eye,
-                        color: mode == ViewMode.Format ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
+                        color: mode == ViewMode.format ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
                         size: CodeBlock.iconSize,
                       ),
                     ),
                     NcSpacing.small(),
                     IconButton(
-                      onPressed: () => onModeChange(ViewMode.Raw),
+                      onPressed: () => onModeChange(ViewMode.raw),
                       icon: Icon(
                         Icons.short_text,
-                        color: mode == ViewMode.Raw ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
+                        color: mode == ViewMode.raw ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
                         size: CodeBlock.iconSize,
                       ),
                     ),
                     NcSpacing.small(),
                     IconButton(
-                      onPressed: () => onModeChange(ViewMode.Edit),
+                      onPressed: () => onModeChange(ViewMode.edit),
                       icon: Icon(
                         Icons.edit,
-                        color: mode == ViewMode.Edit ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
+                        color: mode == ViewMode.edit ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
                         size: CodeBlock.iconSize,
                       ),
                     ),
                   ],
                 ),
                 OutlinedButton.icon(
-                  onPressed: onCopy,
+                  onPressed: mode == ViewMode.edit ? onDelete : onCopy,
                   icon: Icon(
-                    copyIcon,
-                    color: NcThemes.current.accentColor,
+                    mode == ViewMode.edit ? Icons.delete : copyIcon,
+                    color: mode == ViewMode.edit ? NcThemes.current.errorColor : NcThemes.current.accentColor,
                     size: CodeBlock.iconSize,
                   ),
-                  label: NcCaptionText(copyText, buttonText: true),
+                  label: Text(
+                    mode == ViewMode.edit ? deleteText : copyText,
+                    style: TextStyle(
+                      color: mode == ViewMode.edit ? NcThemes.current.errorColor : NcThemes.current.accentColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   style: OutlinedButton.styleFrom(
-                    backgroundColor: NcThemes.current.accentColor.withOpacity(LanguageInput.backgroundOpacity),
-                    side: BorderSide(width: 1.0, color: NcThemes.current.accentColor),
+                    backgroundColor: (mode == ViewMode.edit ? NcThemes.current.errorColor : NcThemes.current.accentColor).withOpacity(LanguageInput.backgroundOpacity),
+                    side: BorderSide(width: 1.0, color: mode == ViewMode.edit ? NcThemes.current.errorColor : NcThemes.current.accentColor),
                     padding: const EdgeInsets.all(8),
-                    primary: NcThemes.current.accentColor,
+                    primary: mode == ViewMode.edit ? NcThemes.current.errorColor : NcThemes.current.accentColor,
                   ),
                 )
               ],
             ),
             NcSpacing.medium(),
-            mode == ViewMode.Format
+            mode == ViewMode.format
                 ? HighlightView(
                     code,
                     language: language,
                     theme: oceanTheme,
                   )
-                : mode == ViewMode.Raw
+                : mode == ViewMode.raw
                     ? SelectableText(
                         code,
                         style: NcBaseText.style(),
                       )
-                    : NcInputField.multiline(
-                        maxLines: null,
-                        onValueChanged: onCodeChange,
+                    : TextInput(
+                        onChange: onCodeChange,
+                        label: "Code",
+                        inintialText: code,
                       ),
           ],
         ),
