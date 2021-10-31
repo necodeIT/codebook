@@ -45,7 +45,7 @@ class _CodeBookState extends State<CodeBook> {
               ? Expanded(
                   child: ListView(
                     // ignore: prefer_const_literals_to_create_immutables
-                    children: generateBlocks(),
+                    children: generateBlocks(context),
                   ),
                 )
               : Column(
@@ -59,19 +59,37 @@ class _CodeBookState extends State<CodeBook> {
     );
   }
 
-  deleteIngredient(Ingredient value) {
-    setState(() {
-      DB.rmIngredient(value);
-    });
+  deleteIngredient(BuildContext context, Ingredient value) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: NcTitleText("U sure?"),
+        content: NcBodyText("U sure you wanna delete this? Missclick?"),
+        backgroundColor: NcThemes.current.primaryColor,
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              setState(() {
+                DB.rmIngredient(value);
+                setState(() {}); // Dont ask why flutter wont update idk why and actually idc if it works
+              });
+            },
+            child: NcCaptionText("Ye"),
+          ),
+          TextButton(onPressed: () => Navigator.of(context).pop(), child: NcCaptionText("Missclick"))
+        ],
+      ),
+    );
   }
 
-  List<Widget> generateBlocks() {
+  List<Widget> generateBlocks(BuildContext context) {
     var blocks = <Widget>[];
 
     for (var block in DB.ingredients) {
       blocks.add(CodeBlock(
         data: block,
-        onDelete: deleteIngredient,
+        onDelete: (data) => deleteIngredient(context, data),
       ));
       blocks.add(NcSpacing.xl());
     }

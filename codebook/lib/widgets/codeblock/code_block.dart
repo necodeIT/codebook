@@ -1,6 +1,7 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
+import 'package:codebook/widgets/autocomplete/dropdown.dart';
 import 'package:codebook/widgets/codeblock/code_field.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
 import 'package:codebook/widgets/codeblock/tag/tag_input.dart';
@@ -25,6 +26,7 @@ class CodeBlock extends StatefulWidget {
   static const double iconSize = 20;
   static const copyTextPreset = "COPY";
   static const copiedTextPreset = "COPIED";
+  static const descLabel = "Description";
   static const copiedIconPreset = Icons.check;
   static const copyIconPreset = Icons.copy;
 
@@ -84,7 +86,7 @@ class _CodeBlockState extends State<CodeBlock> {
                 widget.data.desc,
                 overflow: TextOverflow.visible,
               )
-            : TextInput(label: "Description", inintialText: widget.data.desc, onChange: updateDesc),
+            : TextInput(label: CodeBlock.descLabel, inintialText: widget.data.desc, onChange: updateDesc),
         NcSpacing.xs(),
         CodeField(
           mode: _mode,
@@ -106,7 +108,7 @@ class _CodeBlockState extends State<CodeBlock> {
               initialValue: widget.data.language,
               editMode: _mode == ViewMode.edit,
               onValueChange: updateLanguage,
-            )
+            ),
           ],
         )
       ],
@@ -135,9 +137,10 @@ class _CodeBlockState extends State<CodeBlock> {
 
     if (_mode == ViewMode.edit && _tagInput) {
       list.add(
-        Autocomplete(
+        Autocomplete<String>(
           optionsBuilder: (value) => DB.tags.where((tag) => tag.toLowerCase().contains(value.text.toLowerCase())),
           fieldViewBuilder: (context, controller, focus, _) => TagInput(controller: controller, focus: focus, onSubmit: destroyTagInput),
+          optionsViewBuilder: AutoCompleteDropdown.builder,
         ),
       );
     }

@@ -24,6 +24,7 @@ class CodeField extends StatelessWidget {
   final Function() onCopy;
 
   static const deleteText = "DELETE";
+  static const codeLabel = "Code";
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +112,7 @@ class CodeField extends StatelessWidget {
                       )
                     : TextInput(
                         onChange: onCodeChange,
-                        label: "Code",
+                        label: codeLabel,
                         inintialText: code,
                       ),
           ],

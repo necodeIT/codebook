@@ -2,11 +2,8 @@ import 'package:codebook/widgets/codebook/codebook.dart';
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/settings.dart';
 import 'package:codebook/themes.dart';
-import 'package:codebook/widgets/text_input/input.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
-
-import 'db/ingredient.dart';
 
 void main() {
   CustomThemes.registerAll();

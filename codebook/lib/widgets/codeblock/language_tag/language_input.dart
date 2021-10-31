@@ -36,6 +36,7 @@ class LanguageInput extends StatelessWidget {
     return IntrinsicWidth(
       child: TextField(
         onChanged: onValueChange,
+        onSubmitted: onValueChange,
         enabled: !disabled,
         textAlign: TextAlign.center,
         textAlignVertical: TextAlignVertical.center,
