@@ -1,5 +1,4 @@
 import 'package:codebook/widgets/codeblock/home/home.dart';
-import 'package:codebook/widgets/codebook/codebook.dart';
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/settings.dart';
 import 'package:codebook/themes.dart';
@@ -60,17 +59,8 @@ class _AppState extends State<App> {
     return MaterialApp(
       // scrollBehavior: NcScrollBehavior(),
       title: "CodeBook",
-      home: Scaffold(
-        body: const Home(),
-        backgroundColor: NcThemes.current.secondaryColor,
-        floatingActionButton: FloatingActionButton.small(
-          onPressed: () {},
-          child: Icon(
-            Icons.add,
-            color: NcThemes.current.tertiaryColor,
-          ),
-          backgroundColor: NcThemes.current.accentColor,
-        ),
+      home: Home(
+        refresh: () => setState(() {}),
       ),
     );
   }

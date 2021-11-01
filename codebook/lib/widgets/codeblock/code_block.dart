@@ -17,7 +17,7 @@ class CodeBlock extends StatefulWidget {
   const CodeBlock({Key? key, required this.data, required this.onDelete}) : super(key: key);
 
   final Ingredient data;
-  final Function(Ingredient) onDelete;
+  final Function() onDelete;
 
   static const double elevation = 3;
   static const int copiedDelay = 1;
@@ -97,7 +97,7 @@ class _CodeBlockState extends State<CodeBlock> {
           copyIcon: _copyIcon,
           copyText: _copyText,
           onCopy: saveCodeToClipboard,
-          onDelete: () => widget.onDelete(widget.data),
+          onDelete: widget.onDelete,
         ),
         NcSpacing.small(),
         Row(

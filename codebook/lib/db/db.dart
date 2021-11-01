@@ -30,12 +30,15 @@ class DB {
 
   static final List<Ingredient> _ingredients = [];
   static final List<String> _tags = [];
+  static final List<String> _languages = [];
 
   static List<Ingredient> get ingredients => List.unmodifiable(_ingredients);
   static List<String> get tags => List.unmodifiable(_tags);
+  static List<String> get lanugages => List.unmodifiable(_languages);
 
-  static void fetchAllTags() {
+  static void updateMetaData() {
     _tags.clear();
+    _languages.clear();
 
     for (var ingredient in ingredients) {
       for (var tag in ingredient.tags) {
@@ -43,11 +46,12 @@ class DB {
 
         _tags.add(tag);
       }
+      if (!_languages.contains(ingredient.language)) _languages.add(ingredient.language);
     }
   }
 
   static void update() {
-    fetchAllTags();
+    updateMetaData();
     save();
   }
 

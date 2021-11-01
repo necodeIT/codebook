@@ -6,7 +6,10 @@ import 'package:nekolib.ui/ui.dart';
 import '../codeblock/code_block.dart';
 
 class CodeBook extends StatefulWidget {
-  const CodeBook({Key? key}) : super(key: key);
+  const CodeBook({Key? key, required this.ingredients, required this.onDeleteIngredient}) : super(key: key);
+
+  final List<Ingredient> ingredients;
+  final Function(BuildContext context, Ingredient data) onDeleteIngredient;
 
   static const double titleSize = 30;
 
@@ -20,7 +23,7 @@ class _CodeBookState extends State<CodeBook> {
     return DB.ingredients.isNotEmpty
         ? Expanded(
             child: ListView(
-              // ignore: prefer_const_literals_to_create_immutables
+              controller: ScrollController(),
               children: generateBlocks(context),
             ),
           )
@@ -32,37 +35,13 @@ class _CodeBookState extends State<CodeBook> {
           );
   }
 
-  deleteIngredient(BuildContext context, Ingredient value) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: NcTitleText("U sure?"),
-        content: NcBodyText("U sure you wanna delete this? Missclick?"),
-        backgroundColor: NcThemes.current.primaryColor,
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              setState(() {
-                DB.rmIngredient(value);
-                setState(() {}); // Dont ask why flutter wont update idk why and actually idc if it works
-              });
-            },
-            child: NcCaptionText("Ye"),
-          ),
-          TextButton(onPressed: () => Navigator.of(context).pop(), child: NcCaptionText("Missclick"))
-        ],
-      ),
-    );
-  }
-
   List<Widget> generateBlocks(BuildContext context) {
     var blocks = <Widget>[];
 
-    for (var block in DB.ingredients) {
+    for (var block in widget.ingredients) {
       blocks.add(CodeBlock(
         data: block,
-        onDelete: (data) => deleteIngredient(context, data),
+        onDelete: () => widget.onDeleteIngredient(context, block),
       ));
       blocks.add(NcSpacing.xl());
     }
