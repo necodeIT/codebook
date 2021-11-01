@@ -1,10 +1,10 @@
+import 'package:codebook/code_themes.dart';
+import 'package:codebook/db/settings.dart';
 import 'package:codebook/widgets/codeblock/view_mode.dart';
 import 'package:codebook/widgets/codeblock/language_tag/language_input.dart';
 import 'package:codebook/widgets/text_input/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:flutter_highlight/themes/github.dart';
-import 'package:flutter_highlight/themes/ocean.dart';
 import 'package:nekolib.ui/ui.dart';
 
 import 'code_block.dart';
@@ -103,7 +103,7 @@ class CodeField extends StatelessWidget {
                 ? HighlightView(
                     code,
                     language: language,
-                    theme: oceanTheme,
+                    theme: kCodeThemes[Settings.codeTheme]!,
                   )
                 : mode == ViewMode.raw
                     ? SelectableText(

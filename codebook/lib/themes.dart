@@ -10,7 +10,7 @@ class CustomThemes {
   );
 
   static final lightPurple = NcThemes.light.copyWith(
-    "Dark Purple",
+    "Light Purple",
     icon: NcThemes.light.icon,
     iconColor: const Color(0xFF6200EE),
     accentColor: const Color(0xFF6200EE),
@@ -20,4 +20,6 @@ class CustomThemes {
     NcThemes.registerExternalTheme(darkPurple);
     NcThemes.registerExternalTheme(lightPurple);
   }
+
+  static final all = {darkPurple.name: darkPurple, lightPurple.name: lightPurple};
 }

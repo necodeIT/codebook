@@ -1,12 +1,11 @@
 import 'package:codebook/supported_languages.dart';
-import 'package:codebook/widgets/autocomplete/button.dart';
 import 'package:codebook/widgets/autocomplete/dropdown.dart';
 import 'package:flutter/material.dart';
 
 import 'language_input.dart';
 
 class LanguageTag extends StatelessWidget {
-  LanguageTag({Key? key, this.editMode = false, required this.initialValue, this.onValueChange}) : super(key: key);
+  const LanguageTag({Key? key, this.editMode = false, required this.initialValue, this.onValueChange}) : super(key: key);
 
   final bool editMode;
   final String initialValue;

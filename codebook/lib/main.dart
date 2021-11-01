@@ -1,3 +1,4 @@
+import 'package:codebook/widgets/codeblock/home/home.dart';
 import 'package:codebook/widgets/codebook/codebook.dart';
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/settings.dart';
@@ -7,7 +8,6 @@ import 'package:nekolib.ui/ui.dart';
 
 void main() {
   CustomThemes.registerAll();
-  NcThemes.current = NcThemes.ocean;
 
   runApp(
     FutureBuilder(future: loadAll(), builder: (context, task) => task.connectionState == ConnectionState.done ? const App() : loadingIndicator()),
@@ -37,14 +37,7 @@ Future loadAll() {
   // ]);
   return Future(() async {
     await DB.load();
-    Settings.load();
-  });
-}
-
-Future saveAll() {
-  return Future(() async {
-    await DB.save();
-    Settings.save();
+    await Settings.load();
   });
 }
 
@@ -59,7 +52,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    NcThemes.onCurrentThemeChange = setState;
+    Settings.onUpdate = () => setState(() {});
   }
 
   @override
@@ -68,8 +61,16 @@ class _AppState extends State<App> {
       // scrollBehavior: NcScrollBehavior(),
       title: "CodeBook",
       home: Scaffold(
-        body: const CodeBook(),
+        body: const Home(),
         backgroundColor: NcThemes.current.secondaryColor,
+        floatingActionButton: FloatingActionButton.small(
+          onPressed: () {},
+          child: Icon(
+            Icons.add,
+            color: NcThemes.current.tertiaryColor,
+          ),
+          backgroundColor: NcThemes.current.accentColor,
+        ),
       ),
     );
   }

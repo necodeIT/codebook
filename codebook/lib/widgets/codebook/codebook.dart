@@ -17,46 +17,19 @@ class CodeBook extends StatefulWidget {
 class _CodeBookState extends State<CodeBook> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(NcSpacing.largeSpacing),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return DB.ingredients.isNotEmpty
+        ? Expanded(
+            child: ListView(
+              // ignore: prefer_const_literals_to_create_immutables
+              children: generateBlocks(context),
+            ),
+          )
+        : Column(
             children: [
-              NcTitleText(
-                "CodeBook",
-                fontSize: CodeBook.titleSize,
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.filter_alt_sharp,
-                  color: NcThemes.current.tertiaryColor,
-                  size: CodeBook.titleSize,
-                ),
-                splashColor: Colors.transparent,
-                splashRadius: 1,
-              ),
+              const NcVectorImage(code: noDataSvg),
+              NcBodyText("No Ingredients... start adding some!"),
             ],
-          ),
-          NcSpacing.large(),
-          DB.ingredients.isNotEmpty
-              ? Expanded(
-                  child: ListView(
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: generateBlocks(context),
-                  ),
-                )
-              : Column(
-                  children: [
-                    const NcVectorImage(code: noDataSvg),
-                    NcBodyText("No Ingredients... start adding some!"),
-                  ],
-                ),
-        ],
-      ),
-    );
+          );
   }
 
   deleteIngredient(BuildContext context, Ingredient value) {

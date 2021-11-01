@@ -48,7 +48,9 @@ path = f"../codebook/lib/{filename}.dart"
 
 print(f"Writing file at '{path}' ...")
 
-code = f'const {data_type} {variable_name} = {languages};'
+code = "// GENERATED CODE - DO NOT MODIFY BY HAND\n\n"
+
+code += f'const {data_type} {variable_name} = {languages};'
 
 if os.path.isfile(path):
     print("Removing old files...")

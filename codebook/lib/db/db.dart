@@ -18,8 +18,13 @@ class DB {
     return File('${dir.path}/$bookFileName');
   }
 
+  static Future<File> get settingsFile async {
+    var dir = await appDir;
+    return File('${dir.path}/$settingsFileName');
+  }
+
   static const appFolderName = "CodeBook";
-  static const settingsFile = "Settings.json";
+  static const settingsFileName = "settings.$saveExtension";
   static const saveExtension = "json";
   static const bookFileName = "book.$saveExtension";
 
