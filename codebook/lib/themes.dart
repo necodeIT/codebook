@@ -4,7 +4,7 @@ import 'package:nekolib.ui/ui.dart';
 class CustomThemes {
   static final darkPurple = NcThemes.dark.copyWith(
     "Dark Purple",
-    icon: NcThemes.dark.icon,
+    icon: Icons.nightlight_outlined,
     iconColor: const Color(0xFF8E45F6),
     accentColor: const Color(0xFF8E45F6),
   );
@@ -18,7 +18,7 @@ class CustomThemes {
 
   static final darkGreen = NcThemes.dark.copyWith(
     "Dark Green",
-    icon: NcThemes.dark.icon,
+    icon: Icons.nightlight_outlined,
     iconColor: const Color(0xFF0C8004),
     // iconColor: const Color(0xFF1AA410),
     accentColor: const Color(0xFF0C8004),
@@ -34,5 +34,7 @@ class CustomThemes {
   static void registerAll() {
     NcThemes.registerExternalTheme(darkPurple);
     NcThemes.registerExternalTheme(lightPurple);
+    NcThemes.registerExternalTheme(lightGreen);
+    NcThemes.registerExternalTheme(darkGreen);
   }
 }
