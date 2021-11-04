@@ -24,6 +24,7 @@ class CodeBlock extends StatefulWidget {
   static const double padding = 10;
   static const double borderRadius = LanguageInput.borderRadius;
   static const double iconSize = 20;
+  static const double descSize = 16;
   static const copyTextPreset = "COPY";
   static const copiedTextPreset = "COPIED";
   static const descLabel = "Description";
@@ -38,11 +39,13 @@ class _CodeBlockState extends State<CodeBlock> {
   ViewMode _mode = ViewMode.format;
   late IconData _copyIcon = CodeBlock.copyIconPreset;
   late String _copyText = CodeBlock.copyTextPreset;
+  Color _copyColor = NcThemes.current.accentColor;
 
   void saveCodeToClipboard() {
     setState(() {
       _copyIcon = CodeBlock.copiedIconPreset;
       _copyText = CodeBlock.copiedTextPreset;
+      _copyColor = NcThemes.current.successColor;
     });
 
     FlutterClipboard.copy(widget.data.code);
@@ -53,6 +56,7 @@ class _CodeBlockState extends State<CodeBlock> {
       (value) => setState(() {
         _copyIcon = CodeBlock.copyIconPreset;
         _copyText = CodeBlock.copyTextPreset;
+        _copyColor = NcThemes.current.accentColor;
       }),
     );
   }
@@ -85,6 +89,7 @@ class _CodeBlockState extends State<CodeBlock> {
             ? NcBodyText(
                 widget.data.desc,
                 overflow: TextOverflow.visible,
+                fontSize: CodeBlock.descSize,
               )
             : TextInput(label: CodeBlock.descLabel, inintialText: widget.data.desc, onChange: updateDesc),
         NcSpacing.xs(),
@@ -96,6 +101,7 @@ class _CodeBlockState extends State<CodeBlock> {
           onCodeChange: updateCode,
           copyIcon: _copyIcon,
           copyText: _copyText,
+          copyColor: _mode == ViewMode.edit ? NcThemes.current.errorColor : _copyColor,
           onCopy: saveCodeToClipboard,
           onDelete: handleDeleteReq,
         ),
@@ -165,6 +171,7 @@ class _CodeBlockState extends State<CodeBlock> {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
+              // Dont ask why it workds so i wont touch it
               setState(() {
                 _mode = ViewMode.format;
               });

@@ -56,7 +56,6 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    print("deine mom");
     return MaterialApp(
       // scrollBehavior: NcScrollBehavior(),
       title: "CodeBook",

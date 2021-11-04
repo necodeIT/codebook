@@ -156,6 +156,7 @@ class _HomeState extends State<Home> {
         _ingredients = DB.ingredients;
       });
     }
+    // Dont ask why it workds so i wont touch it
     setState(() {});
     widget.refresh();
   }

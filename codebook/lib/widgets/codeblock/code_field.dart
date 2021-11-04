@@ -10,12 +10,24 @@ import 'package:nekolib.ui/ui.dart';
 import 'code_block.dart';
 
 class CodeField extends StatelessWidget {
-  const CodeField({Key? key, required this.mode, required this.onModeChange, required this.code, required this.language, required this.onCodeChange, required this.copyText, required this.copyIcon, required this.onCopy, required this.onDelete})
+  const CodeField(
+      {Key? key,
+      required this.mode,
+      required this.onModeChange,
+      required this.code,
+      required this.language,
+      required this.onCodeChange,
+      required this.copyText,
+      required this.copyIcon,
+      required this.onCopy,
+      required this.onDelete,
+      required this.copyColor})
       : super(key: key);
 
   final ViewMode mode;
   final String code;
   final String copyText;
+  final Color copyColor;
   final IconData copyIcon;
   final String language;
   final Function(ViewMode) onModeChange;
@@ -79,21 +91,21 @@ class CodeField extends StatelessWidget {
                   onPressed: mode == ViewMode.edit ? onDelete : onCopy,
                   icon: Icon(
                     mode == ViewMode.edit ? Icons.delete : copyIcon,
-                    color: mode == ViewMode.edit ? NcThemes.current.errorColor : NcThemes.current.accentColor,
+                    color: copyColor,
                     size: CodeBlock.iconSize,
                   ),
                   label: Text(
                     mode == ViewMode.edit ? deleteText : copyText,
                     style: TextStyle(
-                      color: mode == ViewMode.edit ? NcThemes.current.errorColor : NcThemes.current.accentColor,
+                      color: copyColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   style: OutlinedButton.styleFrom(
-                    backgroundColor: (mode == ViewMode.edit ? NcThemes.current.errorColor : NcThemes.current.accentColor).withOpacity(LanguageInput.backgroundOpacity),
-                    side: BorderSide(width: 1.0, color: mode == ViewMode.edit ? NcThemes.current.errorColor : NcThemes.current.accentColor),
+                    backgroundColor: copyColor.withOpacity(LanguageInput.backgroundOpacity),
+                    side: BorderSide(width: 1.0, color: copyColor),
                     padding: const EdgeInsets.all(8),
-                    primary: mode == ViewMode.edit ? NcThemes.current.errorColor : NcThemes.current.accentColor,
+                    primary: copyColor,
                   ),
                 )
               ],
