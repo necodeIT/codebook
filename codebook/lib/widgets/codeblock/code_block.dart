@@ -7,6 +7,7 @@ import 'package:codebook/widgets/codeblock/tag/tag.dart';
 import 'package:codebook/widgets/codeblock/tag/tag_input.dart';
 import 'package:codebook/widgets/codeblock/language_tag/language_input.dart';
 import 'package:codebook/widgets/codeblock/language_tag/language_tag.dart';
+import 'package:codebook/widgets/home/filter/filter.dart';
 import 'package:codebook/widgets/text_input/input.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
@@ -81,43 +82,47 @@ class _CodeBlockState extends State<CodeBlock> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (_mode == ViewMode.edit) NcSpacing.medium(),
-        _mode != ViewMode.edit
-            ? NcBodyText(
-                widget.data.desc,
-                overflow: TextOverflow.visible,
-                fontSize: CodeBlock.descSize,
-              )
-            : TextInput(label: CodeBlock.descLabel, inintialText: widget.data.desc, onChange: updateDesc),
-        NcSpacing.xs(),
-        CodeField(
-          mode: _mode,
-          onModeChange: changeMode,
-          code: widget.data.code,
-          language: widget.data.language,
-          onCodeChange: updateCode,
-          copyIcon: _copyIcon,
-          copyText: _copyText,
-          copyColor: _mode == ViewMode.edit ? NcThemes.current.errorColor : _copyColor,
-          onCopy: saveCodeToClipboard,
-          onDelete: handleDeleteReq,
-        ),
-        NcSpacing.small(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(children: generateTags()),
-            LanguageTag(
-              initialValue: widget.data.language,
-              editMode: _mode == ViewMode.edit,
-              onValueChange: updateLanguage,
-            ),
-          ],
-        )
-      ],
+    return AnimatedSize(
+      duration: Filter.animationDuration,
+      curve: Filter.animationCurve,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (_mode == ViewMode.edit) NcSpacing.medium(),
+          _mode != ViewMode.edit
+              ? NcBodyText(
+                  widget.data.desc,
+                  overflow: TextOverflow.visible,
+                  fontSize: CodeBlock.descSize,
+                )
+              : TextInput(label: CodeBlock.descLabel, inintialText: widget.data.desc, onChange: updateDesc),
+          NcSpacing.xs(),
+          CodeField(
+            mode: _mode,
+            onModeChange: changeMode,
+            code: widget.data.code,
+            language: widget.data.language,
+            onCodeChange: updateCode,
+            copyIcon: _copyIcon,
+            copyText: _copyText,
+            copyColor: _mode == ViewMode.edit ? NcThemes.current.errorColor : _copyColor,
+            onCopy: saveCodeToClipboard,
+            onDelete: handleDeleteReq,
+          ),
+          NcSpacing.small(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(children: generateTags()),
+              LanguageTag(
+                initialValue: widget.data.language,
+                editMode: _mode == ViewMode.edit,
+                onValueChange: updateLanguage,
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 

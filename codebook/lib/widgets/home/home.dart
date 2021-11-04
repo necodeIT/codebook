@@ -107,14 +107,14 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
-          if (_filterMode)
-            Filter(
-              onClose: toggleFilterMode,
-              onQuerry: filterIngredients,
-              forceDesc: _forceFilterMode ? Home.newDesc : null,
-              forceTags: _forceFilterMode ? Home.newTags : null,
-              forceLangugae: _forceFilterMode ? Home.newLanguage : null,
-            )
+          Filter(
+            onClose: toggleFilterMode,
+            onQuerry: filterIngredients,
+            forceDesc: _forceFilterMode ? Home.newDesc : null,
+            forceTags: _forceFilterMode ? Home.newTags : null,
+            forceLangugae: _forceFilterMode ? Home.newLanguage : null,
+            active: _filterMode,
+          )
         ],
       ),
       backgroundColor: NcThemes.current.secondaryColor,

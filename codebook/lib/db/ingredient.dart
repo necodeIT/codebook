@@ -4,7 +4,7 @@ class Ingredient {
   Ingredient({required language, required String code, required List<String> tags, required String desc}) {
     _language = language;
     _code = code;
-    _tags = tags;
+    _tags = List.from(tags);
     _desc = desc;
   }
 

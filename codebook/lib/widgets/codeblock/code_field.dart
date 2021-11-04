@@ -10,19 +10,19 @@ import 'package:nekolib.ui/ui.dart';
 import 'code_block.dart';
 
 class CodeField extends StatelessWidget {
-  const CodeField(
-      {Key? key,
-      required this.mode,
-      required this.onModeChange,
-      required this.code,
-      required this.language,
-      required this.onCodeChange,
-      required this.copyText,
-      required this.copyIcon,
-      required this.onCopy,
-      required this.onDelete,
-      required this.copyColor})
-      : super(key: key);
+  const CodeField({
+    Key? key,
+    required this.mode,
+    required this.onModeChange,
+    required this.code,
+    required this.language,
+    required this.onCodeChange,
+    required this.copyText,
+    required this.copyIcon,
+    required this.onCopy,
+    required this.onDelete,
+    required this.copyColor,
+  }) : super(key: key);
 
   final ViewMode mode;
   final String code;
