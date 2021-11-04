@@ -1,4 +1,4 @@
-import 'package:codebook/widgets/codeblock/home/home.dart';
+import 'package:codebook/widgets/home/home.dart';
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/settings.dart';
 import 'package:codebook/themes.dart';
@@ -56,6 +56,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    print("deine mom");
     return MaterialApp(
       // scrollBehavior: NcScrollBehavior(),
       title: "CodeBook",

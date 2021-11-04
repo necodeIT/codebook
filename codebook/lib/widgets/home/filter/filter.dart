@@ -1,8 +1,8 @@
 import 'package:codebook/db/db.dart';
 import 'package:codebook/widgets/codeblock/code_block.dart';
-import 'package:codebook/widgets/codeblock/home/filter/filter_header.dart';
-import 'package:codebook/widgets/codeblock/home/filter/input.dart';
-import 'package:codebook/widgets/codeblock/home/filter/selector.dart';
+import 'package:codebook/widgets/home/filter/filter_header.dart';
+import 'package:codebook/widgets/home/filter/input.dart';
+import 'package:codebook/widgets/home/filter/selector.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 

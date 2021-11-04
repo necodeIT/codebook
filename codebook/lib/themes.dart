@@ -35,11 +35,4 @@ class CustomThemes {
     NcThemes.registerExternalTheme(darkPurple);
     NcThemes.registerExternalTheme(lightPurple);
   }
-
-  static final all = Map.unmodifiable({
-    darkPurple.name: darkPurple,
-    lightPurple.name: lightPurple,
-    darkGreen.name: darkGreen,
-    lightGreen.name: lightGreen,
-  });
 }

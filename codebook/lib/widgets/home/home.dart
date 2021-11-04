@@ -1,6 +1,6 @@
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
-import 'package:codebook/widgets/codeblock/home/filter/filter.dart';
+import 'package:codebook/widgets/home/filter/filter.dart';
 import 'package:codebook/widgets/codebook/codebook.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
@@ -148,42 +148,15 @@ class _HomeState extends State<Home> {
   }
 
   deleteIngredient(BuildContext context, Ingredient value) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: NcTitleText("U sure? - DONT PRESS THE DELETE BUTTON AGAIN AFTER YOU CONFIRM"),
-        content: NcBodyText(
-          '''
-            U sure you wanna delete this? Missclick?
-
-            DONT PRESS THE DELETE BUTTON AGAIN AFTER YOU CONFIRM - YOU WILL DELETE OTHER CODE BLOCKS
-
-            READ FOR MORE INFO:
-            You might have to switch to the formatted manually in order to make the ui update...
-            Flutter seeems to have some mental issues so it wont fckn update the ui and im loosing my mind rn.
-            Oh and dont worry if a different code block dissapears it will come back after you switch to the formatted view!
-            ''',
-        ),
-        backgroundColor: NcThemes.current.primaryColor,
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              DB.rmIngredient(value);
-              if (_filterMode) {
-                filterIngredients(_currentFilterDesc, _currentFilterTags, _currentFilterLanguage);
-              } else {
-                setState(() {
-                  _ingredients = DB.ingredients;
-                });
-              }
-              widget.refresh();
-            },
-            child: NcCaptionText("Ye"),
-          ),
-          TextButton(onPressed: () => Navigator.of(context).pop(), child: NcCaptionText("Missclick"))
-        ],
-      ),
-    );
+    DB.rmIngredient(value);
+    if (_filterMode) {
+      filterIngredients(_currentFilterDesc, _currentFilterTags, _currentFilterLanguage);
+    } else {
+      setState(() {
+        _ingredients = DB.ingredients;
+      });
+    }
+    setState(() {});
+    widget.refresh();
   }
 }

@@ -52,7 +52,7 @@ class Settings {
       codeTheme = catgirl[codeThemeKey];
       var theme = catgirl[themeKey];
 
-      NcThemes.current = NcThemes.all[theme] ?? CustomThemes.all[theme] ?? defaultTheme;
+      NcThemes.current = NcThemes.all[theme] ?? defaultTheme;
     });
   }
 

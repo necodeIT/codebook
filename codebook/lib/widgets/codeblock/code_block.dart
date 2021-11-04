@@ -97,7 +97,7 @@ class _CodeBlockState extends State<CodeBlock> {
           copyIcon: _copyIcon,
           copyText: _copyText,
           onCopy: saveCodeToClipboard,
-          onDelete: widget.onDelete,
+          onDelete: handleDeleteReq,
         ),
         NcSpacing.small(),
         Row(
@@ -153,6 +153,30 @@ class _CodeBlockState extends State<CodeBlock> {
   }
 
   bool _tagInput = false;
+
+  handleDeleteReq() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: NcTitleText("U sure?"),
+        content: NcBodyText("U sure you wanna delete this? Missclick?"),
+        backgroundColor: NcThemes.current.primaryColor,
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              setState(() {
+                _mode = ViewMode.format;
+              });
+              widget.onDelete();
+            },
+            child: NcCaptionText("Ye"),
+          ),
+          TextButton(onPressed: () => Navigator.of(context).pop(), child: NcCaptionText("Missclick"))
+        ],
+      ),
+    );
+  }
 
   createTagInput() {
     setState(() {
