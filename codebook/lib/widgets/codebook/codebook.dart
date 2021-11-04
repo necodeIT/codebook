@@ -22,9 +22,8 @@ class _CodeBookState extends State<CodeBook> {
   Widget build(BuildContext context) {
     return DB.ingredients.isNotEmpty
         ? Expanded(
-            child: ListView.separated(
+            child: ListView.builder(
               itemCount: widget.ingredients.length,
-              separatorBuilder: (_, index) => NcSpacing.xl(),
               controller: ScrollController(),
               itemBuilder: (_, index) => CodeBlock(
                 data: widget.ingredients[index],
@@ -37,7 +36,10 @@ class _CodeBookState extends State<CodeBook> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const NcVectorImage(code: noDataSvg),
-                NcBodyText("No Ingredients... start adding some!"),
+                NcBodyText(
+                  "No Ingredients... start adding some!",
+                  fontSize: CodeBlock.descSize,
+                ),
               ],
             ),
           );

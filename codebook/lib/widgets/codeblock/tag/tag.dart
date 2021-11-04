@@ -1,5 +1,6 @@
 import 'package:codebook/widgets/conditional_wrap/condtional_wrapper.dart';
 import 'package:codebook/widgets/codeblock/language_tag/language_input.dart';
+import 'package:codebook/widgets/home/filter/filter.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 import 'package:nekolib.ui/ui/themes/themes.dart';
@@ -32,42 +33,46 @@ class Tag extends StatelessWidget {
   build(BuildContext context) {
     var color = editMode ? NcThemes.current.tertiaryColor : NcThemes.current.accentColor;
 
-    return ConditionalWrapper(
-      condition: detectAll && onTap != null,
-      builder: (context, child) => GestureDetector(
-        onTap: onTap,
-        child: child,
-      ),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: Tag.paddingVertical, horizontal: Tag.paddingHorizontal),
-        decoration: BoxDecoration(
-          border: Border.all(color: color),
-          borderRadius: BorderRadius.circular(Tag.borderRadius),
-          color: color.withOpacity(LanguageInput.backgroundOpacity),
+    return AnimatedSize(
+      duration: Filter.animationDuration,
+      curve: Filter.animationCurve,
+      child: ConditionalWrapper(
+        condition: detectAll && onTap != null,
+        builder: (context, child) => GestureDetector(
+          onTap: onTap,
+          child: child,
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (detectAll) Icon(icon, color: color, size: Tag.fontSize),
-            if (detectAll) NcSpacing.xs(),
-            Text(
-              label,
-              style: TextStyle(
-                color: color,
-                fontSize: Tag.fontSize,
-              ),
-            ),
-            if (!detectAll && editMode) NcSpacing.xs(),
-            if (!detectAll && editMode)
-              ConditionalWrapper(
-                builder: (context, child) => GestureDetector(
-                  onTap: onTap,
-                  child: child,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: Tag.paddingVertical, horizontal: Tag.paddingHorizontal),
+          decoration: BoxDecoration(
+            border: Border.all(color: color),
+            borderRadius: BorderRadius.circular(Tag.borderRadius),
+            color: color.withOpacity(LanguageInput.backgroundOpacity),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (detectAll) Icon(icon, color: color, size: Tag.fontSize),
+              if (detectAll) NcSpacing.xs(),
+              Text(
+                label,
+                style: TextStyle(
+                  color: color,
+                  fontSize: Tag.fontSize,
                 ),
-                child: Icon(icon, color: color, size: Tag.fontSize),
-                condition: onTap != null,
               ),
-          ],
+              if (!detectAll && editMode) NcSpacing.xs(),
+              if (!detectAll && editMode)
+                ConditionalWrapper(
+                  builder: (context, child) => GestureDetector(
+                    onTap: onTap,
+                    child: child,
+                  ),
+                  child: Icon(icon, color: color, size: Tag.fontSize),
+                  condition: onTap != null,
+                ),
+            ],
+          ),
         ),
       ),
     );

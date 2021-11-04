@@ -1,3 +1,4 @@
+import 'package:codebook/widgets/home/filter/filter.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
@@ -16,33 +17,40 @@ class FilterSelect extends StatelessWidget {
   Widget build(BuildContext context) {
     var color = !selected ? NcThemes.current.tertiaryColor : NcThemes.current.accentColor;
 
-    return GestureDetector(
-      onTap: () => onTap(label),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: Tag.paddingVertical, horizontal: Tag.paddingHorizontal),
-        decoration: BoxDecoration(
-          border: Border.all(color: color),
-          borderRadius: BorderRadius.circular(Tag.borderRadius),
-          color: color.withOpacity(LanguageInput.backgroundOpacity),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (!radio && selected)
-              Icon(
-                Icons.check,
-                color: color,
-                size: Tag.fontSize,
-              ),
-            if (!radio && selected) NcSpacing.xs(),
-            Text(
-              label,
-              style: TextStyle(
-                color: color,
-                fontSize: Tag.fontSize,
-              ),
+    return AnimatedSize(
+      duration: Filter.animationDuration,
+      curve: Filter.animationCurve,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: NcSpacing.smallSpacing, right: NcSpacing.smallSpacing),
+        child: GestureDetector(
+          onTap: () => onTap(label),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: Tag.paddingVertical, horizontal: Tag.paddingHorizontal),
+            decoration: BoxDecoration(
+              border: Border.all(color: color),
+              borderRadius: BorderRadius.circular(Tag.borderRadius),
+              color: color.withOpacity(LanguageInput.backgroundOpacity),
             ),
-          ],
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (!radio && selected)
+                  Icon(
+                    Icons.check,
+                    color: color,
+                    size: Tag.fontSize,
+                  ),
+                if (!radio && selected) NcSpacing.xs(),
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: color,
+                    fontSize: Tag.fontSize,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
