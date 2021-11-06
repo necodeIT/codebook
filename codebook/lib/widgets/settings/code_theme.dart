@@ -87,6 +87,7 @@ class CodeTheme extends StatelessWidget {
                       label: "Recommended",
                       fontSize: 12,
                       padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5),
+                      color: NcThemes.current.successColor,
                     ),
                 ],
               ),

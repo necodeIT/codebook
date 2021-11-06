@@ -70,6 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       padding: SettingsPage.recommendedPadding,
                       onTap: () => updateCodeTheme(CustomThemes.themeCodeThemes[NcThemes.current]!),
                       icon: usingRecommended ? Icons.check : Icons.warning_amber_rounded,
+                      color: usingRecommended ? NcThemes.current.successColor : NcThemes.current.warningColor,
                     ),
                   ],
                 ),

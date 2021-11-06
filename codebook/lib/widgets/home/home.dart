@@ -1,9 +1,14 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:animations/animations.dart';
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
 import 'package:codebook/widgets/home/filter/filter.dart';
 import 'package:codebook/widgets/codebook/codebook.dart';
+import 'package:codebook/widgets/home/in_out_dialog/in_out_dialog.dart';
 import 'package:codebook/widgets/settings/settings.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
@@ -16,6 +21,8 @@ class Home extends StatefulWidget {
   static const newLanguage = "python";
   static const newCode = 'print("Hello World")';
   static const newDesc = "New Ingredient";
+  static const importTitle = "Import Ingredients";
+  static const exportTitle = "Import Ingredients";
   static const newTags = ["New"];
 
   @override
@@ -70,7 +77,7 @@ class _HomeState extends State<Home> {
                           children: [
                             if (!_settings)
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () => exportIngredients(context),
                                 icon: Icon(
                                   Icons.upload,
                                   color: NcThemes.current.tertiaryColor,
@@ -81,7 +88,7 @@ class _HomeState extends State<Home> {
                               ),
                             if (!_settings)
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () => importIngredients(context),
                                 icon: Icon(
                                   Icons.download,
                                   color: NcThemes.current.tertiaryColor,
@@ -157,6 +164,47 @@ class _HomeState extends State<Home> {
     );
   }
 
+  importIngredients(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      dialogTitle: Home.importTitle,
+      allowedExtensions: ["json"],
+      type: FileType.custom,
+    );
+
+    if (result == null) return;
+
+    showDialog(
+      context: context,
+      builder: (context) => InOutDialog.import(
+        data: result,
+        onSubmit: (data) {
+          DB.import(data);
+          refresh();
+        },
+      ),
+    );
+  }
+
+  exportIngredients(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => InOutDialog.export(
+        onSubmit: (data) async {
+          var path = await FilePicker.platform.saveFile(
+            fileName: "catgirl",
+            dialogTitle: Home.exportTitle,
+            allowedExtensions: ["json"],
+            type: FileType.custom,
+          );
+
+          if (path == null) return;
+
+          DB.export(path.endsWith(".json") ? path : path + ".json", data);
+        },
+      ),
+    );
+  }
+
   filterIngredients(String desc, List<String> tags, String? language) {
     _currentFilterDesc = desc;
     _currentFilterTags = tags;
@@ -175,8 +223,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  deleteIngredient(BuildContext context, Ingredient value) {
-    DB.rmIngredient(value);
+  refresh() {
     if (_filterMode) {
       filterIngredients(_currentFilterDesc, _currentFilterTags, _currentFilterLanguage);
     } else {
@@ -184,6 +231,11 @@ class _HomeState extends State<Home> {
         _ingredients = DB.ingredients;
       });
     }
+  }
+
+  deleteIngredient(BuildContext context, Ingredient value) {
+    DB.rmIngredient(value);
+    refresh();
     // Dont ask why it workds so i wont touch it
     setState(() {});
     widget.refresh();

@@ -6,18 +6,19 @@ import 'package:nekolib.ui/ui.dart';
 import 'package:nekolib.ui/ui/themes/themes.dart';
 
 class Tag extends StatelessWidget {
-  Tag({Key? key, required this.label, this.editMode = false, this.onTap, this.fontSize = defaultFontSize, this.padding = defaultPadding}) : super(key: key) {
+  Tag({Key? key, required this.label, this.editMode = false, this.onTap, this.fontSize = defaultFontSize, this.padding = defaultPadding, this.color}) : super(key: key) {
     detectAll = false;
     icon = Icons.close;
   }
 
-  Tag.add({Key? key, required this.onTap, this.fontSize = defaultFontSize, this.padding = defaultPadding, String? label, IconData? icon}) : super(key: key) {
+  Tag.add({Key? key, required this.onTap, this.fontSize = defaultFontSize, this.padding = defaultPadding, String? label, IconData? icon, this.color}) : super(key: key) {
     detectAll = true;
     this.icon = icon ?? Icons.add;
     editMode = false;
     this.label = label ?? "Tag";
   }
 
+  late final Color? color;
   late final String label;
   late final IconData? icon;
   final Function()? onTap;
@@ -34,7 +35,7 @@ class Tag extends StatelessWidget {
 
   @override
   build(BuildContext context) {
-    var color = editMode ? NcThemes.current.tertiaryColor : NcThemes.current.accentColor;
+    var color = this.color ?? (editMode ? NcThemes.current.tertiaryColor : NcThemes.current.accentColor);
 
     return AnimatedSize(
       duration: Filter.animationDuration,
