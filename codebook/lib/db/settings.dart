@@ -20,6 +20,7 @@ class Settings {
   static String get codeTheme => _codeTheme;
 
   static set codeTheme(String value) {
+    // print("object")
     _codeTheme = value;
     update();
   }

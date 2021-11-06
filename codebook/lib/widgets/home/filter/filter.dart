@@ -33,15 +33,6 @@ class _FilterState extends State<Filter> {
 
   late List<String> _tags;
 
-  @override
-  initState() {
-    super.initState();
-
-    _search = widget.forceDesc ?? "";
-    _langugae = widget.forceLangugae;
-    _tags = widget.forceTags ?? [];
-  }
-
   updateSearch(String value) {
     _search = value;
     querry();
@@ -100,6 +91,9 @@ class _FilterState extends State<Filter> {
 
   @override
   Widget build(BuildContext context) {
+    _search = widget.forceDesc ?? "";
+    _langugae = widget.forceLangugae;
+    _tags = widget.forceTags ?? [];
     return AnimatedContainer(
       duration: Filter.animationDuration,
       curve: Filter.animationCurve,

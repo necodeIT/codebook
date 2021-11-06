@@ -1,7 +1,9 @@
+import 'package:animations/animations.dart';
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
 import 'package:codebook/widgets/home/filter/filter.dart';
 import 'package:codebook/widgets/codebook/codebook.dart';
+import 'package:codebook/widgets/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
@@ -26,7 +28,14 @@ class _HomeState extends State<Home> {
   var _ingredients = DB.ingredients;
   var _currentFilterDesc = "";
   var _currentFilterTags = <String>[];
+  var _settings = false;
   String? _currentFilterLanguage;
+
+  toggleSettings() {
+    setState(() {
+      _settings = !_settings;
+    });
+  }
 
   toggleFilterMode() {
     setState(() {
@@ -51,58 +60,75 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       NcTitleText(
-                        "CodeBook",
+                        !_settings ? "CodeBook" : "Settings",
                         fontSize: CodeBook.titleSize,
                       ),
-                      Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.upload,
-                              color: NcThemes.current.tertiaryColor,
-                              size: Home.iconSize,
-                            ),
-                            splashColor: Colors.transparent,
-                            splashRadius: 1,
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.download,
-                              color: NcThemes.current.tertiaryColor,
-                              size: Home.iconSize,
-                            ),
-                            splashColor: Colors.transparent,
-                            splashRadius: 1,
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.settings,
-                              color: NcThemes.current.tertiaryColor,
-                              size: Home.iconSize,
-                            ),
-                            splashColor: Colors.transparent,
-                            splashRadius: 1,
-                          ),
-                          if (!_filterMode)
+                      AnimatedSize(
+                        duration: Duration(milliseconds: _settings ? 1 : 500),
+                        curve: Curves.ease,
+                        child: Row(
+                          children: [
+                            if (!_settings)
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.upload,
+                                  color: NcThemes.current.tertiaryColor,
+                                  size: Home.iconSize,
+                                ),
+                                splashColor: Colors.transparent,
+                                splashRadius: 1,
+                              ),
+                            if (!_settings)
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.download,
+                                  color: NcThemes.current.tertiaryColor,
+                                  size: Home.iconSize,
+                                ),
+                                splashColor: Colors.transparent,
+                                splashRadius: 1,
+                              ),
                             IconButton(
-                              onPressed: toggleFilterMode,
+                              onPressed: toggleSettings,
                               icon: Icon(
-                                Icons.filter_alt_sharp,
+                                _settings ? Icons.close : Icons.settings,
                                 color: NcThemes.current.tertiaryColor,
                                 size: Home.iconSize,
                               ),
                               splashColor: Colors.transparent,
                               splashRadius: 1,
                             ),
-                        ],
+                            if (!_filterMode && !_settings)
+                              IconButton(
+                                onPressed: toggleFilterMode,
+                                icon: Icon(
+                                  Icons.filter_alt_sharp,
+                                  color: NcThemes.current.tertiaryColor,
+                                  size: Home.iconSize,
+                                ),
+                                splashColor: Colors.transparent,
+                                splashRadius: 1,
+                              ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                   NcSpacing.medium(),
-                  CodeBook(ingredients: _ingredients, onDeleteIngredient: deleteIngredient),
+                  Expanded(
+                    child: PageTransitionSwitcher(
+                      // duration: Duration(seconds: 2),
+                      transitionBuilder: (child, animationIn, animationOut) => FadeThroughTransition(
+                        fillColor: NcThemes.current.secondaryColor,
+                        animation: animationIn,
+                        secondaryAnimation: animationOut,
+                        child: child,
+                      ),
+                      child: _settings ? const SettingsPage() : CodeBook(ingredients: _ingredients, onDeleteIngredient: deleteIngredient),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -113,19 +139,21 @@ class _HomeState extends State<Home> {
             forceDesc: _forceFilterMode ? Home.newDesc : null,
             forceTags: _forceFilterMode ? Home.newTags : null,
             forceLangugae: _forceFilterMode ? Home.newLanguage : null,
-            active: _filterMode,
+            active: _filterMode && !_settings,
           )
         ],
       ),
       backgroundColor: NcThemes.current.secondaryColor,
-      floatingActionButton: FloatingActionButton.small(
-        onPressed: addIngredient,
-        child: Icon(
-          Icons.add,
-          color: NcThemes.current.tertiaryColor,
-        ),
-        backgroundColor: NcThemes.current.accentColor,
-      ),
+      floatingActionButton: !_settings
+          ? FloatingActionButton.small(
+              onPressed: addIngredient,
+              child: Icon(
+                Icons.add,
+                color: NcThemes.current.buttonTextColor,
+              ),
+              backgroundColor: NcThemes.current.accentColor,
+            )
+          : null,
     );
   }
 

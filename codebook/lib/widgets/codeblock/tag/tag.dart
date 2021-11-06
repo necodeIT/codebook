@@ -6,16 +6,16 @@ import 'package:nekolib.ui/ui.dart';
 import 'package:nekolib.ui/ui/themes/themes.dart';
 
 class Tag extends StatelessWidget {
-  Tag({Key? key, required this.label, required this.editMode, this.onTap}) : super(key: key) {
+  Tag({Key? key, required this.label, this.editMode = false, this.onTap, this.fontSize = defaultFontSize, this.padding = defaultPadding}) : super(key: key) {
     detectAll = false;
     icon = Icons.close;
   }
 
-  Tag.add({Key? key, required this.onTap}) : super(key: key) {
+  Tag.add({Key? key, required this.onTap, this.fontSize = defaultFontSize, this.padding = defaultPadding, String? label, IconData? icon}) : super(key: key) {
     detectAll = true;
-    icon = Icons.add;
+    this.icon = icon ?? Icons.add;
     editMode = false;
-    label = "Tag";
+    this.label = label ?? "Tag";
   }
 
   late final String label;
@@ -23,11 +23,14 @@ class Tag extends StatelessWidget {
   final Function()? onTap;
   late final bool editMode;
   late final bool detectAll;
+  final double fontSize;
+  final EdgeInsets padding;
 
-  static const double borderRadius = 30;
-  static const double paddingVertical = 5;
-  static const double paddingHorizontal = 10;
-  static const double fontSize = 15;
+  static const double defaultBorderRadius = 30;
+  static const double defaultBaddingVertical = 5;
+  static const double defaultPaddingHorizontal = 10;
+  static const defaultPadding = EdgeInsets.symmetric(vertical: Tag.defaultBaddingVertical, horizontal: Tag.defaultPaddingHorizontal);
+  static const double defaultFontSize = 15;
 
   @override
   build(BuildContext context) {
@@ -43,22 +46,22 @@ class Tag extends StatelessWidget {
           child: child,
         ),
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: Tag.paddingVertical, horizontal: Tag.paddingHorizontal),
+          padding: padding,
           decoration: BoxDecoration(
             border: Border.all(color: color),
-            borderRadius: BorderRadius.circular(Tag.borderRadius),
+            borderRadius: BorderRadius.circular(Tag.defaultBorderRadius),
             color: color.withOpacity(LanguageInput.backgroundOpacity),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (detectAll) Icon(icon, color: color, size: Tag.fontSize),
+              if (detectAll) Icon(icon, color: color, size: Tag.defaultFontSize),
               if (detectAll) NcSpacing.xs(),
               Text(
                 label,
                 style: TextStyle(
                   color: color,
-                  fontSize: Tag.fontSize,
+                  fontSize: fontSize,
                 ),
               ),
               if (!detectAll && editMode) NcSpacing.xs(),
@@ -68,7 +71,7 @@ class Tag extends StatelessWidget {
                     onTap: onTap,
                     child: child,
                   ),
-                  child: Icon(icon, color: color, size: Tag.fontSize),
+                  child: Icon(icon, color: color, size: fontSize),
                   condition: onTap != null,
                 ),
             ],

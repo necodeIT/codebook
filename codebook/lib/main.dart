@@ -57,7 +57,6 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // scrollBehavior: NcScrollBehavior(),
       title: "CodeBook",
       home: Home(
         refresh: () => setState(() {}),

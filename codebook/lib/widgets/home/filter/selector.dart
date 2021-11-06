@@ -25,10 +25,10 @@ class FilterSelect extends StatelessWidget {
         child: GestureDetector(
           onTap: () => onTap(label),
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: Tag.paddingVertical, horizontal: Tag.paddingHorizontal),
+            padding: const EdgeInsets.symmetric(vertical: Tag.defaultBaddingVertical, horizontal: Tag.defaultPaddingHorizontal),
             decoration: BoxDecoration(
               border: Border.all(color: color),
-              borderRadius: BorderRadius.circular(Tag.borderRadius),
+              borderRadius: BorderRadius.circular(Tag.defaultBorderRadius),
               color: color.withOpacity(LanguageInput.backgroundOpacity),
             ),
             child: Row(
@@ -38,14 +38,14 @@ class FilterSelect extends StatelessWidget {
                   Icon(
                     Icons.check,
                     color: color,
-                    size: Tag.fontSize,
+                    size: Tag.defaultFontSize,
                   ),
                 if (!radio && selected) NcSpacing.xs(),
                 Text(
                   label,
                   style: TextStyle(
                     color: color,
-                    fontSize: Tag.fontSize,
+                    fontSize: Tag.defaultFontSize,
                   ),
                 ),
               ],

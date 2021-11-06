@@ -21,27 +21,23 @@ class _CodeBookState extends State<CodeBook> {
   @override
   Widget build(BuildContext context) {
     return DB.ingredients.isNotEmpty
-        ? Expanded(
-            child: ListView.builder(
-              itemCount: widget.ingredients.length,
-              controller: ScrollController(),
-              itemBuilder: (_, index) => CodeBlock(
-                data: widget.ingredients[index],
-                onDelete: () => widget.onDeleteIngredient(context, widget.ingredients[index]),
-              ),
+        ? ListView.builder(
+            itemCount: widget.ingredients.length,
+            controller: ScrollController(),
+            itemBuilder: (_, index) => CodeBlock(
+              data: widget.ingredients[index],
+              onDelete: () => widget.onDeleteIngredient(context, widget.ingredients[index]),
             ),
           )
-        : Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const NcVectorImage(code: noDataSvg),
-                NcBodyText(
-                  "No Ingredients... start adding some!",
-                  fontSize: CodeBlock.descSize,
-                ),
-              ],
-            ),
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const NcVectorImage(code: noDataSvg),
+              NcBodyText(
+                "No Ingredients... start adding some!",
+                fontSize: CodeBlock.descSize,
+              ),
+            ],
           );
   }
 }

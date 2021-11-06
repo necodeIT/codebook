@@ -18,7 +18,7 @@ class TagInput extends StatelessWidget {
       borderRadius: BorderRadius.circular(borderRadius));
 
   static const double backgroundOpacity = LanguageInput.backgroundOpacity;
-  static const double borderRadius = Tag.borderRadius;
+  static const double borderRadius = Tag.defaultBorderRadius;
   static const double fontSize = 15;
   static const double elevation = LanguageInput.elevation;
   static const EdgeInsets padding = EdgeInsets.fromLTRB(10, 10, 7, 10);
