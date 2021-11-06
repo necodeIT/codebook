@@ -17,7 +17,8 @@ class CodeTheme extends StatelessWidget {
   final bool selected;
   final Function() onTap;
 
-  static const double width = 300;
+  static const double minWidth = 300;
+  static const double minHeight = 138;
   static const double padding = 10;
   static const double iconSize = 15;
   static const double iconPadding = 2;
@@ -55,7 +56,7 @@ class CodeTheme extends StatelessWidget {
         elevation: CodeBlock.elevation,
         child: Container(
           padding: const EdgeInsets.all(padding),
-          width: width,
+          width: minWidth,
           decoration: BoxDecoration(
             border: Border.all(color: selected ? NcThemes.current.accentColor : NcThemes.current.primaryColor),
             borderRadius: BorderRadius.circular(CodeBlock.borderRadius),

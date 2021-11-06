@@ -33,7 +33,7 @@ class ThemeItem extends StatelessWidget {
       ),
       child: Container(
         padding: const EdgeInsets.all(CodeTheme.padding),
-        width: CodeTheme.width,
+        width: CodeTheme.minWidth,
         decoration: BoxDecoration(
           border: Border.all(color: selected ? NcThemes.current.accentColor : NcThemes.current.primaryColor),
           borderRadius: BorderRadius.circular(CodeBlock.borderRadius),
