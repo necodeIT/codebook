@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
 import 'package:codebook/widgets/home/in_out_dialog/code_preview.dart';
@@ -31,10 +29,9 @@ class InOutDialog extends StatefulWidget {
 
 class _InOutDialogState extends State<InOutDialog> {
   bool _importError = false;
-  List<Ingredient> _selected = [];
+  final List<Ingredient> _selected = [];
 
   Future<List<Ingredient>> fetchImportData() async {
-    var file = File(widget.data.files.first.path!);
     var completer = Completer<List<Ingredient>>();
     try {
       var ingredients = await DB.extractIngredientsFromPath(widget.data.files.first.path!);
