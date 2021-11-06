@@ -78,7 +78,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Container(
                   padding: const EdgeInsets.only(right: NcSpacing.xlSpacing),
                   width: SettingsPage.searchWidth,
-                  child: FilterInput(placeholder: "Search", onChanged: updateThemeSearch),
+                  child: FilterInput(placeholder: "Search", onChanged: updateCodeThemeSearch),
                 ),
               )
             ],

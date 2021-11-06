@@ -1,6 +1,7 @@
 import 'package:codebook/code_themes.dart';
 import 'package:codebook/widgets/codeblock/code_block.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
+import 'package:codebook/widgets/codeblock/tag/tag_input.dart';
 import 'package:codebook/widgets/conditional_wrap/condtional_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -56,9 +57,9 @@ class CodeTheme extends StatelessWidget {
           padding: const EdgeInsets.all(padding),
           width: width,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(CodeBlock.borderRadius),
             border: Border.all(color: selected ? NcThemes.current.accentColor : NcThemes.current.primaryColor),
-            color: NcThemes.current.primaryColor,
+            borderRadius: BorderRadius.circular(CodeBlock.borderRadius),
+            color: selected ? NcThemes.current.accentColor.withOpacity(TagInput.backgroundOpacity) : NcThemes.current.primaryColor,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -64,8 +64,8 @@ class _HomeState extends State<Home> {
                         fontSize: CodeBook.titleSize,
                       ),
                       AnimatedSize(
-                        duration: Duration(milliseconds: _settings ? 1 : 500),
-                        curve: Curves.ease,
+                        duration: Filter.animationDuration,
+                        curve: Filter.animationCurve,
                         child: Row(
                           children: [
                             if (!_settings)
