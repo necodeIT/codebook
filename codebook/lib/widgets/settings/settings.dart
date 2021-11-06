@@ -13,7 +13,7 @@ class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   static const double titleSize = 20;
-  static const double searchWidth = 250;
+  static const double searchWidth = 250 + NcSpacing.xlSpacing;
   static const recommendedLabel = "Using Recommended";
   static const useRecommendedLabel = "Use Recommended";
   static const recommendedPadding = EdgeInsets.symmetric(vertical: 2.5, horizontal: 5);
@@ -33,15 +33,16 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Stack(
             children: [
               NcCaptionText("Themes", fontSize: SettingsPage.titleSize),
-              Container(
-                padding: const EdgeInsets.only(right: NcSpacing.xlSpacing),
-                width: SettingsPage.searchWidth,
-                child: FilterInput(placeholder: "Search", onChanged: updateThemeSearch),
-              ),
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.only(right: NcSpacing.xlSpacing),
+                  width: SettingsPage.searchWidth,
+                  child: FilterInput(placeholder: "Search", onChanged: updateThemeSearch),
+                ),
+              )
             ],
           ),
           NcSpacing.small(),
@@ -54,27 +55,32 @@ class _SettingsPageState extends State<SettingsPage> {
             ],
           ),
           NcSpacing.xl(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Stack(
             children: [
-              Row(
-                children: [
-                  NcCaptionText("Code Themes", fontSize: SettingsPage.titleSize),
-                  NcSpacing.xs(),
-                  usingRecommended
-                      ? Tag(
-                          label: SettingsPage.recommendedLabel,
-                          fontSize: 12,
-                          padding: SettingsPage.recommendedPadding,
-                        )
-                      : Tag.add(label: SettingsPage.useRecommendedLabel, fontSize: 12, padding: SettingsPage.recommendedPadding, onTap: () => updateCodeTheme(CustomThemes.themeCodeThemes[NcThemes.current]!), icon: Icons.warning_amber_rounded),
-                ],
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    NcCaptionText("Code Themes", fontSize: SettingsPage.titleSize),
+                    NcSpacing.xs(),
+                    Tag.add(
+                      label: usingRecommended ? SettingsPage.recommendedLabel : SettingsPage.useRecommendedLabel,
+                      fontSize: 12,
+                      padding: SettingsPage.recommendedPadding,
+                      onTap: () => updateCodeTheme(CustomThemes.themeCodeThemes[NcThemes.current]!),
+                      icon: usingRecommended ? Icons.check : Icons.warning_amber_rounded,
+                    ),
+                  ],
+                ),
               ),
-              Container(
-                padding: const EdgeInsets.only(right: NcSpacing.xlSpacing),
-                width: SettingsPage.searchWidth,
-                child: FilterInput(placeholder: "Search", onChanged: updateCodeThemeSearch),
-              ),
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.only(right: NcSpacing.xlSpacing),
+                  width: SettingsPage.searchWidth,
+                  child: FilterInput(placeholder: "Search", onChanged: updateThemeSearch),
+                ),
+              )
             ],
           ),
           NcSpacing.small(),
