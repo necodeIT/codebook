@@ -28,10 +28,9 @@ class Filter extends StatefulWidget {
 }
 
 class _FilterState extends State<Filter> {
-  late String _search;
-  late String? _langugae;
-
-  late List<String> _tags;
+  String _search = "";
+  String? _langugae;
+  List<String> _tags = [];
 
   updateSearch(String value) {
     _search = value;
@@ -91,9 +90,9 @@ class _FilterState extends State<Filter> {
 
   @override
   Widget build(BuildContext context) {
-    _search = widget.forceDesc ?? "";
-    _langugae = widget.forceLangugae;
-    _tags = widget.forceTags ?? [];
+    _search = widget.active ? widget.forceDesc ?? _search : "";
+    _langugae = widget.active ? widget.forceLangugae ?? _langugae : null;
+    _tags = widget.active ? widget.forceTags ?? _tags : [];
     return AnimatedContainer(
       duration: Filter.animationDuration,
       curve: Filter.animationCurve,
