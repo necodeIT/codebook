@@ -1,6 +1,6 @@
 # codebook
 
-A new Flutter project.
+Code snippet manage
 
 ## Getting Started
 
