@@ -140,9 +140,9 @@ class _HomeState extends State<Home> {
           Filter(
             onClose: toggleFilterMode,
             onQuerry: filterIngredients,
-            forceDesc: _forceFilterMode ? Home.newDesc : null,
+            forceDesc: _forceFilterMode ? "" : null,
             forceTags: _forceFilterMode ? Home.newTags : null,
-            forceLangugae: _forceFilterMode ? Home.newLanguage : null,
+            forceLangugae: null,
             active: _filterMode && !_settings,
           )
         ],
@@ -213,7 +213,7 @@ class _HomeState extends State<Home> {
 
   addIngredient() {
     DB.addIngredient(Ingredient(language: Home.newLanguage, code: Home.newCode, tags: Home.newTags, desc: Home.newDesc));
-    filterIngredients(Home.newDesc, Home.newTags, Home.newLanguage);
+    filterIngredients("", Home.newTags, null);
     setState(() {
       _forceFilterMode = true;
       _filterMode = true;
