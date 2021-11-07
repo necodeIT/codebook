@@ -19,7 +19,7 @@ class Home extends StatefulWidget {
   static const newCode = 'print("Hello World")';
   static const newDesc = "New Ingredient";
   static const importTitle = "Import Ingredients";
-  static const exportTitle = "Import Ingredients";
+  static const exportTitle = "Export Ingredients";
   static const newTags = ["New"];
 
   @override
