@@ -29,7 +29,6 @@ class InOutDialog extends StatefulWidget {
 
 class _InOutDialogState extends State<InOutDialog> {
   bool _importError = false;
-  bool _success = false;
   final List<Ingredient> _selected = [];
 
   Future<List<Ingredient>> fetchImportData() async {
@@ -50,93 +49,66 @@ class _InOutDialogState extends State<InOutDialog> {
     return AlertDialog(
       scrollable: true,
       backgroundColor: NcThemes.current.secondaryColor,
-      title: NcCaptionText(Home.importTitle),
-      content: !_success
-          ? SizedBox(
-              width: CodePreview.width * 2 + NcSpacing.mediumSpacing + 1,
-              child: widget.import
-                  ? FutureBuilder(
-                      future: fetchImportData(),
-                      builder: (context, AsyncSnapshot<List<Ingredient>> snapshot) {
-                        var loading = snapshot.connectionState != ConnectionState.done;
-                        var done = !loading;
-                        var error = snapshot.error != null;
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            NcSpacing.large(),
-                            if (loading)
-                              Center(
-                                child: CircularProgressIndicator(
-                                  color: NcThemes.current.accentColor,
-                                ),
-                              ),
-                            if (done && error)
-                              Center(
-                                child: Icon(
-                                  Icons.error_outline_outlined,
-                                  color: NcThemes.current.errorColor,
-                                  size: InOutDialog.iconSize,
-                                ),
-                              ),
-                            NcSpacing.large(),
-                            if (loading) NcBodyText("Loading Ingredients..."),
-                            if (done && error) NcBodyText("Ooops... there was an error"),
-                            if (done && !error)
-                              Wrap(
-                                spacing: NcSpacing.mediumSpacing,
-                                runSpacing: NcSpacing.mediumSpacing,
-                                children: [for (var data in snapshot.data!) CodePreview(onTap: (value) => updateSelection(value, data), checkDuplicate: true, data: data)],
-                              ),
-                          ],
-                        );
-                      },
-                    )
-                  : Wrap(
-                      spacing: NcSpacing.mediumSpacing,
-                      runSpacing: NcSpacing.mediumSpacing,
-                      children: [for (var data in DB.ingredients) CodePreview(onTap: (value) => updateSelection(value, data), checkDuplicate: false, data: data)],
-                    ),
-            )
-          : Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                NcSpacing.medium(),
-                Center(
-                  child: Icon(
-                    Icons.check,
-                    color: NcThemes.current.successColor,
-                    size: InOutDialog.iconSize,
-                  ),
-                ),
-                NcSpacing.medium(),
-                NcBodyText("Successfully ${widget.import ? 'imported' : 'exported'} ingredients!"),
-              ],
-            ),
+      title: NcCaptionText(widget.import ? Home.importTitle : Home.exportTitle),
+      content: SizedBox(
+        width: CodePreview.width * 2 + NcSpacing.mediumSpacing + 1,
+        child: widget.import
+            ? FutureBuilder(
+                future: fetchImportData(),
+                builder: (context, AsyncSnapshot<List<Ingredient>> snapshot) {
+                  var loading = snapshot.connectionState != ConnectionState.done;
+                  var done = !loading;
+                  var error = snapshot.error != null;
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      NcSpacing.large(),
+                      if (loading)
+                        Center(
+                          child: CircularProgressIndicator(
+                            color: NcThemes.current.accentColor,
+                          ),
+                        ),
+                      if (done && error)
+                        Center(
+                          child: Icon(
+                            Icons.error_outline_outlined,
+                            color: NcThemes.current.errorColor,
+                            size: InOutDialog.iconSize,
+                          ),
+                        ),
+                      NcSpacing.large(),
+                      if (loading) NcBodyText("Loading Ingredients..."),
+                      if (done && error) NcBodyText("Ooops... there was an error"),
+                      if (done && !error)
+                        Wrap(
+                          spacing: NcSpacing.mediumSpacing,
+                          runSpacing: NcSpacing.mediumSpacing,
+                          children: [for (var data in snapshot.data!) CodePreview(onTap: (value) => updateSelection(value, data), checkDuplicate: true, data: data)],
+                        ),
+                    ],
+                  );
+                },
+              )
+            : Wrap(
+                spacing: NcSpacing.mediumSpacing,
+                runSpacing: NcSpacing.mediumSpacing,
+                children: [for (var data in DB.ingredients) CodePreview(onTap: (value) => updateSelection(value, data), checkDuplicate: false, data: data)],
+              ),
+      ),
       actions: [
-        if (!_success)
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: NcCaptionText(_importError ? "Ok" : "Cancel"),
-          ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: NcCaptionText(_importError ? "Ok" : "Cancel"),
+        ),
         if (!_importError)
           TextButton(
             onPressed: () {
-              if (_success) {
-                Navigator.of(context).pop();
-                widget.onSubmit(_selected);
-                return;
-              }
-              setState(() {
-                _success = true;
-              });
+              Navigator.of(context).pop();
+              widget.onSubmit(_selected);
             },
             child: NcCaptionText(
-              _success
-                  ? "Ok"
-                  : widget.import
-                      ? "Import"
-                      : "Export",
+              widget.import ? "Import" : "Export",
             ),
           )
       ],
