@@ -26,14 +26,6 @@ Widget loadingIndicator() => Container(
     );
 
 Future loadAll() {
-  // DB.import([
-  //   Ingredient(language: "cs", code: "public static void Main() {}", tags: ["Main", "Catgirl", "Bunnygirl"], desc: "Catgirl dies das"),
-  //   Ingredient(language: "cs", code: "public static void Main() {}", tags: ["Main", "Catgirl", "Bunnygirl"], desc: "Catgirl dies das"),
-  //   Ingredient(language: "cs", code: "public static void Main() {}", tags: ["Main", "Catgirl", "Bunnygirl"], desc: "Catgirl dies das"),
-  //   Ingredient(language: "cs", code: "public static void Main() {}", tags: ["Main", "Catgirl", "Bunnygirl"], desc: "Catgirl dies das"),
-  //   Ingredient(language: "cs", code: "public static void Main() {}", tags: ["Main", "Catgirl", "Bunnygirl"], desc: "Catgirl dies das"),
-  //   Ingredient(language: "cs", code: "public static void Main() {}", tags: ["Main", "Catgirl", "Bunnygirl"], desc: "Catgirl dies das"),
-  // ]);
   return Future(() async {
     await DB.load();
     await Settings.load();
