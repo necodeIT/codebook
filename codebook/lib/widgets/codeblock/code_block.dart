@@ -160,7 +160,7 @@ class _CodeBlockState extends State<CodeBlock> {
     }
 
     if (_mode == ViewMode.edit && !_tagInput) {
-      list.add(Tag.add(onTap: createTagInput));
+      list.add(Tag.add(onTap: createTagInput, icon: Icons.add));
     }
 
     return list;

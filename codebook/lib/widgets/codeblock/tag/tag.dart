@@ -11,9 +11,8 @@ class Tag extends StatelessWidget {
     icon = Icons.close;
   }
 
-  Tag.add({Key? key, required this.onTap, this.fontSize = defaultFontSize, this.padding = defaultPadding, String? label, IconData? icon, this.color}) : super(key: key) {
+  Tag.add({Key? key, required this.onTap, this.fontSize = defaultFontSize, this.padding = defaultPadding, String? label, this.icon, this.color}) : super(key: key) {
     detectAll = true;
-    this.icon = icon ?? Icons.add;
     editMode = false;
     this.label = label ?? "Tag";
   }
@@ -42,9 +41,12 @@ class Tag extends StatelessWidget {
       curve: Filter.animationCurve,
       child: ConditionalWrapper(
         condition: detectAll && onTap != null,
-        builder: (context, child) => GestureDetector(
-          onTap: onTap,
-          child: child,
+        builder: (context, child) => MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: onTap,
+            child: child,
+          ),
         ),
         child: Container(
           padding: padding,
@@ -56,8 +58,8 @@ class Tag extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (detectAll) Icon(icon, color: color, size: Tag.defaultFontSize),
-              if (detectAll) NcSpacing.xs(),
+              if (detectAll && icon != null) Icon(icon, color: color, size: Tag.defaultFontSize),
+              if (detectAll && icon != null) NcSpacing.xs(),
               Text(
                 label,
                 style: TextStyle(
@@ -65,12 +67,15 @@ class Tag extends StatelessWidget {
                   fontSize: fontSize,
                 ),
               ),
-              if (!detectAll && editMode) NcSpacing.xs(),
-              if (!detectAll && editMode)
+              if (!detectAll && editMode && icon != null) NcSpacing.xs(),
+              if (!detectAll && editMode && icon != null)
                 ConditionalWrapper(
-                  builder: (context, child) => GestureDetector(
-                    onTap: onTap,
-                    child: child,
+                  builder: (context, child) => MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: onTap,
+                      child: child,
+                    ),
                   ),
                   child: Icon(icon, color: color, size: fontSize),
                   condition: onTap != null,

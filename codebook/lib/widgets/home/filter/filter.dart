@@ -132,8 +132,8 @@ class _FilterState extends State<Filter> {
                 NcSpacing.large(),
                 FilterHeader(active: _tags.isNotEmpty, title: "Tags", onToggle: clearTags),
                 Wrap(
-                  // spacing: NcSpacing.smallSpacing,
-                  // runSpacing: NcSpacing.smallSpacing,
+                  spacing: NcSpacing.smallSpacing,
+                  runSpacing: NcSpacing.smallSpacing,
                   children: [
                     for (var tag in DB.tags)
                       FilterSelect(
