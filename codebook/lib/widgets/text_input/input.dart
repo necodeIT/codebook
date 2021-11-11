@@ -38,6 +38,7 @@ class _TextInputState extends State<TextInput> {
       onChanged: widget.onChange,
       onSubmitted: widget.onSubmit,
       style: TextStyle(color: NcThemes.current.textColor),
+      keyboardType: TextInputType.multiline,
       maxLines: null,
       cursorColor: NcThemes.current.accentColor,
       decoration: InputDecoration(

@@ -71,6 +71,8 @@ class _CodeBlockState extends State<CodeBlock> {
   }
 
   void changeMode(ViewMode mode) {
+    if (_mode == ViewMode.edit && mode != ViewMode.edit) DB.update();
+
     setState(() {
       _mode = mode;
     });
