@@ -36,6 +36,7 @@ class DB {
   static List<String> get tags => List.unmodifiable(_tags);
   static List<String> get lanugages => List.unmodifiable(_languages);
 
+  /// Updates the tags and languages metadata.
   static void updateMetaData() {
     _tags.clear();
     _languages.clear();
@@ -50,21 +51,25 @@ class DB {
     }
   }
 
+  /// Updates the metadata and saves the db to the file system.
   static void update() {
     updateMetaData();
     save();
   }
 
+  /// Adds an ingredient to the database.
   static void addIngredient(Ingredient value) {
     _ingredients.add(value);
     update();
   }
 
+  /// Removes an ingredient from the database.
   static void rmIngredient(Ingredient value) {
     _ingredients.remove(value);
     update();
   }
 
+  /// Loads the db from the local file system.
   static Future load() async {
     return Future(() async {
       var book = await bookFile;
@@ -74,6 +79,7 @@ class DB {
     });
   }
 
+  /// Saves the db to the local file system.
   static Future save() async {
     return Future(() async {
       var file = await bookFile;
@@ -81,6 +87,7 @@ class DB {
     });
   }
 
+  /// Extracts ingredients from the given file path.
   static Future<List<Ingredient>> extractIngredientsFromPath(String path) async {
     var file = File(path);
 
@@ -94,11 +101,13 @@ class DB {
     return [];
   }
 
+  /// Adds the given [ingredients] to the database.
   static void import(List<Ingredient> ingredients) {
     _ingredients.addAll(ingredients);
     update();
   }
 
+  /// Exports the given [ingredients] to the given [path].
   static void export(String path, List<Ingredient> ingredients) {
     var file = File(path);
 
