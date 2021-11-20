@@ -2,6 +2,7 @@ import 'package:codebook/widgets/codeblock/code_block.dart';
 import 'package:codebook/widgets/codeblock/tag/tag_input.dart';
 import 'package:codebook/widgets/conditional_wrap/condtional_wrapper.dart';
 import 'package:codebook/widgets/settings/code_theme.dart';
+import 'package:codebook/widgets/settings/selected_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nekolib.ui/ui.dart';
@@ -42,11 +43,11 @@ class ThemeItem extends StatelessWidget {
         child: Column(
           children: [
             selected
-                ? Align(
+                ? const Align(
                     alignment: Alignment.topRight,
-                    child: CodeTheme.selectedIndicator,
+                    child: SelectedIndicator(),
                   )
-                : const SizedBox(height: CodeTheme.iconSize + CodeTheme.iconPadding),
+                : const SizedBox(height: SelectedIndicator.iconSize + CodeTheme.padding),
             NcSpacing.medium(),
             Icon(
               theme.icon,

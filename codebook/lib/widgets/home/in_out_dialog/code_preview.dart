@@ -6,16 +6,18 @@ import 'package:codebook/widgets/codeblock/code_block.dart';
 import 'package:codebook/widgets/codeblock/language_tag/language_input.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
 import 'package:codebook/widgets/settings/code_theme.dart';
+import 'package:codebook/widgets/settings/selected_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:nekolib.ui/ui.dart';
 
 class CodePreview extends StatefulWidget {
-  const CodePreview({Key? key, required this.onTap, required this.checkDuplicate, required this.data}) : super(key: key);
+  const CodePreview({Key? key, required this.onToggle, required this.checkDuplicate, required this.data, required this.selected}) : super(key: key);
 
   final Ingredient data;
-  final Function(bool) onTap;
+  final Function(bool) onToggle;
   final bool checkDuplicate;
+  final bool selected;
 
   static const double width = 400;
   static const double height = 300;
@@ -27,20 +29,10 @@ class CodePreview extends StatefulWidget {
 }
 
 class _CodePreviewState extends State<CodePreview> {
-  bool _selected = false;
-
-  toggleSelected() {
-    setState(() {
-      _selected = !_selected;
-    });
-
-    widget.onTap(_selected);
-  }
-
   @override
   Widget build(BuildContext context) {
     var duplicate = widget.checkDuplicate && DB.ingredients.any((catgirl) => catgirl.code == widget.data.code);
-    var color = _selected
+    var color = widget.selected
         ? duplicate
             ? NcThemes.current.warningColor
             : NcThemes.current.accentColor
@@ -49,7 +41,7 @@ class _CodePreviewState extends State<CodePreview> {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        onTap: toggleSelected,
+        onTap: () => widget.onToggle(!widget.selected),
         child: Material(
           elevation: CodeBlock.elevation,
           color: NcThemes.current.primaryColor,
@@ -60,8 +52,8 @@ class _CodePreviewState extends State<CodePreview> {
             padding: const EdgeInsets.all(CodeTheme.padding),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(CodeBlock.borderRadius),
-              color: _selected ? color.withOpacity(LanguageInput.backgroundOpacity) : color,
-              border: _selected ? Border.all(color: color) : null,
+              color: widget.selected ? color.withOpacity(LanguageInput.backgroundOpacity) : color,
+              border: widget.selected ? Border.all(color: color) : null,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +63,7 @@ class _CodePreviewState extends State<CodePreview> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     NcBodyText(widget.data.desc, fontSize: CodeBlock.descSize),
-                    if (_selected) CodeTheme.selectedIndicator,
+                    if (widget.selected) SelectedIndicator(color: duplicate ? NcThemes.current.warningColor : NcThemes.current.accentColor),
                   ],
                 ),
                 NcSpacing.medium(),

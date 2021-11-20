@@ -188,9 +188,8 @@ class _HomeState extends State<Home> {
   _showFeedback({required BuildContext context, bool importMode = true, required List<Ingredient> data}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text("Sucessfully ${importMode ? "imported" : "exported"} ${data.length} ingredient${data.length == 1 ? "" : "s"}"),
-        action: SnackBarAction(label: "Dismiss", onPressed: () {}, textColor: NcThemes.current.accentColor),
-        backgroundColor: NcThemes.current.primaryColor,
+        content: NcBodyText("Sucessfully ${importMode ? "imported" : "exported"} ${data.length} ingredient${data.length == 1 ? "" : "s"}"),
+        backgroundColor: NcThemes.current.tertiaryColor,
       ),
     );
   }

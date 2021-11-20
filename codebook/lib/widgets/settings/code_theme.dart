@@ -3,6 +3,7 @@ import 'package:codebook/widgets/codeblock/code_block.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
 import 'package:codebook/widgets/codeblock/tag/tag_input.dart';
 import 'package:codebook/widgets/conditional_wrap/condtional_wrapper.dart';
+import 'package:codebook/widgets/settings/selected_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
@@ -20,24 +21,12 @@ class CodeTheme extends StatelessWidget {
   static const double minWidth = 300;
   static const double minHeight = 138;
   static const double padding = 10;
-  static const double iconSize = 15;
-  static const double iconPadding = 2;
-  static const double iconRadius = 100;
   static const String previewCode = '''
   public static void Main(String[] args){
     Console.WriteLine("Hello World!");
   }
   ''';
   static const String previewLang = "c#";
-  static Widget get selectedIndicator => Container(
-        padding: const EdgeInsets.all(iconPadding),
-        child: Icon(
-          Icons.check,
-          color: NcThemes.current.buttonTextColor,
-          size: iconSize,
-        ),
-        decoration: BoxDecoration(color: NcThemes.current.accentColor, borderRadius: BorderRadius.circular(iconRadius)),
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +63,7 @@ class CodeTheme extends StatelessWidget {
                     language: previewLang,
                     theme: kCodeThemes[theme]!,
                   ),
-                  if (selected) selectedIndicator
+                  if (selected) const SelectedIndicator()
                 ],
               ),
               NcSpacing.medium(),
