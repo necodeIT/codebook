@@ -109,10 +109,10 @@ class DB {
 
   /// Exports the given [ingredients] to the given [path].
   static void export(String path, List<Ingredient> ingredients) {
-    var file = File(path);
+    var file = File(path.endsWith(".json") ? path : path + ".json");
 
-    var json = jsonEncode(_ingredients);
+    var json = jsonEncode(ingredients);
 
-    file.writeAsString(json);
+    file.writeAsStringSync(json);
   }
 }

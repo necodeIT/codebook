@@ -185,10 +185,10 @@ class _HomeState extends State<Home> {
   }
 
   /// Shows a feedback snackbar.
-  _showFeedback({required BuildContext context, bool importMode = true, required List<Ingredient> data}) {
+  _showFeedback({required BuildContext context, bool importMode = true, List<Ingredient>? data, Object? error}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: NcBodyText("Sucessfully ${importMode ? "imported" : "exported"} ${data.length} ingredient${data.length == 1 ? "" : "s"}"),
+        content: NcBodyText(error != null ? "Error ${importMode ? "importing" : "exporting"} ingredients: ${error.toString()}" : "Sucessfully ${importMode ? "imported" : "exported"} ${data!.length} ingredient${data.length == 1 ? "" : "s"}"),
         backgroundColor: NcThemes.current.tertiaryColor,
       ),
     );
@@ -209,9 +209,12 @@ class _HomeState extends State<Home> {
 
           if (path == null) return;
 
-          DB.export(path.endsWith(".json") ? path : path + ".json", data);
-
-          _showFeedback(context: context, importMode: false, data: data);
+          try {
+            DB.export(path, data);
+            _showFeedback(context: context, importMode: false, data: data);
+          } catch (e) {
+            _showFeedback(context: context, error: e);
+          }
         },
       ),
     );

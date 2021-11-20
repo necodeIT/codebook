@@ -49,22 +49,26 @@ class InOutBodyState extends State<InOutBody> {
         ),
         NcSpacing.medium(),
         Expanded(
-          child: SingleChildScrollView(
-            child: Wrap(
-              spacing: NcSpacing.mediumSpacing,
-              runSpacing: NcSpacing.mediumSpacing,
-              children: [
-                for (var data in widget.ingredients)
-                  CodePreview(
-                    onToggle: (value) => _updateSelection(value, data),
-                    checkDuplicate: widget.import,
-                    data: data,
-                    selected: _selected.contains(data),
-                  ),
-              ],
+          child: Center(
+            child: SingleChildScrollView(
+              controller: ScrollController(),
+              child: Wrap(
+                spacing: NcSpacing.mediumSpacing,
+                runSpacing: NcSpacing.mediumSpacing,
+                children: [
+                  for (var data in widget.ingredients)
+                    CodePreview(
+                      onToggle: (value) => _updateSelection(value, data),
+                      checkDuplicate: widget.import,
+                      data: data,
+                      selected: _selected.contains(data),
+                    ),
+                ],
+              ),
             ),
           ),
         ),
+        NcSpacing.small(),
       ],
     );
   }
