@@ -14,9 +14,9 @@ class Sync {
 
   // }
 
-  // static bool _loggedIn = false;
+  static bool _loggedIn = false;
 
-  // static bool get loggedIn => _loggedIn;
+  static bool get loggedIn => _loggedIn;
 
   static login(BuildContext context) async {
     var result = await Navigator.of(context).push<String>(
@@ -25,14 +25,18 @@ class Sync {
           onSuccess: (value) {
             Navigator.of(context).pop<String>(value);
           },
-          sucessKeyWord: codeKeyWord,
+          finalRedirectUrl: redirectUrl,
+          validateSuccess: (url) {
+            return url.contains(codeKeyWord);
+          },
+          onFailed: () => Navigator.of(context).pop(),
         ),
       ),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: NcBodyText("GitHub login successfull!"),
+        content: NcBodyText(result == null ? "GitHub login failed or cancelled by user" : "GitHub login successfull!"),
         backgroundColor: NcThemes.current.tertiaryColor,
       ),
     );
@@ -40,6 +44,6 @@ class Sync {
     if (result == null) return;
 
     var code = result.split(codeKeyWord).last;
-    print(code);
+    _loggedIn = true;
   }
 }
