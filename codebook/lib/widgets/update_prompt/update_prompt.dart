@@ -67,7 +67,7 @@ class _UpdatePromptState extends State<UpdatePrompt> {
                 ),
               if (_downloading && !_downloadError)
                 NcBodyText(
-                  "Downloading ${Updater.latestReleaseName} ($_progress%)",
+                  _progress != 100 ? "Downloading ${Updater.latestReleaseName} ($_progress%)" : "Launching installer...",
                   fontSize: 20,
                 ),
               NcSpacing.medium(),
@@ -90,10 +90,10 @@ class _UpdatePromptState extends State<UpdatePrompt> {
                         _downloadError = true;
                       });
                       return UpdatePrompt.downloadErrorCode; // Error code so that app doesn't quit when Future.then is called
-                    }).then((value) {
+                    }).then((value) async {
                       if (value == UpdatePrompt.downloadErrorCode) return;
 
-                      Process.start(value, []);
+                      await Process.start(value, []);
                       exit(0);
                     });
                   },
