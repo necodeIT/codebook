@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
+import 'package:codebook/widgets/home/in_out_dialog/body.dart';
 import 'package:codebook/widgets/home/in_out_dialog/code_preview.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
-
-import '../home.dart';
 
 class InOutDialog extends StatefulWidget {
   InOutDialog.export({Key? key, required this.onSubmit}) : super(key: key) {
@@ -29,7 +28,7 @@ class InOutDialog extends StatefulWidget {
 
 class _InOutDialogState extends State<InOutDialog> {
   bool _importError = false;
-  final List<Ingredient> _selected = [];
+  List<Ingredient> _selected = [];
 
   Future<List<Ingredient>> fetchImportData() async {
     var completer = Completer<List<Ingredient>>();
@@ -47,9 +46,7 @@ class _InOutDialogState extends State<InOutDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      scrollable: true,
       backgroundColor: NcThemes.current.secondaryColor,
-      title: NcCaptionText(widget.import ? Home.importTitle : Home.exportTitle),
       content: SizedBox(
         width: CodePreview.width * 2 + NcSpacing.mediumSpacing + 1,
         child: widget.import
@@ -59,41 +56,41 @@ class _InOutDialogState extends State<InOutDialog> {
                   var loading = snapshot.connectionState != ConnectionState.done;
                   var done = !loading;
                   var error = snapshot.error != null;
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      NcSpacing.large(),
-                      if (loading)
-                        Center(
-                          child: CircularProgressIndicator(
-                            color: NcThemes.current.accentColor,
-                          ),
-                        ),
-                      if (done && error)
-                        Center(
-                          child: Icon(
-                            Icons.error_outline_outlined,
-                            color: NcThemes.current.errorColor,
-                            size: InOutDialog.iconSize,
-                          ),
-                        ),
-                      NcSpacing.large(),
-                      if (loading) NcBodyText("Loading Ingredients..."),
-                      if (done && error) NcBodyText("Ooops... there was an error"),
-                      if (done && !error)
-                        Wrap(
-                          spacing: NcSpacing.mediumSpacing,
-                          runSpacing: NcSpacing.mediumSpacing,
-                          children: [for (var data in snapshot.data!) CodePreview(onTap: (value) => updateSelection(value, data), checkDuplicate: true, data: data)],
-                        ),
-                    ],
-                  );
+                  return done && !error
+                      ? InOutBody(
+                          onSelectionChange: (selection) => _selected = selection,
+                          ingredients: snapshot.data ?? [],
+                          import: true,
+                        )
+                      : Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            NcSpacing.large(),
+                            if (loading)
+                              Center(
+                                child: CircularProgressIndicator(
+                                  color: NcThemes.current.accentColor,
+                                ),
+                              ),
+                            if (done && error)
+                              Center(
+                                child: Icon(
+                                  Icons.error_outline_outlined,
+                                  color: NcThemes.current.errorColor,
+                                  size: InOutDialog.iconSize,
+                                ),
+                              ),
+                            NcSpacing.large(),
+                            if (loading) NcBodyText("Loading Ingredients..."),
+                            if (done && error) NcBodyText("Ooops... there was an error"),
+                          ],
+                        );
                 },
               )
-            : Wrap(
-                spacing: NcSpacing.mediumSpacing,
-                runSpacing: NcSpacing.mediumSpacing,
-                children: [for (var data in DB.ingredients) CodePreview(onTap: (value) => updateSelection(value, data), checkDuplicate: false, data: data)],
+            : InOutBody(
+                onSelectionChange: (selection) => _selected = selection,
+                ingredients: DB.ingredients,
+                import: false,
               ),
       ),
       actions: [
@@ -113,11 +110,5 @@ class _InOutDialogState extends State<InOutDialog> {
           )
       ],
     );
-  }
-
-  updateSelection(bool selected, Ingredient data) {
-    if (selected && !_selected.contains(data)) return _selected.add(data);
-
-    if (_selected.contains(data)) _selected.remove(data);
   }
 }

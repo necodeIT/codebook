@@ -161,6 +161,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+  /// Shows a dialog to import ingredients from a file.
   importIngredients(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       dialogTitle: Home.importTitle,
@@ -177,11 +178,23 @@ class _HomeState extends State<Home> {
         onSubmit: (data) {
           DB.import(data);
           refresh();
+          _showFeedback(context: context, data: data);
         },
       ),
     );
   }
 
+  /// Shows a feedback snackbar.
+  _showFeedback({required BuildContext context, bool importMode = true, List<Ingredient>? data, Object? error}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: NcBodyText(error != null ? "Error ${importMode ? "importing" : "exporting"} ingredients: ${error.toString()}" : "Sucessfully ${importMode ? "imported" : "exported"} ${data!.length} ingredient${data.length == 1 ? "" : "s"}"),
+        backgroundColor: NcThemes.current.tertiaryColor,
+      ),
+    );
+  }
+
+  /// Shows a dialog to export ingredients to a file.
   exportIngredients(BuildContext context) {
     showDialog(
       context: context,
@@ -196,12 +209,18 @@ class _HomeState extends State<Home> {
 
           if (path == null) return;
 
-          DB.export(path.endsWith(".json") ? path : path + ".json", data);
+          try {
+            DB.export(path, data);
+            _showFeedback(context: context, importMode: false, data: data);
+          } catch (e) {
+            _showFeedback(context: context, error: e);
+          }
         },
       ),
     );
   }
 
+  /// Filters the database by the given [desc], [tags] and [language].
   filterIngredients(String desc, List<String> tags, String? language) {
     _currentFilterDesc = desc;
     _currentFilterTags = tags;
@@ -211,6 +230,7 @@ class _HomeState extends State<Home> {
     });
   }
 
+  /// Adds a new ingredient to the database.
   addIngredient() {
     DB.addIngredient(Ingredient(language: Home.newLanguage, code: Home.newCode, tags: Home.newTags, desc: Home.newDesc));
     filterIngredients("", Home.newTags, null);
@@ -220,6 +240,7 @@ class _HomeState extends State<Home> {
     });
   }
 
+  /// Refreshes the view and makes a new query to the database.
   refresh() {
     if (_filterMode) {
       filterIngredients(_currentFilterDesc, _currentFilterTags, _currentFilterLanguage);
@@ -230,6 +251,7 @@ class _HomeState extends State<Home> {
     }
   }
 
+  /// Deletes the given [value] from the database.+
   deleteIngredient(BuildContext context, Ingredient value) {
     DB.rmIngredient(value);
     refresh();

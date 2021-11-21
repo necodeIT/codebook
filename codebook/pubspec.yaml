@@ -42,13 +42,11 @@ dependencies:
   url_launcher: ^6.0.15
 
 dev_dependencies:
-  flutter_launcher_name: "^0.0.1"
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
+  dependency_validator: ^3.0.0
 
-flutter_launcher_name:
-  name: "CodeBook"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
