@@ -39,13 +39,13 @@ dependencies:
     path: ../nekolib/ui
   path_provider: ^2.0.7
   url_launcher: ^6.0.15
+  webview_windows: ^0.0.8
 
 dev_dependencies:
+  dependency_validator: ^3.0.0
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
-  dependency_validator: ^3.0.0
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

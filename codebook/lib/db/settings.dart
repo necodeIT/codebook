@@ -8,20 +8,26 @@ class Settings {
   static const String defaultCodeTheme = "Github";
   static const String codeThemeKey = "codeTheme";
   static const String themeKey = "theme";
+  static const String syncKey = "sync";
   static final defaultTheme = CustomThemes.lightPurple;
 
   static String _theme = "";
   static String _codeTheme = "Ocean";
+  static bool _sync = false;
 
   static void Function()? onUpdate;
 
   static String get theme => _theme;
-
+  static bool get sync => _sync;
   static String get codeTheme => _codeTheme;
 
   static set codeTheme(String value) {
-    // print("object")
     _codeTheme = value;
+    update();
+  }
+
+  static set sync(bool value) {
+    _sync = value;
     update();
   }
 
@@ -50,7 +56,8 @@ class Settings {
       var content = file.readAsStringSync();
 
       var catgirl = jsonDecode(content);
-      codeTheme = catgirl[codeThemeKey];
+      _codeTheme = catgirl[codeThemeKey];
+      _sync = catgirl[syncKey];
       var theme = catgirl[themeKey];
 
       NcThemes.current = NcThemes.all[theme] ?? defaultTheme;
@@ -64,6 +71,7 @@ class Settings {
       var json = {
         themeKey: theme,
         codeThemeKey: codeTheme,
+        syncKey: _sync,
       };
 
       file.writeAsString(jsonEncode(json));

@@ -1,5 +1,6 @@
 import 'package:codebook/code_themes.dart';
 import 'package:codebook/db/settings.dart';
+import 'package:codebook/sync/sync.dart';
 import 'package:codebook/themes.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
 import 'package:codebook/widgets/home/filter/input.dart';
@@ -33,6 +34,17 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          NcCaptionText("Sync", fontSize: SettingsPage.titleSize),
+          NcSpacing.small(),
+          ElevatedButton(
+            onPressed: () => Sync.login(context),
+            child: NcCaptionText(
+              "Login with GitHub",
+              fontSize: 15,
+            ),
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(NcThemes.current.accentColor)),
+          ),
+          NcSpacing.small(),
           Stack(
             children: [
               NcCaptionText("Themes", fontSize: SettingsPage.titleSize),
