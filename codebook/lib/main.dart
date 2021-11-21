@@ -54,7 +54,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: Updater.appName,
-      home: Updater.updateAvailable
+      home: !Updater.updateAvailable
           ? Home(
               refresh: () => setState(() {}),
             )
