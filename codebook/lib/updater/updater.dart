@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:http/http.dart';
 import 'dart:io';
 
@@ -10,32 +9,20 @@ class Updater {
   static const repoName = "code-book";
   static const repoUrl = "$githubApiUrl/$repoOwner/$repoName";
 
-  static var _appName = "";
-  static var _packageName = "";
-  static var _version = "";
-  static var _buildNumber = "";
+  static const appName = "CodeBook";
+  static const version = "1.0.1";
   static var _latestVersion = "";
   static var _latestReleaseName = "";
   static var _updateAvailable = false;
   static var _setupDownloadUrl = "";
 
-  static String get currentVersion => _version;
-  static String get packageName => _packageName;
-  static String get appName => _appName;
-  static String get buildNumber => _buildNumber;
   static String get latestVersion => _latestVersion;
-  static String get latestReleaseName => _latestReleaseName;
+  static String get latestVersionName => _latestReleaseName;
   static bool get updateAvailable => _updateAvailable;
   static String get setupDownloadUrl => _setupDownloadUrl;
 
   static Future init() {
     return Future(() async {
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-      _appName = packageInfo.appName;
-      _packageName = packageInfo.packageName;
-      _version = packageInfo.version;
-      _buildNumber = packageInfo.buildNumber;
       _updateAvailable = await checkForUpdate();
     });
   }
@@ -51,13 +38,13 @@ class Updater {
     var asset = json["assets"].firstWhere((asset) => asset["name"] == "WindowsSetup.exe");
     _setupDownloadUrl = asset["browser_download_url"];
 
-    return latestVersion != _version;
+    return latestVersion != version;
   }
 
   /// Download the setup file to temp folder
   static Future<String> upgrade(Function(int, int)? onReceiveProgress) async {
     var dio = Dio();
-    var path = "${Directory.systemTemp.path}/$_appName - $latestReleaseName Setup.exe";
+    var path = "${Directory.systemTemp.path}/$appName - $latestVersionName Setup.exe";
     await dio.download(_setupDownloadUrl, path, onReceiveProgress: onReceiveProgress);
 
     return path;

@@ -67,7 +67,7 @@ class _UpdatePromptState extends State<UpdatePrompt> {
                 ),
               if (_downloading && !_downloadError)
                 NcBodyText(
-                  _progress != 100 ? "Downloading ${Updater.latestReleaseName} ($_progress%)" : "Launching installer...",
+                  _progress != 100 ? "Downloading ${Updater.latestVersionName} ($_progress%)" : "Launching installer...",
                   fontSize: 20,
                 ),
               NcSpacing.medium(),
