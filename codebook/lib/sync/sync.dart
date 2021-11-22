@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:codebook/db/db.dart';
 import 'package:codebook/sync/login_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Sync {
   static const clientID = "Iv1.61be57a9cf8293c1";
@@ -19,18 +24,21 @@ class Sync {
   static bool get loggedIn => _loggedIn;
 
   static login(BuildContext context) async {
+    var folder = await DB.appDir;
+    var f = File('${folder.path}/auth.json');
+
+    var config = File("${folder.path}/sync-auth-config.json");
+    await config.writeAsString(jsonEncode({"path": f.path, "keyword": codeKeyWord}));
+    await launch(authUrl);
+
     var result = await Navigator.of(context).push<String>(
       MaterialPageRoute(
         builder: (context) => GitHubLoginPrompt(
           onSuccess: (value) {
             Navigator.of(context).pop<String>(value);
           },
-          finalRedirectUrl: redirectUrl,
-          validateSuccess: (url) {
-            return url.contains(codeKeyWord);
-          },
-          onFailed: () => Navigator.of(context).pop(),
-          authUrl: authUrl,
+          onCancel: () => Navigator.of(context).pop(),
+          sucesssFile: f,
         ),
       ),
     );
