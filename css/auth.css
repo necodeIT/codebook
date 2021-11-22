@@ -1,0 +1,38 @@
+body {
+    background-color: #2DBF83;
+}
+
+.img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10vh;
+    max-width: 35vw;
+    max-height: 35vw;
+    width: auto;
+    height: auto;
+}
+
+.heading {
+    text-align: center;
+    font-size: 2vw;
+    color: #fff;
+    margin-top: 10vh;
+    font-family: 'Rubik', sans-serif;
+}
+
+.message {
+    margin-top: -25px;
+    text-align: center;
+    font-size: 3vw;
+    color: #fff;
+    font-family: 'Rubik', sans-serif;
+}
+
+.hint {
+    margin-top: -50px;
+    text-align: center;
+    font-size: 1.75vw;
+    color: #fff;
+    font-family: 'Rubik', sans-serif;
+}
