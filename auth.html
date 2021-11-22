@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" onload="">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,12 +9,12 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400&display=swap" rel="stylesheet">
+        <script src="scripts/auth.js"></script>
     </head>
-    <body>
+    <body onload="openCodeBook()">
         <img src="assets/sync_authorized.png" alt="Sync Authorized" class="img">
         <a href="#"><p onclick="openCodeBook()" class="heading">Click here if your browser didn't open CodeBook automatically.</p></a>
         <p class="message">CODEBOOK-SYNC IS AUTHORIZED</p>
         <p class="hint">You can close this tab now</p>
-        <script src="scripts/auth.js"></script>
     </body>
 </html>
