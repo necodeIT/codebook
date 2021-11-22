@@ -1,38 +1,36 @@
 body {
-    background-color: #2DBF83;
+  background-color: #2dbf83;
 }
 
 .img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10vh;
-    max-width: 35vw;
-    max-height: 35vw;
-    width: auto;
-    height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10vh;
+  max-width: 35vw;
+  max-height: 35vw;
+  width: auto;
+  height: auto;
+}
+
+p,
+a {
+  font-family: "Rubik", sans-serif;
+  text-align: center;
+  color: #fff;
 }
 
 .heading {
-    text-align: center;
-    font-size: 2vw;
-    color: #fff;
-    margin-top: 10vh;
-    font-family: 'Rubik', sans-serif;
+  font-size: 1.2vw;
+  margin-top: 10vh;
 }
 
 .message {
-    margin-top: -25px;
-    text-align: center;
-    font-size: 3vw;
-    color: #fff;
-    font-family: 'Rubik', sans-serif;
+  margin-top: -20px;
+  font-size: 3vw;
 }
 
 .hint {
-    margin-top: -50px;
-    text-align: center;
-    font-size: 1.75vw;
-    color: #fff;
-    font-family: 'Rubik', sans-serif;
+  margin-top: -50px;
+  font-size: 1.75vw;
 }
