@@ -40,7 +40,7 @@ Source: "..\..\codebook\build\windows\runner\Release\{#MyAppExeName}"; DestDir: 
 Source: "..\..\codebook\build\windows\runner\Release\flutter_windows.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\codebook\build\windows\runner\Release\url_launcher_windows_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\codebook\build\windows\runner\Release\window_size_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\..\htttp protocol handler\htttp protocol handler\bin\Release\netcoreapp3.1\publish\win-x86\*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\url protocol handler\url protocol handler\bin\Release\netcoreapp3.1\win-x86\publish\*"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\codebook\build\windows\runner\Release\data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
