@@ -10,7 +10,7 @@ import 'package:nekolib.ui/ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Sync {
-  static late final clientID;
+  static final clientID = "Iv1.61be57a9cf8293c1";
   static String get authUrl => "https://github.com/login/oauth/authorize?client_id=${Sync.clientID}";
   static const redirectUrl = "https://github.com/necodeIT/code-book";
   static const codeKeyWord = "?code=";
@@ -43,11 +43,11 @@ class Sync {
       MaterialPageRoute(
         builder: (context) => GitHubLoginPrompt(
           onSuccess: (value) async {
-            await f.delete();
+            if (f.existsSync()) await f.delete();
             Navigator.of(context).pop<String>(value);
           },
           onCancel: () async {
-            await f.delete();
+            if (f.existsSync()) await f.delete();
             Navigator.of(context).pop();
           },
           sucesssFile: f,
