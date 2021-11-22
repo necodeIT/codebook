@@ -22,6 +22,11 @@ class _GitHubLoginPromptState extends State<GitHubLoginPrompt> {
       if (_cancel) break;
       await Future.delayed(const Duration(milliseconds: 100));
     }
+
+    await Future.delayed(const Duration(milliseconds: 500));
+    var content = await widget.sucesssFile.readAsString();
+    await widget.sucesssFile.delete();
+    widget.onSuccess(content);
   }
 
   @override

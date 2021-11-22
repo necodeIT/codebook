@@ -45,14 +45,15 @@ class Sync {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: NcBodyText(result == null ? "GitHub login failed or cancelled by user" : "GitHub login successfull!"),
+        content: NcBodyText(result == null ? "GitHub login cancelled by user" : "GitHub login successfull!"),
         backgroundColor: NcThemes.current.tertiaryColor,
       ),
     );
 
     if (result == null) return;
 
-    var code = result.split(codeKeyWord).last;
-    // _loggedIn = true;
+    var code = result;
+    _loggedIn = true;
+    print(code);
   }
 }
