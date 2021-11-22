@@ -56,8 +56,8 @@ class Settings {
       var content = file.readAsStringSync();
 
       var catgirl = jsonDecode(content);
-      _codeTheme = catgirl[codeThemeKey];
-      _sync = catgirl[syncKey];
+      _codeTheme = catgirl[codeThemeKey] ?? _codeTheme;
+      _sync = catgirl[syncKey] ?? _sync;
       var theme = catgirl[themeKey];
 
       NcThemes.current = NcThemes.all[theme] ?? defaultTheme;

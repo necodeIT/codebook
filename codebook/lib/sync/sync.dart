@@ -30,6 +30,7 @@ class Sync {
             return url.contains(codeKeyWord);
           },
           onFailed: () => Navigator.of(context).pop(),
+          authUrl: authUrl,
         ),
       ),
     );
@@ -44,6 +45,6 @@ class Sync {
     if (result == null) return;
 
     var code = result.split(codeKeyWord).last;
-    _loggedIn = true;
+    // _loggedIn = true;
   }
 }
