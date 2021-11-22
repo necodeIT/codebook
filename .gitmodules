@@ -1,4 +1,0 @@
-[submodule "nekolib"]
-	path = nekolib
-	url = https://github.com/necodeIT/nekolib.git
-	branch = flutter
