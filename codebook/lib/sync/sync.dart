@@ -10,7 +10,8 @@ import 'package:nekolib.ui/ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Sync {
-  static final clientID = "Iv1.61be57a9cf8293c1";
+  static const clientID = "Iv1.61be57a9cf8293c1";
+  static const clientSecret = "c10ec68b18af37516948ad6cccdff1a82e73a23a";
   static String get authUrl => "https://github.com/login/oauth/authorize?client_id=${Sync.clientID}";
   static const redirectUrl = "https://github.com/necodeIT/code-book";
   static const codeKeyWord = "?code=";
