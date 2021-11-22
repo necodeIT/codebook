@@ -10,8 +10,8 @@ import 'package:nekolib.ui/ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Sync {
-  static const clientID = "Iv1.61be57a9cf8293c1";
-  static const authUrl = "https://github.com/login/oauth/authorize?client_id=${Sync.clientID}";
+  static late final clientID;
+  static String get authUrl => "https://github.com/login/oauth/authorize?client_id=${Sync.clientID}";
   static const redirectUrl = "https://github.com/necodeIT/code-book";
   static const codeKeyWord = "?code=";
 
@@ -25,9 +25,7 @@ class Sync {
 
   // static const
 
-  // static Future load(){
-
-  // }
+  static Future load() async {}
 
   static bool _loggedIn = false;
 
@@ -44,10 +42,14 @@ class Sync {
     var result = await Navigator.of(context).push<String>(
       MaterialPageRoute(
         builder: (context) => GitHubLoginPrompt(
-          onSuccess: (value) {
+          onSuccess: (value) async {
+            await f.delete();
             Navigator.of(context).pop<String>(value);
           },
-          onCancel: () => Navigator.of(context).pop(),
+          onCancel: () async {
+            await f.delete();
+            Navigator.of(context).pop();
+          },
           sucesssFile: f,
         ),
       ),
@@ -63,7 +65,7 @@ class Sync {
     if (result == null) return;
 
     var code = result;
+    // TODO: request token
     _loggedIn = true;
-    print(code);
   }
 }
