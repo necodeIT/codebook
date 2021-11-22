@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:codebook/db/db.dart';
 import 'package:codebook/sync/login_view.dart';
@@ -13,6 +14,15 @@ class Sync {
   static const authUrl = "https://github.com/login/oauth/authorize?client_id=${Sync.clientID}";
   static const redirectUrl = "https://github.com/necodeIT/code-book";
   static const codeKeyWord = "?code=";
+
+  static const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  static final Random _rnd = Random();
+  static String generateState(int length) => String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
+  static String generateAuthUrl() {
+    return "$authUrl&state=${generateState(8)}";
+  }
+
   // static const
 
   // static Future load(){
@@ -23,13 +33,13 @@ class Sync {
 
   static bool get loggedIn => _loggedIn;
 
-  static login(BuildContext context) async {
+  static Future login(BuildContext context) async {
     var folder = await DB.appDir;
     var f = File('${folder.path}/auth.json');
 
     var config = File("${folder.path}/sync-auth-config.json");
     await config.writeAsString(jsonEncode({"path": f.path, "keyword": codeKeyWord}));
-    await launch(authUrl);
+    await launch(generateAuthUrl());
 
     var result = await Navigator.of(context).push<String>(
       MaterialPageRoute(

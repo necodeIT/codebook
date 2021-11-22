@@ -36,14 +36,18 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           NcCaptionText("Sync", fontSize: SettingsPage.titleSize),
           NcSpacing.small(),
-          ElevatedButton(
-            onPressed: () => Sync.login(context),
-            child: NcCaptionText(
-              "Login with GitHub",
-              fontSize: 15,
-            ),
-            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(NcThemes.current.accentColor)),
-          ),
+          Sync.loggedIn
+              ? NcBodyText("Logged in ")
+              : ElevatedButton(
+                  onPressed: () {
+                    Sync.login(context).then((value) => setState(() {}));
+                  },
+                  child: NcCaptionText(
+                    "Login with GitHub",
+                    fontSize: 15,
+                  ),
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(NcThemes.current.accentColor)),
+                ),
           NcSpacing.small(),
           Stack(
             children: [
