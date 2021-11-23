@@ -1,6 +1,6 @@
 import 'package:codebook/code_themes.dart';
 import 'package:codebook/db/settings.dart';
-import 'package:codebook/sync/sync.dart';
+import 'package:codebook/db/sync.dart';
 import 'package:codebook/themes.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
 import 'package:codebook/widgets/home/filter/input.dart';
@@ -36,7 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           NcCaptionText("Sync", fontSize: SettingsPage.titleSize),
           NcSpacing.small(),
-          Sync.loggedIn
+          Sync.authorized
               ? NcBodyText("Logged in ")
               : ElevatedButton(
                   onPressed: () {

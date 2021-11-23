@@ -35,6 +35,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_highlight: ^0.7.0
+  http: ^0.13.4
   nekolib.ui:
     path: ../nekolib/ui
   path_provider: ^2.0.7

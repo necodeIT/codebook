@@ -19,7 +19,8 @@ namespace url_protocol_handler
 			var path = config["path"];
 			var keyword = config["keyword"];
 
-			var token = args[0].Split(keyword)[1];
+
+			var token = args[0].Split(keyword)[1][0..^1]; // dunno why but there is a trailing ' which makes the code invalid
 			File.WriteAllText(path, token);
 
 			File.Delete(file);
