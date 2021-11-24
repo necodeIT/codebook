@@ -1,3 +1,4 @@
+import 'package:codebook/db/sync.dart';
 import 'package:codebook/updater/updater.dart';
 import 'package:codebook/widgets/home/home.dart';
 import 'package:codebook/db/db.dart';
@@ -33,6 +34,7 @@ Future loadAll() {
   return Future(() async {
     await DB.load();
     await Updater.init();
+    await Sync.load();
   });
 }
 

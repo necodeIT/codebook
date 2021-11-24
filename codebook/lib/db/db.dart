@@ -13,6 +13,14 @@ class DB {
     return appDir;
   }
 
+  static Future<File> get syncFile async {
+    var dir = await appDir;
+    var path = '${dir.path}/$syncFileName';
+    var file = File(path);
+    await file.create();
+    return file;
+  }
+
   static Future<File> get bookFile async {
     var dir = await appDir;
     return File('${dir.path}/$bookFileName');
@@ -27,6 +35,7 @@ class DB {
   static const settingsFileName = "settings.$saveExtension";
   static const saveExtension = "json";
   static const bookFileName = "book.$saveExtension";
+  static const syncFileName = "sync.$saveExtension";
 
   static final List<Ingredient> _ingredients = [];
   static final List<String> _tags = [];
