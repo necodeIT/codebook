@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
 class SelectedIndicator extends StatelessWidget {
-  const SelectedIndicator({Key? key, this.color}) : super(key: key);
+  // no const because the color wont update otherwise
+  // ignore: prefer_const_constructors_in_immutables
+  SelectedIndicator({Key? key, this.color}) : super(key: key);
 
   final Color? color;
 

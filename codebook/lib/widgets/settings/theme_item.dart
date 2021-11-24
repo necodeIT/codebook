@@ -49,7 +49,7 @@ class ThemeItem extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topRight,
-              child: selected ? const SelectedIndicator() : const SizedBox(height: SelectedIndicator.iconSize + SelectedIndicator.padding),
+              child: selected ? SelectedIndicator() : const SizedBox(height: SelectedIndicator.iconSize + SelectedIndicator.padding),
             ),
             NcSpacing.medium(),
             Icon(

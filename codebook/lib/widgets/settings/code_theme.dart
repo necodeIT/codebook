@@ -63,8 +63,6 @@ class CodeTheme extends StatelessWidget {
                     language: previewLang,
                     theme: kCodeThemes[theme]!,
                   ),
-                  // ignoring const because the color wont update otherwise
-                  // ignore: prefer_const_constructors
                   if (selected) SelectedIndicator()
                 ],
               ),
