@@ -2,6 +2,7 @@ import 'package:codebook/code_themes.dart';
 import 'package:codebook/db/settings.dart';
 import 'package:codebook/widgets/codeblock/view_mode.dart';
 import 'package:codebook/widgets/codeblock/language_tag/language_input.dart';
+import 'package:codebook/widgets/home/home_icon_button.dart';
 import 'package:codebook/widgets/text_input/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
@@ -59,31 +60,25 @@ class CodeField extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    IconButton(
+                    HomeIconButton(
+                      toolTip: "Formatted view",
                       onPressed: () => onModeChange(ViewMode.format),
-                      icon: Icon(
-                        Icons.remove_red_eye,
-                        color: mode == ViewMode.format ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
-                        size: CodeBlock.iconSize,
-                      ),
+                      color: mode == ViewMode.format ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
+                      icon: Icons.remove_red_eye,
                     ),
                     NcSpacing.small(),
-                    IconButton(
+                    HomeIconButton(
+                      toolTip: "Raw view",
                       onPressed: () => onModeChange(ViewMode.raw),
-                      icon: Icon(
-                        Icons.short_text,
-                        color: mode == ViewMode.raw ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
-                        size: CodeBlock.iconSize,
-                      ),
+                      color: mode == ViewMode.raw ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
+                      icon: Icons.short_text,
                     ),
                     NcSpacing.small(),
-                    IconButton(
+                    HomeIconButton(
+                      toolTip: "Edit view",
                       onPressed: () => onModeChange(ViewMode.edit),
-                      icon: Icon(
-                        Icons.edit,
-                        color: mode == ViewMode.edit ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
-                        size: CodeBlock.iconSize,
-                      ),
+                      color: mode == ViewMode.edit ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
+                      icon: Icons.edit,
                     ),
                   ],
                 ),

@@ -3,7 +3,9 @@ import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
 import 'package:codebook/widgets/home/filter/filter.dart';
 import 'package:codebook/widgets/codebook/codebook.dart';
+import 'package:codebook/widgets/home/home_icon_button.dart';
 import 'package:codebook/widgets/home/in_out_dialog/in_out_dialog.dart';
+import 'package:codebook/widgets/home/themed_tool_tip.dart';
 import 'package:codebook/widgets/settings/settings.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -72,48 +74,14 @@ class _HomeState extends State<Home> {
                         curve: Filter.animationCurve,
                         child: Row(
                           children: [
-                            if (!_settings)
-                              IconButton(
-                                onPressed: () => exportIngredients(context),
-                                icon: Icon(
-                                  Icons.upload,
-                                  color: NcThemes.current.tertiaryColor,
-                                  size: Home.iconSize,
-                                ),
-                                splashColor: Colors.transparent,
-                                splashRadius: 1,
-                              ),
-                            if (!_settings)
-                              IconButton(
-                                onPressed: () => importIngredients(context),
-                                icon: Icon(
-                                  Icons.download,
-                                  color: NcThemes.current.tertiaryColor,
-                                  size: Home.iconSize,
-                                ),
-                                splashColor: Colors.transparent,
-                                splashRadius: 1,
-                              ),
-                            IconButton(
-                              onPressed: toggleSettings,
-                              icon: Icon(
-                                _settings ? Icons.close : Icons.settings,
-                                color: NcThemes.current.tertiaryColor,
-                                size: Home.iconSize,
-                              ),
-                              splashColor: Colors.transparent,
-                              splashRadius: 1,
-                            ),
+                            if (!_settings) HomeIconButton(toolTip: Home.exportTitle, onPressed: () => exportIngredients(context), icon: Icons.upload),
+                            if (!_settings) HomeIconButton(toolTip: Home.importTitle, onPressed: () => importIngredients(context), icon: Icons.download),
+                            HomeIconButton(toolTip: _settings ? "Close" : "Settings", onPressed: toggleSettings, icon: _settings ? Icons.close : Icons.settings),
                             if (!_filterMode && !_settings)
-                              IconButton(
+                              HomeIconButton(
+                                toolTip: "Filter",
                                 onPressed: toggleFilterMode,
-                                icon: Icon(
-                                  Icons.filter_alt_sharp,
-                                  color: NcThemes.current.tertiaryColor,
-                                  size: Home.iconSize,
-                                ),
-                                splashColor: Colors.transparent,
-                                splashRadius: 1,
+                                icon: Icons.filter_alt_sharp,
                               ),
                           ],
                         ),
@@ -149,13 +117,16 @@ class _HomeState extends State<Home> {
       ),
       backgroundColor: NcThemes.current.secondaryColor,
       floatingActionButton: !_settings
-          ? FloatingActionButton.small(
-              onPressed: addIngredient,
-              child: Icon(
-                Icons.add,
-                color: NcThemes.current.buttonTextColor,
+          ? ThemedToolTip(
+              message: "New ingredient",
+              child: FloatingActionButton.small(
+                onPressed: addIngredient,
+                child: Icon(
+                  Icons.add,
+                  color: NcThemes.current.buttonTextColor,
+                ),
+                backgroundColor: NcThemes.current.accentColor,
               ),
-              backgroundColor: NcThemes.current.accentColor,
             )
           : null,
     );

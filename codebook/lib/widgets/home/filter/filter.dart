@@ -3,6 +3,7 @@ import 'package:codebook/widgets/codeblock/code_block.dart';
 import 'package:codebook/widgets/home/filter/filter_header.dart';
 import 'package:codebook/widgets/home/filter/input.dart';
 import 'package:codebook/widgets/home/filter/selector.dart';
+import 'package:codebook/widgets/home/home_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
@@ -116,15 +117,10 @@ class _FilterState extends State<Filter> {
                 Container(
                   alignment: Alignment.centerRight,
                   width: double.infinity,
-                  child: IconButton(
+                  child: HomeIconButton(
+                    toolTip: "Close",
                     onPressed: widget.onClose,
-                    icon: Icon(
-                      Icons.close,
-                      color: NcThemes.current.tertiaryColor,
-                      size: Home.iconSize,
-                    ),
-                    splashColor: Colors.transparent,
-                    splashRadius: 1,
+                    icon: Icons.close,
                   ),
                 ),
                 FilterInput(placeholder: "Search", onChanged: updateSearch),
