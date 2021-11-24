@@ -1,6 +1,7 @@
 import 'package:codebook/widgets/codeblock/code_block.dart';
 import 'package:codebook/widgets/codeblock/tag/tag_input.dart';
 import 'package:codebook/widgets/conditional_wrap/condtional_wrapper.dart';
+import 'package:codebook/widgets/home/filter/filter.dart';
 import 'package:codebook/widgets/settings/code_theme.dart';
 import 'package:codebook/widgets/settings/selected_indicator.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,9 @@ class ThemeItem extends StatelessWidget {
   final NcTheme theme;
   final bool selected;
   final Function() onTap;
+
+  static const double width = CodeTheme.minWidth;
+  static const double height = 150;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,8 @@ class ThemeItem extends StatelessWidget {
       ),
       child: Container(
         padding: const EdgeInsets.all(CodeTheme.padding),
-        width: CodeTheme.minWidth,
+        width: ThemeItem.width,
+        height: ThemeItem.height,
         decoration: BoxDecoration(
           border: Border.all(color: selected ? NcThemes.current.accentColor : NcThemes.current.primaryColor),
           borderRadius: BorderRadius.circular(CodeBlock.borderRadius),
@@ -42,12 +47,10 @@ class ThemeItem extends StatelessWidget {
         ),
         child: Column(
           children: [
-            selected
-                ? const Align(
-                    alignment: Alignment.topRight,
-                    child: SelectedIndicator(),
-                  )
-                : const SizedBox(height: SelectedIndicator.iconSize + CodeTheme.padding),
+            Align(
+              alignment: Alignment.topRight,
+              child: selected ? const SelectedIndicator() : const SizedBox(height: SelectedIndicator.iconSize + SelectedIndicator.padding),
+            ),
             NcSpacing.medium(),
             Icon(
               theme.icon,

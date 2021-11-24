@@ -63,7 +63,9 @@ class CodeTheme extends StatelessWidget {
                     language: previewLang,
                     theme: kCodeThemes[theme]!,
                   ),
-                  if (selected) const SelectedIndicator()
+                  // ignoring const because the color wont update otherwise
+                  // ignore: prefer_const_constructors
+                  if (selected) SelectedIndicator()
                 ],
               ),
               NcSpacing.medium(),

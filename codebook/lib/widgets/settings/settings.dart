@@ -2,6 +2,7 @@ import 'package:codebook/code_themes.dart';
 import 'package:codebook/db/settings.dart';
 import 'package:codebook/db/sync.dart';
 import 'package:codebook/themes.dart';
+import 'package:codebook/widgets/button.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
 import 'package:codebook/widgets/home/filter/input.dart';
 import 'package:codebook/widgets/settings/code_theme.dart';
@@ -29,7 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var usingRecommended = Settings.codeTheme == CustomThemes.themeCodeThemes[NcThemes.current];
+    var usingRecommended = Settings.codeTheme == CustomThemes.recommendedCodeThemes[NcThemes.current];
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,16 +38,10 @@ class _SettingsPageState extends State<SettingsPage> {
           NcCaptionText("Sync", fontSize: SettingsPage.titleSize),
           NcSpacing.small(),
           Sync.authorized
-              ? NcBodyText("Logged in ")
-              : ElevatedButton(
-                  onPressed: () {
-                    Sync.login(context).then((value) => setState(() {}));
-                  },
-                  child: NcCaptionText(
-                    "Login with GitHub",
-                    fontSize: 15,
-                  ),
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(NcThemes.current.accentColor)),
+              ? NcBodyText("Logged in")
+              : ThemedElevatedButton(
+                  onPressed: () => Sync.login(context).then((value) => setState(() {})),
+                  text: "Login with GitHub",
                 ),
           NcSpacing.small(),
           Stack(
@@ -84,7 +79,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       label: usingRecommended ? SettingsPage.recommendedLabel : SettingsPage.useRecommendedLabel,
                       fontSize: 12,
                       padding: SettingsPage.recommendedPadding,
-                      onTap: () => updateCodeTheme(CustomThemes.themeCodeThemes[NcThemes.current]!),
+                      onTap: () => updateCodeTheme(CustomThemes.recommendedCodeThemes[NcThemes.current]!),
                       icon: usingRecommended ? Icons.check : Icons.warning_amber_rounded,
                       color: usingRecommended ? NcThemes.current.successColor : NcThemes.current.warningColor,
                     ),
@@ -106,7 +101,8 @@ class _SettingsPageState extends State<SettingsPage> {
             runSpacing: NcSpacing.smallSpacing,
             children: [
               for (var theme in kCodeThemes.keys)
-                if (theme.toLowerCase().contains(_codeThemeSeach.toLowerCase())) CodeTheme(theme: theme, recomended: CustomThemes.themeCodeThemes[NcThemes.current] == theme, selected: Settings.codeTheme == theme, onTap: () => updateCodeTheme(theme)),
+                if (theme.toLowerCase().contains(_codeThemeSeach.toLowerCase()))
+                  CodeTheme(theme: theme, recomended: CustomThemes.recommendedCodeThemes[NcThemes.current] == theme, selected: Settings.codeTheme == theme, onTap: () => updateCodeTheme(theme)),
             ],
           ),
           NcSpacing.xl(),

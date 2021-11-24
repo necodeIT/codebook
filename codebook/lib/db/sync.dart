@@ -47,7 +47,7 @@ class Sync {
     // if (!Settings.sync) return;
 
     var f = await DB.syncFile;
-    if (!f.existsSync()) Settings.sync = false;
+    if (!f.existsSync()) return Settings.sync = false;
 
     var content = await f.readAsString();
 

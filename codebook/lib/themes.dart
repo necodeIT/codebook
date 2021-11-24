@@ -32,7 +32,7 @@ class CustomThemes {
     accentColor: const Color(0xFF18CC0A),
   );
 
-  static final themeCodeThemes = Map<NcTheme, String>.unmodifiable({
+  static final recommendedCodeThemes = Map<NcTheme, String>.unmodifiable({
     lightPurple: "Routeros",
     lightGreen: "Qtcreator Light",
     darkPurple: "Atelier Cave Dark",

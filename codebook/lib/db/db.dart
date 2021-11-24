@@ -15,10 +15,7 @@ class DB {
 
   static Future<File> get syncFile async {
     var dir = await appDir;
-    var path = '${dir.path}/$syncFileName';
-    var file = File(path);
-    await file.create();
-    return file;
+    return File('${dir.path}/$syncFileName');
   }
 
   static Future<File> get bookFile async {
