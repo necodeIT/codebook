@@ -1,13 +1,35 @@
+import 'dart:convert';
+
+import 'package:codebook/db/sync/sync.dart';
+import 'package:crypto/crypto.dart';
+
 class Ingredient {
-  Ingredient({required this.language, required this.code, required List<String> tags, required this.desc}) {
+  Ingredient({required String language, required String code, required List<String> tags, required String desc}) {
     _tags = List.from(tags);
+    _code = code;
+    _language = language;
+    _desc = desc;
   }
 
   Ingredient.fromJson(Map<String, dynamic> model) {
-    language = model["language"];
-    code = model["code"];
-    desc = model["desc"];
+    _language = model["language"];
+    _code = model["code"];
+    _desc = model["desc"];
     _tags = List.from(model["tags"]);
+  }
+
+  /// returns a sha256 hash of the ingredient (all attributes)
+  /// this is used to uniquely identify an ingredient
+  String get hash {
+    String hash = '';
+    hash += language;
+    hash += code;
+    for (String tag in tags) {
+      hash += tag;
+    }
+    hash += desc;
+
+    return sha256.convert(utf8.encode(hash)).toString();
   }
 
   Map<String, dynamic> toJson() => {
@@ -17,20 +39,52 @@ class Ingredient {
         "tags": tags,
       };
 
-  late String language;
-  late String code;
-  late String desc;
+  late String _language;
+  late String _code;
+  late String _desc;
   late List<String> _tags;
 
   List<String> get tags => _tags;
+  String get code => _code;
+  String get desc => _desc;
+  String get language => _language;
+
+  set language(String value) {
+    if (value == language) return;
+
+    Sync.reportChange(this, () => _language = value);
+  }
+
+  set code(String value) {
+    if (value == code) return;
+
+    Sync.reportChange(this, () => _code = value);
+  }
+
+  set desc(String value) {
+    if (value == desc) return;
+
+    Sync.reportChange(this, () => _desc = value);
+  }
 
   void addTag(String tag) {
     if (_tags.contains(tag)) return;
-    _tags.add(tag);
+
+    Sync.reportChange(this, () => _tags.add(tag));
   }
 
   void rmTag(String tag) {
     if (!_tags.contains(tag)) return;
-    _tags.remove(tag);
+
+    Sync.reportChange(this, () => _tags.remove(tag));
+  }
+
+  void update({required String desc, required String lang, required List<String> tags, required String code}) {
+    Sync.reportChange(this, () {
+      _desc = desc;
+      _language = lang;
+      _tags = tags;
+      _code = code;
+    });
   }
 }

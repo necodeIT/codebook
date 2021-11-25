@@ -2,7 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:codebook/db/db.dart';
+import 'package:codebook/db/ingredient.dart';
 import 'package:codebook/db/settings.dart';
+import 'package:codebook/db/sync/action_type.dart';
+import 'package:codebook/db/sync/log.dart';
 import 'package:codebook/widgets/github_login_prompt.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +23,8 @@ class Sync {
   static String get authUrl => "https://github.com/login/oauth/authorize?client_id=$clientID";
   static final Client client = Client();
   static final Connectivity connectivity = Connectivity();
+
+  static final log = ActionLog();
 
   static const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   static final Random _rnd = Random();
@@ -55,6 +60,16 @@ class Sync {
     _token = config[tokenKey] ?? "";
     _authorized = config[authorizedKey] ?? false;
     _gistID = config[gistIDKey] ?? "";
+  }
+
+  static reportChange(Ingredient ingredient, Function() change) {
+    if (!Settings.sync) return change();
+
+    log.write(ingredient, DEL);
+    change();
+    log.write(ingredient, ADD);
+
+    // TODO: sync
   }
 
   static Future save() async {

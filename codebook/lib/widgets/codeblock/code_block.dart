@@ -42,6 +42,11 @@ class _CodeBlockState extends State<CodeBlock> {
   late String _copyText = CodeBlock.copyTextPreset;
   Color _copyColor = NcThemes.current.accentColor;
 
+  late String _code = widget.data.code;
+  late String _desc = widget.data.desc;
+  late String _language = widget.data.language;
+  late final List<String> _tags = List.from(widget.data.tags, growable: true);
+
   void saveCodeToClipboard() {
     setState(() {
       _copyIcon = CodeBlock.copiedIconPreset;
@@ -49,7 +54,7 @@ class _CodeBlockState extends State<CodeBlock> {
       _copyColor = NcThemes.current.successColor;
     });
 
-    FlutterClipboard.copy(widget.data.code);
+    FlutterClipboard.copy(_code);
 
     Future.delayed(
       const Duration(seconds: CodeBlock.copiedDelay),
@@ -63,23 +68,26 @@ class _CodeBlockState extends State<CodeBlock> {
   }
 
   void updateLanguage(String lang) {
-    widget.data.language = lang;
+    _language = lang;
   }
 
   void updateCode(String code) {
-    widget.data.code = code;
+    _code = code;
   }
 
   void changeMode(ViewMode mode) {
-    if (_mode == ViewMode.edit && mode != ViewMode.edit) DB.update();
+    if (_mode == ViewMode.edit && mode != ViewMode.edit) {
+      widget.data.update(desc: _desc, lang: _language, tags: _tags, code: _code);
+      DB.update();
+    }
 
     setState(() {
       _mode = mode;
     });
   }
 
-  void updateDesc(String value) {
-    widget.data.desc = value;
+  void updateDesc(String desc) {
+    _desc = desc;
   }
 
   @override
@@ -95,17 +103,17 @@ class _CodeBlockState extends State<CodeBlock> {
             if (_mode == ViewMode.edit) NcSpacing.medium(),
             _mode != ViewMode.edit
                 ? NcBodyText(
-                    widget.data.desc,
+                    _desc,
                     overflow: TextOverflow.visible,
                     fontSize: CodeBlock.descSize,
                   )
-                : TextInput(label: CodeBlock.descLabel, inintialText: widget.data.desc, onChange: updateDesc),
+                : TextInput(label: CodeBlock.descLabel, inintialText: _desc, onChange: updateDesc),
             NcSpacing.xs(),
             CodeField(
               mode: _mode,
               onModeChange: changeMode,
-              code: widget.data.code,
-              language: widget.data.language,
+              code: _code,
+              language: _language,
               onCodeChange: updateCode,
               copyIcon: _copyIcon,
               copyText: _copyText,
@@ -119,7 +127,7 @@ class _CodeBlockState extends State<CodeBlock> {
               children: [
                 Row(children: generateTags()),
                 LanguageTag(
-                  initialValue: widget.data.language,
+                  initialValue: _language,
                   editMode: _mode == ViewMode.edit,
                   onValueChange: updateLanguage,
                 ),
@@ -133,7 +141,7 @@ class _CodeBlockState extends State<CodeBlock> {
 
   List<Widget> generateTags() {
     var list = <Widget>[];
-    for (var tag in widget.data.tags) {
+    for (var tag in _tags) {
       list.add(
         Tag(
           editMode: _mode == ViewMode.edit,
@@ -141,7 +149,7 @@ class _CodeBlockState extends State<CodeBlock> {
           onTap: _mode == ViewMode.edit
               ? () {
                   setState(() {
-                    widget.data.rmTag(tag);
+                    _tags.remove(tag);
                   });
                 }
               : null,
@@ -204,7 +212,7 @@ class _CodeBlockState extends State<CodeBlock> {
   destroyTagInput(String value) {
     setState(() {
       _tagInput = false;
-      if (value.isNotEmpty) widget.data.addTag(value);
+      if (value.isNotEmpty) _tags.add(value);
     });
   }
 }

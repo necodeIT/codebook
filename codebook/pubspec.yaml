@@ -41,6 +41,7 @@ dependencies:
     path: ../nekolib/ui
   path_provider: ^2.0.7
   url_launcher: ^6.0.15
+  crypto: ^3.0.1
   window_size:
     git:
       url: git://github.com/google/flutter-desktop-embedding.git

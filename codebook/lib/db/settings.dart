@@ -9,14 +9,17 @@ class Settings {
   static const String codeThemeKey = "codeTheme";
   static const String themeKey = "theme";
   static const String syncKey = "sync";
+  static const String modifiedKey = "modified";
   static final defaultTheme = CustomThemes.lightPurple;
 
   static String _theme = "";
   static String _codeTheme = "Ocean";
   static bool _sync = false;
+  static bool _modified = false;
 
   static void Function()? onUpdate;
 
+  static bool get modified => _modified;
   static String get theme => _theme;
   static bool get sync => _sync;
   static String get codeTheme => _codeTheme;
@@ -33,6 +36,7 @@ class Settings {
 
   static void update() {
     save();
+    _modified = true;
     onUpdate?.call();
   }
 
@@ -41,40 +45,38 @@ class Settings {
     update();
   }
 
-  static Future load() {
+  static Future load() async {
     NcThemes.onCurrentThemeChange = ncThemesCallback;
 
-    return Future(() async {
-      var file = await DB.settingsFile;
+    var file = await DB.settingsFile;
 
-      if (!file.existsSync()) {
-        codeTheme = defaultCodeTheme;
-        NcThemes.current = defaultTheme;
-        return;
-      }
+    if (!file.existsSync()) {
+      codeTheme = defaultCodeTheme;
+      NcThemes.current = defaultTheme;
+      return;
+    }
 
-      var content = file.readAsStringSync();
+    var content = file.readAsStringSync();
 
-      var catgirl = jsonDecode(content);
-      _codeTheme = catgirl[codeThemeKey] ?? _codeTheme;
-      _sync = catgirl[syncKey] ?? _sync;
-      var theme = catgirl[themeKey];
+    var catgirl = jsonDecode(content);
+    _codeTheme = catgirl[codeThemeKey] ?? _codeTheme;
+    _sync = catgirl[syncKey] ?? _sync;
+    _modified = catgirl[modifiedKey] ?? _modified;
+    var theme = catgirl[themeKey];
 
-      NcThemes.current = NcThemes.all[theme] ?? defaultTheme;
-    });
+    NcThemes.current = NcThemes.all[theme] ?? defaultTheme;
   }
 
-  static Future save() {
-    return Future(() async {
-      var file = await DB.settingsFile;
+  static Future save() async {
+    var file = await DB.settingsFile;
 
-      var json = {
-        themeKey: theme,
-        codeThemeKey: codeTheme,
-        syncKey: _sync,
-      };
+    var json = {
+      themeKey: theme,
+      codeThemeKey: codeTheme,
+      syncKey: _sync,
+      modifiedKey: _modified,
+    };
 
-      file.writeAsString(jsonEncode(json));
-    });
+    await file.writeAsString(jsonEncode(json));
   }
 }

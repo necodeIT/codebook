@@ -30,15 +30,21 @@ class Updater {
   /// Check for newer release on github https://api.github.com/repos/necodeIT/code-book/releases/latest
   static Future<bool> checkForUpdate() async {
     var client = Client();
-    var response = await client.get(Uri.parse("$repoUrl/releases/latest"));
-    var json = jsonDecode(response.body);
-    _latestVersion = json["tag_name"];
-    _latestReleaseName = json["name"];
-    // get asset download url with name WindowsSetup.exe
-    var asset = json["assets"].firstWhere((asset) => asset["name"] == "WindowsSetup.exe");
-    _setupDownloadUrl = asset["browser_download_url"];
 
-    return latestVersion != version;
+    try {
+      var response = await client.get(Uri.parse("$repoUrl/releases/latest"));
+      var json = jsonDecode(response.body);
+      _latestVersion = json["tag_name"];
+      _latestReleaseName = json["name"];
+      // get asset download url with name WindowsSetup.exe
+      var asset = json["assets"].firstWhere((asset) => asset["name"] == "WindowsSetup.exe");
+      _setupDownloadUrl = asset["browser_download_url"];
+
+      return latestVersion != version;
+    } catch (e) {
+      // TODO: Show if user is Offline and needs to connect to the WIFI or could not connect to GITHUB
+      return false;
+    }
   }
 
   /// Download the setup file to temp folder

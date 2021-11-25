@@ -1,4 +1,4 @@
-import 'package:codebook/db/sync.dart';
+import 'package:codebook/db/sync/sync.dart';
 import 'package:codebook/updater/updater.dart';
 import 'package:codebook/widgets/home/home.dart';
 import 'package:codebook/db/db.dart';

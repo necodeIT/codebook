@@ -1,6 +1,6 @@
 import 'package:codebook/code_themes.dart';
 import 'package:codebook/db/settings.dart';
-import 'package:codebook/db/sync.dart';
+import 'package:codebook/db/sync/sync.dart';
 import 'package:codebook/themes.dart';
 import 'package:codebook/widgets/button.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';

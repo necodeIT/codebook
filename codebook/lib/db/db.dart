@@ -28,11 +28,17 @@ class DB {
     return File('${dir.path}/$settingsFileName');
   }
 
+  static Future<File> get logFile async {
+    var dir = await appDir;
+    return File('${dir.path}/$logFileName');
+  }
+
   static const appFolderName = "CodeBook";
   static const settingsFileName = "settings.$saveExtension";
   static const saveExtension = "json";
   static const bookFileName = "book.$saveExtension";
   static const syncFileName = "sync.$saveExtension";
+  static const logFileName = "sync_log.$saveExtension";
 
   static final List<Ingredient> _ingredients = [];
   static final List<String> _tags = [];
