@@ -19,10 +19,11 @@ class Home extends StatefulWidget {
   static const double iconSize = CodeBook.titleSize * .8;
   static const newLanguage = "python";
   static const newCode = 'print("Hello World")';
-  static const newDesc = "New Ingredient";
+  static String get newDesc => "New Ingredient ${(DB.tagCount[newTagName] ?? 0) + 1}";
   static const importTitle = "Import Ingredients";
   static const exportTitle = "Export Ingredients";
-  static const newTags = ["New"];
+  static const newTagName = "New";
+  static const newTags = [newTagName];
 
   @override
   State<Home> createState() => _HomeState();

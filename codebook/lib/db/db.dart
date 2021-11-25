@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:codebook/db/ingredient.dart';
+import 'package:codebook/db/sync/action_type.dart';
+import 'package:codebook/db/sync/sync.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DB {
@@ -43,18 +45,27 @@ class DB {
   static final List<Ingredient> _ingredients = [];
   static final List<String> _tags = [];
   static final List<String> _languages = [];
+  static final Map<String, int> _tagCount = {};
 
   static List<Ingredient> get ingredients => List.unmodifiable(_ingredients);
   static List<String> get tags => List.unmodifiable(_tags);
+  static Map<String, int> get tagCount => Map.unmodifiable(_tagCount);
   static List<String> get lanugages => List.unmodifiable(_languages);
 
   /// Updates the tags and languages metadata.
   static void updateMetaData() {
     _tags.clear();
     _languages.clear();
+    _tagCount.clear();
 
     for (var ingredient in ingredients) {
       for (var tag in ingredient.tags) {
+        if (tagCount.containsKey(tag)) {
+          _tagCount[tag] = tagCount[tag]! + 1;
+        } else {
+          _tagCount[tag] = 1;
+        }
+
         if (_tags.contains(tag)) continue;
 
         _tags.add(tag);
@@ -72,12 +83,14 @@ class DB {
   /// Adds an ingredient to the database.
   static void addIngredient(Ingredient value) {
     _ingredients.add(value);
+    Sync.log(value, ADD);
     update();
   }
 
   /// Removes an ingredient from the database.
   static void rmIngredient(Ingredient value) {
     _ingredients.remove(value);
+    Sync.log(value, DEL);
     update();
   }
 
@@ -115,7 +128,10 @@ class DB {
 
   /// Adds the given [ingredients] to the database.
   static void import(List<Ingredient> ingredients) {
-    _ingredients.addAll(ingredients);
+    for (var ingredient in ingredients) {
+      _ingredients.add(ingredient);
+      Sync.log(ingredient, ADD);
+    }
     update();
   }
 

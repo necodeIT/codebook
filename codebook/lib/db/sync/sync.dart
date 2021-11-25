@@ -24,7 +24,7 @@ class Sync {
   static final Client client = Client();
   static final Connectivity connectivity = Connectivity();
 
-  static final log = ActionLog();
+  static final _log = ActionLog();
 
   static const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   static final Random _rnd = Random();
@@ -65,11 +65,17 @@ class Sync {
   static reportChange(Ingredient ingredient, Function() change) {
     if (!Settings.sync) return change();
 
-    log.write(ingredient, DEL);
+    _log.write(ingredient, DEL);
     change();
-    log.write(ingredient, ADD);
+    _log.write(ingredient, ADD);
 
     // TODO: sync
+  }
+
+  static log(Ingredient ingredient, ActionType type) {
+    if (!Settings.sync) return;
+
+    _log.write(ingredient, type);
   }
 
   static Future save() async {
