@@ -37,14 +37,28 @@ namespace url_protocol_handler
 			
 			File.Delete(file);
 
-			try
+			if(IsWindows)
 			{
 				var pid = int.Parse(config["pid"]);
 				var app = Process.GetProcessById(pid);
 
 				SetForegroundWindow(app.MainWindowHandle);
 			}
-			catch { }
+		}
+
+		public static bool IsLinux
+		{
+			get => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+		}
+
+		public static bool IsWindows
+		{
+			get => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+		}
+
+		public static bool IsMacOS
+		{
+			get => RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 		}
 	}
 }
