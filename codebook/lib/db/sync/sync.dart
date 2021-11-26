@@ -99,7 +99,7 @@ class Sync {
     var f = File('${folder.path}/auth.json');
 
     var config = File("${folder.path}/sync-auth-config.json");
-    await config.writeAsString(jsonEncode({"path": f.path, "keyword": codeKeyWord}));
+    await config.writeAsString(jsonEncode({"path": f.path, "keyword": codeKeyWord, "pid": "$pid"}));
     await launch(generateAuthUrl());
 
     var code = await Navigator.of(context).push<String>(

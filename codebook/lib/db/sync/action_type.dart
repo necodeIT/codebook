@@ -11,6 +11,18 @@ class ActionType {
     _action = json[actionKey];
   }
 
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is ActionType) {
+      return _action == other._action;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => _action.hashCode;
+
   late final String _action;
 
   toJson() {

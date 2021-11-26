@@ -15,10 +15,16 @@ import 'package:nekolib.ui/ui.dart';
 import 'view_mode.dart';
 
 class CodeBlock extends StatefulWidget {
-  const CodeBlock({Key? key, required this.data, required this.onDelete}) : super(key: key);
+  const CodeBlock({Key? key, required this.onDelete, required this.code, required this.desc, required this.language, required this.tags, required this.onUpdate}) : super(key: key);
 
-  final Ingredient data;
+  final String code;
+  final String desc;
+  final String language;
+  final List<String> tags;
   final Function() onDelete;
+
+  /// desc, language, tags, code
+  final Function(String, String, List<String>, String) onUpdate;
 
   static const double elevation = 3;
   static const int copiedDelay = 1;
@@ -42,10 +48,10 @@ class _CodeBlockState extends State<CodeBlock> {
   late String _copyText = CodeBlock.copyTextPreset;
   Color _copyColor = NcThemes.current.accentColor;
 
-  late String _code = widget.data.code;
-  late String _desc = widget.data.desc;
-  late String _language = widget.data.language;
-  late final List<String> _tags = List.from(widget.data.tags, growable: true);
+  late String _code = widget.code;
+  late String _desc = widget.desc;
+  late String _language = widget.language;
+  late final List<String> _tags = List.from(widget.tags, growable: true);
 
   void saveCodeToClipboard() {
     setState(() {
@@ -77,7 +83,7 @@ class _CodeBlockState extends State<CodeBlock> {
 
   void changeMode(ViewMode mode) {
     if (_mode == ViewMode.edit && mode != ViewMode.edit) {
-      widget.data.update(desc: _desc, lang: _language, tags: _tags, code: _code);
+      widget.onUpdate(_desc, _language, _tags, _code);
       DB.update();
     }
 

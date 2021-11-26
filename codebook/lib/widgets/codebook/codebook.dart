@@ -24,10 +24,17 @@ class _CodeBookState extends State<CodeBook> {
         ? ListView.builder(
             itemCount: widget.ingredients.length,
             controller: ScrollController(),
-            itemBuilder: (_, index) => CodeBlock(
-              data: widget.ingredients[index],
-              onDelete: () => widget.onDeleteIngredient(context, widget.ingredients[index]),
-            ),
+            itemBuilder: (context, index) {
+              var data = widget.ingredients[index];
+              return CodeBlock(
+                code: data.code,
+                desc: data.desc,
+                language: data.language,
+                tags: data.tags,
+                onUpdate: (desc, lang, tags, code) => data.update(desc: desc, lang: lang, tags: tags, code: code),
+                onDelete: () => widget.onDeleteIngredient(context, widget.ingredients[index]),
+              );
+            },
           )
         : Column(
             mainAxisAlignment: MainAxisAlignment.center,

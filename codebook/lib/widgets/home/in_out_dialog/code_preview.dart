@@ -74,7 +74,7 @@ class _CodePreviewState extends State<CodePreview> {
                     theme: kCodeThemes[Settings.codeTheme]!,
                   ),
                 ),
-                if (duplicate) Tag(label: "Duplicate", color: NcThemes.current.errorColor, fontSize: CodePreview.duplicateFontSize, padding: CodePreview.duplicatePadding)
+                if (duplicate) Tag(label: "Duplicate Code", color: NcThemes.current.errorColor, fontSize: CodePreview.duplicateFontSize, padding: CodePreview.duplicatePadding)
               ],
             ),
           ),
