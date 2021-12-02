@@ -1,7 +1,6 @@
 import 'package:codebook/widgets/codeblock/code_block.dart';
 import 'package:codebook/widgets/codeblock/tag/tag_input.dart';
 import 'package:codebook/widgets/conditional_wrap/condtional_wrapper.dart';
-import 'package:codebook/widgets/home/filter/filter.dart';
 import 'package:codebook/widgets/settings/code_theme.dart';
 import 'package:codebook/widgets/settings/selected_indicator.dart';
 import 'package:flutter/material.dart';

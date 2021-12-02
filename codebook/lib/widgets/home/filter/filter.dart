@@ -7,8 +7,6 @@ import 'package:codebook/widgets/home/home_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
-import '../home.dart';
-
 class Filter extends StatefulWidget {
   const Filter({Key? key, required this.onClose, required this.onQuerry, this.forceTags, this.forceLangugae, this.forceDesc, required this.active}) : super(key: key);
 

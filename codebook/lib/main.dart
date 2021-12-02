@@ -7,7 +7,6 @@ import 'package:codebook/themes.dart';
 import 'package:codebook/widgets/update_prompt/update_prompt.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
-import 'dart:io';
 
 void main() async {
   CustomThemes.registerAll();
@@ -57,11 +56,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: Updater.appName,
-      home: !Updater.updateAvailable
-          ? Home(
-              refresh: () => setState(() {}),
-            )
-          : const UpdatePrompt(),
+      home: !Updater.updateAvailable ? const Home() : const UpdatePrompt(),
     );
   }
 }

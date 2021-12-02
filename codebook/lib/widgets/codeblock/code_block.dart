@@ -1,6 +1,5 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:codebook/db/db.dart';
-import 'package:codebook/db/ingredient.dart';
 import 'package:codebook/widgets/autocomplete/dropdown.dart';
 import 'package:codebook/widgets/codeblock/code_field.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';

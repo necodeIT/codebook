@@ -12,9 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key, required this.refresh}) : super(key: key);
-
-  final Function() refresh;
+  const Home({Key? key}) : super(key: key);
 
   static const double iconSize = CodeBook.titleSize * .8;
   static const newLanguage = "python";
@@ -229,7 +227,7 @@ class _HomeState extends State<Home> {
     DB.rmIngredient(value);
     refresh();
     // Dont ask why it workds so i wont touch it
-    setState(() {});
-    widget.refresh();
+    // setState(() {});
+    // widget.refresh();
   }
 }
