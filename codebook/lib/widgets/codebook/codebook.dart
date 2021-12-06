@@ -22,7 +22,7 @@ class _CodeBookState extends State<CodeBook> {
   Widget build(BuildContext context) {
     return DB.ingredients.isNotEmpty
         ? ListView.builder(
-            key: UniqueKey(), // bruh this fixes all the bugs with the listview displaying wrong data
+            key: UniqueKey(), // bruh this fixes the bug with the listview displaying wrong data
             itemCount: widget.ingredients.length,
             controller: ScrollController(),
             itemBuilder: (context, index) {

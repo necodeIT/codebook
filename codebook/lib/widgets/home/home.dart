@@ -1,6 +1,8 @@
 import 'package:animations/animations.dart';
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
+import 'package:codebook/updater/updater.dart';
+import 'package:codebook/widgets/codeblock/tag/tag.dart';
 import 'package:codebook/widgets/home/filter/filter.dart';
 import 'package:codebook/widgets/codebook/codebook.dart';
 import 'package:codebook/widgets/home/home_icon_button.dart';
@@ -64,9 +66,20 @@ class _HomeState extends State<Home> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      NcTitleText(
-                        !_settings ? "CodeBook" : "Settings",
-                        fontSize: CodeBook.titleSize,
+                      Row(
+                        children: [
+                          NcTitleText(
+                            !_settings ? Updater.appName : "Settings",
+                            fontSize: CodeBook.titleSize,
+                          ),
+                          NcSpacing.small(),
+                          if (!_settings)
+                            Tag(
+                              label: Updater.version,
+                              fontSize: SettingsPage.recommendedFontSize,
+                              padding: SettingsPage.recommendedPadding,
+                            ),
+                        ],
                       ),
                       AnimatedSize(
                         duration: Filter.animationDuration,

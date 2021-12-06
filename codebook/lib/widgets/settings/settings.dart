@@ -16,6 +16,7 @@ class SettingsPage extends StatefulWidget {
 
   static const double titleSize = 20;
   static const double searchWidth = 250 + NcSpacing.xlSpacing;
+  static const double recommendedFontSize = 12;
   static const recommendedLabel = "Using Recommended";
   static const useRecommendedLabel = "Use Recommended";
   static const recommendedPadding = EdgeInsets.symmetric(vertical: 2.5, horizontal: 5);
@@ -77,7 +78,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     NcSpacing.xs(),
                     Tag.add(
                       label: usingRecommended ? SettingsPage.recommendedLabel : SettingsPage.useRecommendedLabel,
-                      fontSize: 12,
+                      fontSize: SettingsPage.recommendedFontSize,
                       padding: SettingsPage.recommendedPadding,
                       onTap: () => updateCodeTheme(CustomThemes.recommendedCodeThemes[NcThemes.current]!),
                       icon: usingRecommended ? Icons.check : Icons.warning_amber_rounded,
