@@ -35,9 +35,9 @@ class Settings {
   }
 
   static void update() {
-    save();
     _modified = true;
     onUpdate?.call();
+    save();
   }
 
   static void ncThemesCallback() {

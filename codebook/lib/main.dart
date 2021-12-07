@@ -14,7 +14,11 @@ void main() async {
   await Settings.load();
 
   runApp(
-    FutureBuilder(future: loadAll(), builder: (context, task) => task.connectionState == ConnectionState.done ? const App() : loadingIndicator()),
+    FutureBuilder(
+        future: loadAll(),
+        builder: (context, task) => task.connectionState == ConnectionState.done
+            ? const App()
+            : loadingIndicator()),
   );
 }
 
@@ -56,7 +60,8 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: Updater.appName,
-      home: !Updater.updateAvailable ? const Home() : const UpdatePrompt(),
+      // ignore: prefer_const_constructors
+      home: !Updater.updateAvailable ? Home() :  UpdatePrompt(),
     );
   }
 }
