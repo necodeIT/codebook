@@ -3,6 +3,8 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:nekolib.ui/ui.dart';
 import 'package:platform_detect/platform_detect.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:web/widgets/preview/preview.dart';
+import 'package:web/widgets/themed_button.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -46,38 +48,36 @@ class _HomeState extends State<Home> {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      NcButton(
-                        text: "Download",
-                        leadingIcon: Icon(
-                          operatingSystem.isWindows
-                              ? FontAwesome.windows
-                              : operatingSystem.isMac
-                                  ? FontAwesome.apple
-                                  : FontAwesome.linux,
-                          color: NcThemes.current.buttonTextColor,
-                        ),
-                        onTap: () {
-                          // launch "https://github.com/necodeIT/code-book/releases/latest/download/$setupFile" but adapt on operatingSystem
-                          // so that it works on all platforms
-                          // if operatingSystem.isWindows download setupFile is WindowsSetup.exe
-                          // if operatingSystem.isMac download setupFile is CodeBook.dmg
-                          // if operatingSystem.isLinux download setupFile is CodeBook.AppImage
-                          var setupFile = "CodeBook.AppImage";
-                          if (operatingSystem.isWindows) {
-                            setupFile = "WindowsSetup.exe";
-                          } else if (operatingSystem.isMac) {
-                            setupFile = "CodeBook.dmg";
-                          }
-
-                          launch("https://github.com/necodeIT/code-book/releases/latest/download/$setupFile");
-                        },
+                      ThemedButton(
+                        label: "Download",
+                        icon: operatingSystem.isWindows
+                            ? FontAwesome.windows
+                            : operatingSystem.isMac
+                                ? FontAwesome.apple
+                                : FontAwesome.linux,
+                        onPressed: operatingSystem.isWindows
+                            ? () {
+                                // TODO: Match download to operating system
+                                launch("https://github.com/necodeIT/code-book/releases/latest/download/WindowsSetup.exe");
+                              }
+                            : null,
+                        disabledMessage: "${operatingSystem.name} is not supported yet.",
                       ),
                       NcSpacing.medium(),
-                      NcButton(text: "GitHub", onTap: () => launch(Home.repo)),
+                      ThemedButton(
+                        label: "GitHub",
+                        onPressed: () => launch(Home.repo),
+                        outlined: true,
+                        icon: Feather.github,
+                      ),
                     ],
                   ),
                 ],
               ),
+              // NcSpacing.xl(),
+              // NcSpacing.xl(),
+              // Preview(),
+              // NcSpacing.xl(),
             ],
           ),
         ],
