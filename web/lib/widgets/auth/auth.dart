@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
-import 'package:nekolib.ui/ui/widgets/text/body_text.dart';
 
 class Auth extends StatefulWidget {
   Auth({Key? key}) : super(key: key);
@@ -13,10 +12,12 @@ class _AuthState extends State<Auth> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: NcThemes.current.secondaryColor,
       body: Center(
-          child: CircularProgressIndicator(
-        color: NcThemes.current.accentColor,
-      )),
+        child: CircularProgressIndicator(
+          color: NcThemes.current.accentColor,
+        ),
+      ),
     );
   }
 }

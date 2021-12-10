@@ -66,6 +66,7 @@ class ThemedButton extends StatelessWidget {
             ),
           ),
           backgroundColor: MaterialStateProperty.all<Color>(outlined ? color.withOpacity(outlinedOpacity) : color),
+          elevation: outlined ? MaterialStateProperty.all<double>(0) : null,
         ),
       ),
     );
