@@ -8,7 +8,7 @@ class HomeMobileLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox.expand(
       child: Center(
-        child: NcBodyText('Mobile Layout'),
+        child: NcBodyText('Mobile Layout (WIP)'),
       ),
     );
   }

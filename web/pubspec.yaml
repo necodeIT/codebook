@@ -34,7 +34,6 @@ dependencies:
   nekolib.ui:
     path: ../nekolib/ui
   platform_detect: ^2.0.0
-  responsive_framework: ^0.1.5
   url_launcher: ^6.0.17
   url_strategy: ^0.2.0
   velocity_x: ^3.3.0

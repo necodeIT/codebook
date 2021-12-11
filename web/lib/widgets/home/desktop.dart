@@ -62,12 +62,10 @@ class HomeDesktopLayout extends StatelessWidget {
                               ? FontAwesome.apple
                               : FontAwesome.linux,
                       onPressed: operatingSystem.isWindows
-                          ? () {
-                              // TODO: Match download to operating system
-                              launch("https://github.com/necodeIT/code-book/releases/latest/download/WindowsSetup.exe");
+                          ? () => launch("https://github.com/necodeIT/code-book/releases/latest/download/WindowsSetup.exe")
 
-                              // download file based on operating system
-                            }
+                          // download file based on operating system
+
                           : null,
                       disabledMessage: "${operatingSystem.name} is not supported yet.",
                     ),

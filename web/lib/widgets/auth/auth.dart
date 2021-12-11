@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
 class Auth extends StatefulWidget {
-  Auth({Key? key}) : super(key: key);
+  const Auth({Key? key}) : super(key: key);
 
   @override
   _AuthState createState() => _AuthState();
