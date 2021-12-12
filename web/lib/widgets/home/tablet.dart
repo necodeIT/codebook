@@ -5,7 +5,10 @@ import 'package:platform_detect/platform_detect.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:web/widgets/adaptive_layout_property.dart';
 import 'package:web/widgets/home/desktop.dart';
+import 'package:web/widgets/home/download_button.dart';
+import 'package:web/widgets/home/guthub_button.dart';
 import 'package:web/widgets/home/home.dart';
+import 'package:web/widgets/home/theme_previews.dart';
 import 'package:web/widgets/preview/preview.dart';
 import 'package:web/widgets/themed_button.dart';
 
@@ -59,23 +62,9 @@ class HomeTabletLayout extends StatelessWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ThemedButton(
-                      label: "Download",
-                      icon: operatingSystem.isWindows
-                          ? FontAwesome.windows
-                          : operatingSystem.isMac
-                              ? FontAwesome.apple
-                              : FontAwesome.linux,
-                      onPressed: operatingSystem.isWindows ? () => launch("https://github.com/necodeIT/code-book/releases/latest/download/WindowsSetup.exe") : null,
-                      disabledMessage: "${operatingSystem.name} is not supported yet.",
-                    ),
+                    DownloadButton(),
                     NcSpacing.medium(),
-                    ThemedButton(
-                      label: "GitHub",
-                      onPressed: () => launch(Home.repo),
-                      outlined: true,
-                      icon: Feather.github,
-                    ),
+                    GitHubButton(),
                   ],
                 ),
               ],
@@ -83,7 +72,10 @@ class HomeTabletLayout extends StatelessWidget {
             NcSpacing.xl(),
             NcSpacing.xl(),
             NcSpacing.xl(),
-            NcSpacing.xl(),
+            ThemePreviews(
+              mainAxisAlignment: MainAxisAlignment.center,
+            ),
+            NcSpacing.large(),
             Preview(
               stack: previewState.value(context),
               width: previewSize.width,

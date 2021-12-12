@@ -6,13 +6,16 @@ import 'package:web/themes.dart.dart';
 import 'package:web/widgets/theme_selector.dart';
 
 class ThemePreviews extends StatelessWidget {
-  ThemePreviews({Key? key}) : super(key: key);
+  ThemePreviews({Key? key, this.mainAxisAlignment = MainAxisAlignment.end, this.crossAxisAlignment = CrossAxisAlignment.start}) : super(key: key);
+
+  final MainAxisAlignment mainAxisAlignment;
+  final CrossAxisAlignment crossAxisAlignment;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: mainAxisAlignment,
+      crossAxisAlignment: crossAxisAlignment,
       children: [
         ThemeSelector(theme: NcThemes.light),
         ThemeSelector(theme: NcThemes.sakura),
