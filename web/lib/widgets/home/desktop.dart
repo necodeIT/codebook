@@ -5,6 +5,7 @@ import 'package:platform_detect/platform_detect.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:web/widgets/background_path.dart';
 import 'package:web/widgets/home/home.dart';
+import 'package:web/widgets/home/theme_previews.dart';
 import 'package:web/widgets/preview/preview.dart';
 import 'package:web/widgets/theme_selector.dart';
 import 'package:web/widgets/themed_button.dart';
@@ -24,17 +25,7 @@ class HomeDesktopLayout extends StatelessWidget {
           child: const SizedBox.expand(),
         ),
         // NcVectorImage(code: backgroundSvg),
-        Positioned(
-          top: ThemeSelector.margin,
-          right: 0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              for (var theme in NcThemes.all.values) ThemeSelector(theme: theme),
-            ],
-          ),
-        ),
+        Positioned(top: ThemeSelector.margin, right: 0, child: ThemePreviews()),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
+import 'package:web/themes.dart.dart';
 
 class BackgroundPainter extends CustomPainter {
+  final ThemeableProperty<Color> color = ThemeableProperty.only(Colors.black, {
+    NcThemes.light.name: NcThemes.light.accentColor.withOpacity(.4),
+    NcThemes.ocean.name: NcThemes.ocean.tertiaryColor,
+    NcThemes.sakura.name: NcThemes.sakura.accentColor.withOpacity(.4),
+    CustomThemes.darkPurple.name: CustomThemes.darkPurple.accentColor.withOpacity(.4),
+  });
+
   @override
   void paint(Canvas canvas, Size size) {
-    // Paint paint = Paint()
-    //   ..color = NcThemes.current.accentColor.withOpacity(.4)
-    //   ..style = PaintingStyle.fill;
-
-    // Path path = Path();
-    // path.lineTo(0, size.height * .75);
-    // // path.relativeQuadraticBezierTo(0, size.height * .6, size.width * .25, size.height * .6);
-    // path.lineTo(size.width * .5, size.height * .6);
-    // // path.arcToPoint(Offset(0, size.height * 0.6708063), radius: Radius.elliptical(size.width * 0.05462108, size.height * 0.08537535), rotation: 0, largeArc: false, clockwise: false);
-    // path.lineTo(size.width, size.height * .25);
-    // path.lineTo(size.width, 0);
-    // path.lineTo(0, 0);
-    // canvas.drawPath(path, paint);
     Paint paint0 = Paint()
-      ..color = NcThemes.current.accentColor.withOpacity(.4)
+      ..color = color.value
       ..style = PaintingStyle.fill
       ..strokeWidth = 1.0;
 

@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:web/themes.dart.dart';
 import 'package:web/widgets/home/home.dart';
 import 'package:web/widgets/auth/auth.dart';
 
 void main() {
-  NcThemes.current = NcThemes.ocean;
+  CustomThemes.registerAll();
   setPathUrlStrategy();
   runApp(const App());
 }
