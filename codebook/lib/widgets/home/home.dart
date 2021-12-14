@@ -210,7 +210,6 @@ class _HomeState extends State<Home> {
     _currentFilterLanguage = language;
     setState(() {
       _ingredients = DB.ingredients.where((ingredient) => ingredient.desc.toLowerCase().contains(desc.toLowerCase()) && (language == null || ingredient.language == language) && ingredient.tags.toSet().containsAll(tags.toSet())).toList();
-      if (_ingredients.isEmpty) _ingredients = DB.ingredients;
     });
   }
 
