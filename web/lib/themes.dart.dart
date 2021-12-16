@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
-import 'package:nekolib.ui/ui/themes/theme.dart';
 
 class CustomThemes {
   static final darkPurple = NcThemes.dark.copyWith(

@@ -1,8 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
-import 'package:nekolib.ui/ui/themes/theme.dart';
-import 'package:nekolib.ui/ui/themes/themes.dart';
 import 'package:web/widgets/condtional_wrapper.dart.dart';
 
 class ThemeSelector extends StatelessWidget {

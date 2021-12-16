@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:nekolib.ui/ui.dart';
-import 'package:platform_detect/platform_detect.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:web/widgets/background_path.dart';
-import 'package:web/widgets/home/home.dart';
+import 'package:web/widgets/home/download_button.dart';
+import 'package:web/widgets/home/guthub_button.dart';
 import 'package:web/widgets/home/theme_previews.dart';
 import 'package:web/widgets/preview/preview.dart';
 import 'package:web/widgets/theme_selector.dart';
-import 'package:web/widgets/themed_button.dart';
 
 class HomeDesktopLayout extends StatelessWidget {
   const HomeDesktopLayout({Key? key}) : super(key: key);
@@ -45,28 +42,9 @@ class HomeDesktopLayout extends StatelessWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ThemedButton(
-                      label: "Download",
-                      icon: operatingSystem.isWindows
-                          ? FontAwesome.windows
-                          : operatingSystem.isMac
-                              ? FontAwesome.apple
-                              : FontAwesome.linux,
-                      onPressed: operatingSystem.isWindows
-                          ? () => launch("https://github.com/necodeIT/code-book/releases/latest/download/WindowsSetup.exe")
-
-                          // download file based on operating system
-
-                          : null,
-                      disabledMessage: "${operatingSystem.name} is not supported yet.",
-                    ),
+                    DownloadButton(),
                     NcSpacing.medium(),
-                    ThemedButton(
-                      label: "GitHub",
-                      onPressed: () => launch(Home.repo),
-                      outlined: true,
-                      icon: Feather.github,
-                    ),
+                    GitHubButton(),
                   ],
                 ),
               ],

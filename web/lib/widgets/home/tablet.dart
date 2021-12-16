@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:nekolib.ui/ui.dart';
-import 'package:platform_detect/platform_detect.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:web/widgets/adaptive_layout_property.dart';
 import 'package:web/widgets/home/desktop.dart';
 import 'package:web/widgets/home/download_button.dart';
 import 'package:web/widgets/home/guthub_button.dart';
-import 'package:web/widgets/home/home.dart';
 import 'package:web/widgets/home/theme_previews.dart';
 import 'package:web/widgets/preview/preview.dart';
-import 'package:web/widgets/themed_button.dart';
 
 class HomeTabletLayout extends StatelessWidget {
   HomeTabletLayout({Key? key}) : super(key: key);
@@ -19,10 +14,7 @@ class HomeTabletLayout extends StatelessWidget {
     double.infinity: const Size(950, 520),
     1150: const Size(770, 450),
     953: const Size(700, 380),
-    890: const Size(620, 350),
-    800: const Size(520, 350),
-    700: const Size(400, 300),
-    615: const Size(350, 250),
+    890: const Size(700, 380),
   });
 
   final previewState = AdaptiveLayoutProperty(breakPoints: {
@@ -34,10 +26,10 @@ class HomeTabletLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     var previewSize = previewSizes.value(context);
 
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(NcSpacing.xlSpacing),
-      child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.all(NcSpacing.xlSpacing),
+        width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
