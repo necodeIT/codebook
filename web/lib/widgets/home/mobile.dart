@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
+import 'package:web/svg/logo.dart';
 import 'package:web/widgets/adaptive_layout_property.dart';
 import 'package:web/widgets/home/guthub_button.dart';
 import 'package:web/widgets/home/theme_previews.dart';
@@ -11,15 +12,21 @@ class HomeMobileLayout extends StatelessWidget {
   HomeMobileLayout({Key? key}) : super(key: key);
 
   static const double titleSize = 40;
-  static const double captionSize = 25;
+  static const double captionSize = 20;
+  static const double sliverHeight = 50;
 
   final previewSizes = AdaptiveLayoutProperty(breakPoints: {
     double.infinity: const Size(500, 300),
   });
 
+  final iconSizes = AdaptiveLayoutProperty(breakPoints: <double, double>{
+    double.infinity: 150,
+  });
+
   @override
   Widget build(BuildContext context) {
     var previewSize = previewSizes.value(context);
+    var iconSize = iconSizes.value(context);
 
     return SingleChildScrollView(
       child: Container(
@@ -27,20 +34,25 @@ class HomeMobileLayout extends StatelessWidget {
         width: double.infinity,
         child: Column(
           children: [
-            NcTitleText(
+            NcVectorImage(
+              code: logoSVG,
+              width: iconSize,
+              height: iconSize,
+            ),
+            Text(
               "Easily manage your code snippets.",
-              fontSize: HomeMobileLayout.titleSize,
               textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: titleSize,
+                color: NcThemes.current.accentColor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             NcSpacing.xl(),
             NcCaptionText(
               "CodeBook is an easy way to manage your code snippets.",
               fontSize: HomeMobileLayout.captionSize,
               textAlign: TextAlign.center,
-            ),
-            NcSpacing.xl(),
-            ThemePreviews(
-              mainAxisAlignment: MainAxisAlignment.center,
             ),
             NcSpacing.xl(),
             Preview(
