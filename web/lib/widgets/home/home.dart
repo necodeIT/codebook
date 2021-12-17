@@ -6,6 +6,7 @@ import 'package:web/themes.dart.dart';
 import 'package:web/widgets/adaptive_layout_builder.dart';
 import 'package:web/widgets/adaptive_layout_property.dart';
 import 'package:web/widgets/home/desktop.dart';
+import 'package:web/widgets/home/guthub_button.dart';
 import 'package:web/widgets/home/mobile.dart';
 import 'package:web/widgets/home/tablet.dart';
 
@@ -62,29 +63,17 @@ class _HomeState extends State<Home> {
       ),
       appBar: mobile
           ? AppBar(
-              leading: Icon(
-                Icons.menu,
-                color: NcThemes.current.buttonTextColor,
-              ),
-              title: NcTitleText(
-                "CodeBook",
-                textAlign: TextAlign.center,
-              ),
+              title: NcTitleText("CodeBook"),
               backgroundColor: NcThemes.current.primaryColor,
-            )
-          : null,
-      drawer: mobile
-          ? Drawer(
-              backgroundColor: NcThemes.current.primaryColor,
-              child: ListView(
-                children: [
-                  DrawerHeader(child: NcTitleText("CodeBook")),
-                  Divider(
-                    color: NcThemes.current.tertiaryColor,
-                    thickness: 3,
+              actions: [
+                IconButton(
+                  onPressed: GitHubButton.openRepo,
+                  icon: Icon(
+                    GitHubButton.icon,
+                    color: NcThemes.current.textColor,
                   ),
-                ],
-              ),
+                ),
+              ],
             )
           : null,
     );

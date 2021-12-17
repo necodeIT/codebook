@@ -9,13 +9,19 @@ import 'package:web/widgets/themed_button.dart';
 class GitHubButton extends StatelessWidget {
   GitHubButton({Key? key}) : super(key: key);
 
+  static openRepo() {
+    launch(Home.repo);
+  }
+
+  static const icon = Feather.github;
+
   @override
   Widget build(BuildContext context) {
     return ThemedButton(
       label: "GitHub",
-      onPressed: () => launch(Home.repo),
+      onPressed: openRepo,
       outlined: true,
-      icon: Feather.github,
+      icon: icon,
     );
   }
 }

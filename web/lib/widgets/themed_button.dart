@@ -1,9 +1,11 @@
+// ignore_for_file: prefer_const_constructors_in_immutables
+
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 import 'package:web/widgets/condtional_wrapper.dart.dart';
 
 class ThemedButton extends StatelessWidget {
-  const ThemedButton({Key? key, this.outlined = false, this.onPressed, this.icon, required this.label, this.disabledMessage}) : super(key: key);
+  ThemedButton({Key? key, this.outlined = false, this.onPressed, this.icon, required this.label, this.disabledMessage}) : super(key: key);
 
   final bool outlined;
   final VoidCallback? onPressed;

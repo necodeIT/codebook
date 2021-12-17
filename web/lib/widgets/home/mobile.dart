@@ -34,11 +34,11 @@ class HomeMobileLayout extends StatelessWidget {
         width: double.infinity,
         child: Column(
           children: [
-            NcVectorImage(
-              code: logoSVG,
-              width: iconSize,
-              height: iconSize,
-            ),
+            // NcVectorImage(
+            //   code: logoSVG,
+            //   width: iconSize,
+            //   height: iconSize,
+            // ),
             Text(
               "Easily manage your code snippets.",
               textAlign: TextAlign.center,
@@ -60,8 +60,6 @@ class HomeMobileLayout extends StatelessWidget {
               width: previewSize.width,
               height: previewSize.height,
             ),
-            NcSpacing.xl(),
-            GitHubButton(),
           ],
         ),
       ),
