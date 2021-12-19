@@ -8,29 +8,32 @@ class MobileDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      backgroundColor: NcThemes.current.primaryColor,
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: ListView(
-          controller: ScrollController(),
-          children: [
-            SizedBox(
-              height: 80,
-              child: DrawerHeader(
-                child: NcTitleText(
-                  "CodeBook",
-                  fontSize: 20,
+    return Theme(
+      data: ThemeData(dividerColor: NcThemes.current.tertiaryColor),
+      child: Drawer(
+        backgroundColor: NcThemes.current.primaryColor,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: ListView(
+            controller: ScrollController(),
+            children: [
+              SizedBox(
+                height: 80,
+                child: DrawerHeader(
+                  child: NcTitleText(
+                    "CodeBook",
+                    fontSize: 20,
+                  ),
                 ),
               ),
-            ),
-            ThemedListTile(
-              leading: GitHubButton.icon,
-              title: GitHubButton.text,
-              subtitle: "Open the GiHub Repository",
-              onTap: GitHubButton.openRepo,
-            ),
-          ],
+              ThemedListTile(
+                leading: GitHubButton.icon,
+                title: GitHubButton.text,
+                subtitle: "Open the GiHub Repository",
+                onTap: GitHubButton.openRepo,
+              ),
+            ],
+          ),
         ),
       ),
     );
