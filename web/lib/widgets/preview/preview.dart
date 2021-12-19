@@ -21,9 +21,6 @@ class Preview extends StatefulWidget {
 }
 
 class _PreviewState extends State<Preview> {
-  bool leftArrowShadow = false;
-  BoxShadow? rightArrowShadow;
-
   @override
   Widget build(BuildContext context) {
     return ConditionalWrapper(
