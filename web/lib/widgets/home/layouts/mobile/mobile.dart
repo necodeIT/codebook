@@ -30,14 +30,11 @@ class HomeMobileLayout extends StatelessWidget {
         width: double.infinity,
         child: Column(
           children: [
-            Text(
+            NcTitleText(
               "Easily manage your code snippets.",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: titleSize,
-                color: NcThemes.current.accentColor,
-                fontWeight: FontWeight.bold,
-              ),
+              color: NcThemes.current.accentColor,
+              fontSize: titleSize,
             ),
             NcSpacing.xl(),
             NcCaptionText(
