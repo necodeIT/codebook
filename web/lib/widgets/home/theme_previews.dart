@@ -12,6 +12,8 @@ class ThemePreviews extends StatelessWidget {
   final CrossAxisAlignment crossAxisAlignment;
   final MainAxisSize mainAxisSize;
 
+  static final List<NcTheme> themes = [NcThemes.light, NcThemes.sakura, CustomThemes.darkPurple, NcThemes.ocean];
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -19,10 +21,7 @@ class ThemePreviews extends StatelessWidget {
       crossAxisAlignment: crossAxisAlignment,
       mainAxisSize: mainAxisSize,
       children: [
-        ThemeSelector(theme: NcThemes.light),
-        ThemeSelector(theme: NcThemes.sakura),
-        ThemeSelector(theme: CustomThemes.darkPurple),
-        ThemeSelector(theme: NcThemes.ocean),
+        for (var theme in themes) ThemeSelector(theme: theme),
       ],
     );
   }

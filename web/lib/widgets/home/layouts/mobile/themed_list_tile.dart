@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
 class ThemedListTile extends StatelessWidget {
-  ThemedListTile({Key? key, required this.leading, required this.title, this.subtitle, this.onTap}) : super(key: key);
+  ThemedListTile({Key? key, required this.leading, required this.title, this.subtitle, this.onTap, this.color}) : super(key: key);
 
   final IconData leading;
   final String title;
   final String? subtitle;
+  final Color? color;
   final Function()? onTap;
 
   static const double titleSize = 15;
@@ -18,17 +19,19 @@ class ThemedListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var color = this.color ?? NcThemes.current.textColor;
     return ListTile(
       leading: Icon(
         leading,
-        color: NcThemes.current.textColor,
+        color: color,
         size: iconSize,
       ),
-      iconColor: NcThemes.current.textColor,
+      iconColor: color,
       title: NcCaptionText(
         title,
         selectable: false,
         fontSize: subtitle != null ? titleSize : singleTitleSize,
+        color: color,
       ),
       subtitle: subtitle == null
           ? null
@@ -36,6 +39,7 @@ class ThemedListTile extends StatelessWidget {
               subtitle!,
               selectable: false,
               fontSize: subtitleSize,
+              color: color,
             ),
       onTap: onTap,
       // dense: true,

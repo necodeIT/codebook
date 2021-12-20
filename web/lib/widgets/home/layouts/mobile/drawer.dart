@@ -1,8 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
+import 'package:platform_detect/platform_detect.dart';
 import 'package:web/themes.dart.dart';
+import 'package:web/widgets/home/buttons/download_button.dart';
 import 'package:web/widgets/home/buttons/guthub_button.dart';
 import 'package:web/widgets/home/layouts/mobile/themed_list_tile.dart';
+import 'package:web/widgets/home/theme_previews.dart';
+import 'package:web/widgets/themed_divider.dart';
 
 class MobileDrawer extends StatelessWidget {
   const MobileDrawer({Key? key}) : super(key: key);
@@ -17,7 +22,7 @@ class MobileDrawer extends StatelessWidget {
           controller: ScrollController(),
           children: [
             SizedBox(
-              height: 80,
+              height: 60,
               child: DrawerHeader(
                 child: NcTitleText(
                   "CodeBook",
@@ -25,17 +30,29 @@ class MobileDrawer extends StatelessWidget {
                 ),
               ),
             ),
+            ThemedDivider(),
+            if (DownloadButton.platformSupported)
+              ThemedListTile(
+                leading: Icons.file_download_outlined,
+                title: DownloadButton.label,
+                subtitle: "Get CodeBook for ${operatingSystem.name}",
+                onTap: DownloadButton.download,
+              ),
             ThemedListTile(
               leading: GitHubButton.icon,
               title: GitHubButton.text,
-              subtitle: "Open the GiHub Repository",
+              subtitle: "Open the GiHub repository",
               onTap: GitHubButton.openRepo,
             ),
-            const Divider(),
-            ThemedListTile(leading: NcThemes.light.icon, title: NcThemes.light.name, onTap: () => NcThemes.current = NcThemes.light, subtitle: "Theme"),
-            ThemedListTile(leading: NcThemes.sakura.icon, title: NcThemes.sakura.name, onTap: () => NcThemes.current = NcThemes.sakura, subtitle: "Theme"),
-            ThemedListTile(leading: CustomThemes.darkPurple.icon, title: CustomThemes.darkPurple.name, onTap: () => NcThemes.current = CustomThemes.darkPurple, subtitle: "Theme"),
-            ThemedListTile(leading: NcThemes.ocean.icon, title: NcThemes.ocean.name, onTap: () => NcThemes.current = NcThemes.ocean, subtitle: "Theme"),
+            if (DownloadButton.platformSupported) ThemedDivider(),
+            for (var theme in ThemePreviews.themes)
+              ThemedListTile(
+                leading: theme.icon,
+                title: theme.name,
+                onTap: () => NcThemes.current = theme,
+                subtitle: "Theme",
+                color: NcThemes.current == theme ? theme.accentColor : null,
+              ),
           ],
         ),
       ),

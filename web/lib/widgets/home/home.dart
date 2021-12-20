@@ -58,7 +58,7 @@ class _HomeState extends State<Home> {
     return Theme(
       data: ThemeData(
         primaryColor: NcThemes.current.primaryColor,
-        dividerColor: NcThemes.current.tertiaryColor,
+        dividerColor: Colors.transparent,
       ),
       child: Scaffold(
         backgroundColor: NcThemes.current.secondaryColor,
