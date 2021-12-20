@@ -1,7 +1,4 @@
-call git pull --recurse-submodules
-cd nekolib 
-call git reset --hard origin/flutter
-cd ../web
+cd web
 call flutter pub get
 call flutter build web --release --dart-define=FLUTTER_WEB_USE_SKIA=true --base-href="/codebook/"
 cd build/web
