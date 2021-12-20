@@ -21,7 +21,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.8.1"
+    version: "2.8.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -42,7 +42,7 @@ packages:
       name: characters
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   charcode:
     dependency: transitive
     description:
@@ -184,9 +184,11 @@ packages:
   flutter_highlight:
     dependency: "direct main"
     description:
-      name: flutter_highlight
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: flutter_highlight
+      ref: HEAD
+      resolved-ref: "8c08291d18d1e3fdab8564cc3f09726e262e555d"
+      url: "https://github.com/necodeIT/highlight.dart.git"
+    source: git
     version: "0.7.0"
   flutter_lints:
     dependency: "direct dev"
@@ -295,7 +297,7 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.10"
+    version: "0.12.11"
   meta:
     dependency: transitive
     description:
@@ -306,9 +308,11 @@ packages:
   "nekolib.ui":
     dependency: "direct main"
     description:
-      path: "../nekolib/ui"
-      relative: true
-    source: path
+      path: ui
+      ref: flutter
+      resolved-ref: "5c6a1f3a3d8df085a69273aeccd1d8909fed8a5a"
+      url: "https://github.com/necodeIT/nekolib.git"
+    source: git
     version: "0.0.1"
   package_config:
     dependency: transitive
@@ -538,7 +542,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2"
+    version: "0.4.3"
   typed_data:
     dependency: transitive
     description:
@@ -608,7 +612,7 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   win32:
     dependency: transitive
     description:
