@@ -55,30 +55,36 @@ class _HomeState extends State<Home> {
 
     var mobile = isMobile.value(context);
 
-    return Scaffold(
-      backgroundColor: NcThemes.current.secondaryColor,
-      body: AdaptiveLayoutBuilder(
-        tabletBreakpoint: Home.tabletBreakpoint,
-        mobileBreakpoint: Home.mobileBreakpoint,
-        desktop: HomeDesktopLayout(),
-        mobile: HomeMobileLayout(),
-        tablet: HomeTabletLayout(),
+    return Theme(
+      data: ThemeData(
+        primaryColor: NcThemes.current.primaryColor,
+        dividerColor: NcThemes.current.tertiaryColor,
       ),
-      drawerEnableOpenDragGesture: false,
-      drawer: mobile ? MobileDrawer() : null,
-      appBar: mobile
-          ? AppBar(
-              automaticallyImplyLeading: false,
-              title: NcTitleText(
-                "CodeBook",
-                textAlign: TextAlign.start,
-              ),
-              backgroundColor: NcThemes.current.primaryColor,
-              actions: [
-                DrawerButton(),
-              ],
-            )
-          : null,
+      child: Scaffold(
+        backgroundColor: NcThemes.current.secondaryColor,
+        body: AdaptiveLayoutBuilder(
+          tabletBreakpoint: Home.tabletBreakpoint,
+          mobileBreakpoint: Home.mobileBreakpoint,
+          desktop: HomeDesktopLayout(),
+          mobile: HomeMobileLayout(),
+          tablet: HomeTabletLayout(),
+        ),
+        drawerEnableOpenDragGesture: false,
+        drawer: mobile ? MobileDrawer() : null,
+        appBar: mobile
+            ? AppBar(
+                automaticallyImplyLeading: false,
+                title: NcTitleText(
+                  "CodeBook",
+                  textAlign: TextAlign.start,
+                ),
+                backgroundColor: NcThemes.current.primaryColor,
+                actions: [
+                  DrawerButton(),
+                ],
+              )
+            : null,
+      ),
     );
   }
 }
