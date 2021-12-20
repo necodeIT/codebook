@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
-import 'dart:html';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';

@@ -2,10 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
-import 'package:web/svg/logo.dart';
 import 'package:web/widgets/adaptive_layout_property.dart';
-import 'package:web/widgets/home/buttons/guthub_button.dart';
-import 'package:web/widgets/home/theme_previews.dart';
 import 'package:web/widgets/preview/preview.dart';
 
 class HomeMobileLayout extends StatelessWidget {

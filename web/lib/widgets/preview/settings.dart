@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nekolib.ui/ui.dart';
 
 class SettingsPreview extends StatelessWidget {
   const SettingsPreview({Key? key}) : super(key: key);
@@ -6,7 +7,7 @@ class SettingsPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Settings'),
+      child: NcCaptionText("Filter Preview"),
     );
   }
 }

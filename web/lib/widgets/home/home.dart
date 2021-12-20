@@ -2,13 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
-import 'package:web/svg/logo.dart';
 import 'package:web/themes.dart.dart';
 import 'package:web/widgets/adaptive_layout_builder.dart';
 import 'package:web/widgets/adaptive_layout_property.dart';
 import 'package:web/widgets/home/buttons/drawer_button.dart';
 import 'package:web/widgets/home/layouts/desktop.dart';
-import 'package:web/widgets/home/buttons/guthub_button.dart';
 import 'package:web/widgets/home/layouts/mobile/drawer.dart';
 import 'package:web/widgets/home/layouts/mobile/mobile.dart';
 import 'package:web/widgets/home/layouts/tablet.dart';

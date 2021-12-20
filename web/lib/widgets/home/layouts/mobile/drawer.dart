@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 import 'package:platform_detect/platform_detect.dart';
-import 'package:web/themes.dart.dart';
 import 'package:web/widgets/home/buttons/download_button.dart';
 import 'package:web/widgets/home/buttons/guthub_button.dart';
 import 'package:web/widgets/home/layouts/mobile/themed_list_tile.dart';
