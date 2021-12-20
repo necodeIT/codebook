@@ -180,9 +180,11 @@ packages:
   "nekolib.ui":
     dependency: "direct main"
     description:
-      path: "../nekolib/ui"
-      relative: true
-    source: path
+      path: ui
+      ref: flutter
+      resolved-ref: "5c6a1f3a3d8df085a69273aeccd1d8909fed8a5a"
+      url: "https://github.com/necodeIT/nekolib.git"
+    source: git
     version: "0.0.1"
   path:
     dependency: transitive
@@ -246,7 +248,7 @@ packages:
       name: platform_detect
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.3"
   plugin_platform_interface:
     dependency: transitive
     description:

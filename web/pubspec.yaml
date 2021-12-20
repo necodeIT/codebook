@@ -32,7 +32,10 @@ dependencies:
     sdk: flutter
   flutter_vector_icons: ^1.0.0
   nekolib.ui:
-    path: ../nekolib/ui
+    git:
+      url: https://github.com/necodeIT/nekolib.git
+      path: ui
+      ref: flutter
   platform_detect: ^2.0.0
   url_launcher: ^6.0.17
   url_strategy: ^0.2.0
