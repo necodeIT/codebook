@@ -26,7 +26,7 @@ class ThemedButton extends StatelessWidget {
       condition: disabled && disabledMessage != null,
       builder: (context, child) => Tooltip(
         message: disabledMessage ?? "",
-        textStyle: TextStyle(color: NcThemes.current.textColor, fontSize: toolTipFontSize),
+        textStyle: TextStyle(color: NcThemes.current.textColor, fontSize: toolTipFontSize, fontFamily: NcBaseText.fontFamily),
         decoration: BoxDecoration(
           color: NcThemes.current.tertiaryColor,
           borderRadius: BorderRadius.circular(ncRadius),
@@ -49,13 +49,9 @@ class ThemedButton extends StatelessWidget {
                             : NcThemes.current.accentColor
                         : NcThemes.current.buttonTextColor),
               if (icon != null) NcSpacing.small(),
-              Text(
+              NcTitleText(
                 label,
-                style: TextStyle(
-                  fontSize: fontSize,
-                  color: !outlined ? NcThemes.current.buttonTextColor : color,
-                  fontWeight: FontWeight.bold,
-                ),
+                color: !outlined ? NcThemes.current.buttonTextColor : color,
               ),
             ],
           ),
