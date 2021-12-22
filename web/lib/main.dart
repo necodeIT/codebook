@@ -5,7 +5,6 @@ import 'package:url_strategy/url_strategy.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:web/themes.dart.dart';
 import 'package:web/widgets/home/home.dart';
-import 'package:web/widgets/auth/auth.dart';
 
 void main() {
   CustomThemes.registerAll();
@@ -23,7 +22,6 @@ class App extends StatelessWidget {
       routeInformationParser: VxInformationParser(),
       routerDelegate: VxNavigator(routes: {
         '/': (_, __) => MaterialPage(child: Home()),
-        '/auth': (_, __) => MaterialPage(child: Auth()),
       }),
     );
   }
