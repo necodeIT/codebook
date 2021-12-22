@@ -4,12 +4,12 @@ import 'package:codebook/db/sync/sync.dart';
 import 'package:codebook/themes.dart';
 import 'package:codebook/widgets/button.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
-import 'package:codebook/widgets/home/filter/input.dart';
 import 'package:codebook/widgets/settings/code_theme.dart';
+import 'package:codebook/widgets/settings/settings_title.dart';
 import 'package:codebook/widgets/settings/theme_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:nekolib.ui/ui.dart';
-import 'package:nekolib.ui/ui/themes/theme.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -39,24 +39,14 @@ class _SettingsPageState extends State<SettingsPage> {
           NcCaptionText("Sync", fontSize: SettingsPage.titleSize),
           NcSpacing.small(),
           Sync.authorized
-              ? NcBodyText("Logged in")
-              : ThemedElevatedButton(
+              ? ThemedElevatedButton(onPressed: () => setState(Sync.logout), text: "Logout")
+              : ThemedElevatedButton.icon(
                   onPressed: () => Sync.login(context).then((value) => setState(() {})),
-                  text: "Login with GitHub",
+                  text: "Login",
+                  icon: Feather.github,
                 ),
           NcSpacing.small(),
-          Stack(
-            children: [
-              NcCaptionText("Themes", fontSize: SettingsPage.titleSize),
-              Center(
-                child: Container(
-                  padding: const EdgeInsets.only(right: NcSpacing.xlSpacing),
-                  width: SettingsPage.searchWidth,
-                  child: FilterInput(placeholder: "Search", onChanged: updateThemeSearch),
-                ),
-              )
-            ],
-          ),
+          SettingsTitle(title: "Themes", onQuerry: updateCodeThemeSearch),
           NcSpacing.small(),
           Wrap(
             spacing: NcSpacing.smallSpacing,
@@ -67,34 +57,17 @@ class _SettingsPageState extends State<SettingsPage> {
             ],
           ),
           NcSpacing.xl(),
-          Stack(
-            children: [
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    NcCaptionText("Code Themes", fontSize: SettingsPage.titleSize),
-                    NcSpacing.xs(),
-                    Tag.add(
-                      label: usingRecommended ? SettingsPage.recommendedLabel : SettingsPage.useRecommendedLabel,
-                      fontSize: SettingsPage.recommendedFontSize,
-                      padding: SettingsPage.recommendedPadding,
-                      onTap: () => updateCodeTheme(CustomThemes.recommendedCodeThemes[NcThemes.current]!),
-                      icon: usingRecommended ? Icons.check : Icons.warning_amber_rounded,
-                      color: usingRecommended ? NcThemes.current.successColor : NcThemes.current.warningColor,
-                    ),
-                  ],
-                ),
-              ),
-              Center(
-                child: Container(
-                  padding: const EdgeInsets.only(right: NcSpacing.xlSpacing),
-                  width: SettingsPage.searchWidth,
-                  child: FilterInput(placeholder: "Search", onChanged: updateCodeThemeSearch),
-                ),
-              )
-            ],
+          SettingsTitle(
+            title: "Code Themes",
+            trailing: Tag.add(
+              label: usingRecommended ? SettingsPage.recommendedLabel : SettingsPage.useRecommendedLabel,
+              fontSize: SettingsPage.recommendedFontSize,
+              padding: SettingsPage.recommendedPadding,
+              onTap: () => updateCodeTheme(CustomThemes.recommendedCodeThemes[NcThemes.current]!),
+              icon: usingRecommended ? Icons.check : Icons.warning_amber_rounded,
+              color: usingRecommended ? NcThemes.current.successColor : NcThemes.current.warningColor,
+            ),
+            onQuerry: updateCodeThemeSearch,
           ),
           NcSpacing.small(),
           Wrap(

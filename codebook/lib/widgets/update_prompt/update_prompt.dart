@@ -4,7 +4,6 @@ import 'package:codebook/updater/updater.dart';
 import 'package:codebook/widgets/home/in_out_dialog/in_out_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
-import 'package:nekolib.ui/ui/widgets/text/caption_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UpdatePrompt extends StatefulWidget {

@@ -5,10 +5,8 @@ import 'package:codebook/widgets/codeblock/tag/tag_input.dart';
 import 'package:codebook/widgets/conditional_wrap/condtional_wrapper.dart';
 import 'package:codebook/widgets/settings/selected_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:nekolib.ui/ui.dart';
-import 'package:nekolib.ui/ui/themes/themes.dart';
 
 class CodeTheme extends StatelessWidget {
   const CodeTheme({Key? key, required this.theme, required this.recomended, required this.selected, required this.onTap}) : super(key: key);

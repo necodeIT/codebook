@@ -4,10 +4,8 @@ import 'dart:math';
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
 import 'package:codebook/db/settings.dart';
-import 'package:codebook/db/sync/action_type.dart';
 import 'package:codebook/db/sync/log.dart';
 import 'package:codebook/widgets/github_login_prompt.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:nekolib.ui/ui.dart';
@@ -143,5 +141,9 @@ class Sync {
         backgroundColor: NcThemes.current.tertiaryColor,
       ),
     );
+  }
+
+  static logout() {
+    _authorized = false;
   }
 }

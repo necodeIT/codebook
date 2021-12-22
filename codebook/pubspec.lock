@@ -217,7 +217,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_vector_icons:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_vector_icons
       url: "https://pub.dartlang.org"
@@ -310,7 +310,7 @@ packages:
     description:
       path: ui
       ref: flutter
-      resolved-ref: "5c6a1f3a3d8df085a69273aeccd1d8909fed8a5a"
+      resolved-ref: "24eeb55b0368987feb1f7c65efe67abe39544517"
       url: "https://github.com/necodeIT/nekolib.git"
     source: git
     version: "0.0.1"
@@ -619,7 +619,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.1"
+    version: "2.3.2"
   window_size:
     dependency: "direct main"
     description:

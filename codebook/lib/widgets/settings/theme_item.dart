@@ -4,10 +4,7 @@ import 'package:codebook/widgets/conditional_wrap/condtional_wrapper.dart';
 import 'package:codebook/widgets/settings/code_theme.dart';
 import 'package:codebook/widgets/settings/selected_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:nekolib.ui/ui.dart';
-import 'package:nekolib.ui/ui/themes/theme.dart';
-import 'package:nekolib.ui/ui/themes/themes.dart';
 
 class ThemeItem extends StatelessWidget {
   const ThemeItem({Key? key, required this.theme, required this.selected, required this.onTap}) : super(key: key);
