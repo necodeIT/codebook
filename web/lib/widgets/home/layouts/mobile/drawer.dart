@@ -39,7 +39,7 @@ class MobileDrawer extends StatelessWidget {
             ThemedListTile(
               leading: GitHubButton.icon,
               title: GitHubButton.text,
-              subtitle: "Open the GiHub repository",
+              subtitle: "See the project on GitHub",
               onTap: GitHubButton.openRepo,
             ),
             ThemedDivider(),
