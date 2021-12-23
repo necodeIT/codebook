@@ -61,12 +61,12 @@ const RESOURCES = {
 "icons/ms-icon-150x150.png": "828b58f5826c30d65d007908e8fd49c0",
 "icons/ms-icon-310x310.png": "f386948f47b3f58825b381bd6c34d6d4",
 "icons/ms-icon-70x70.png": "1e1644babeed70463083895fbd92babd",
-"index.html": "afdbef5246bbe0d07f4cf1a0ec12c4e9",
-"/": "afdbef5246bbe0d07f4cf1a0ec12c4e9",
+"index.html": "72c674ac93fc6e61de9a61038b4261c1",
+"/": "72c674ac93fc6e61de9a61038b4261c1",
 "js/404.js": "2844d7b097d88c85776d9c0804a88e28",
 "js/auth.js": "c7c2c7181d6e88f4b461d841cd229ea9",
 "js/themes.js": "f53a98bea93c08ed0d93675bddff878e",
-"main.dart.js": "3241ae685b8c98a69764f1573816e77a",
+"main.dart.js": "dc921e764bd281c0c67fa27a0ac91606",
 "manifest.json": "9d43d75307042981249116a7bc360b81",
 "version.json": "b3b87f9153d4406c14bc11865bbe1089"
 };
