@@ -52,6 +52,7 @@ class ThemedButton extends StatelessWidget {
               NcTitleText(
                 label,
                 color: !outlined ? NcThemes.current.buttonTextColor : color,
+                selectable: false,
               ),
             ],
           ),
