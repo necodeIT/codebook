@@ -59144,7 +59144,7 @@ return A.vn(B.c6,A.b([A.r6(B.FE,k,k,new A.zs(l,k)),A.VR(k,A.aeH(B.CE),k,k,k,0,20
 A.Cx.prototype={
 J(a,b){var s,r,q,p,o,n,m=null,l=A.a($.c6().a,"_primaryColor"),k=A.uS(),j=A.b([A.k9(new A.B0(A.nQ("CodeBook",m,20,B.aI),m),60,m),new A.vI(m)],t.F)
 if(B.b.v(B.iB,A.dE()))j.push(new A.p7(B.z1,"Download","Get CodeBook for "+A.ah4().a,m,A.agB(),m))
-j.push(new A.p7(B.ij,"GitHub","Open the GiHub repository",m,A.agT(),m))
+j.push(new A.p7(B.ij,"GitHub","See the project on GitHub",m,A.agT(),m))
 j.push(new A.vI(m))
 for(s=$.aaS(),r=0;r<4;++r){q=s[r]
 p=q.Q
