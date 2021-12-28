@@ -110,7 +110,7 @@ class _HomeState extends State<Home> {
                         secondaryAnimation: animationOut,
                         child: child,
                       ),
-                      child: _settings ? const SettingsPage() : CodeBook(ingredients: _ingredients, onDeleteIngredient: deleteIngredient),
+                      child: _settings ? SettingsPage() : CodeBook(ingredients: _ingredients, onDeleteIngredient: deleteIngredient),
                     ),
                   ),
                 ],

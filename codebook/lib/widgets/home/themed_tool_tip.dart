@@ -11,7 +11,7 @@ class ThemedToolTip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tooltip(
       waitDuration: const Duration(seconds: 1),
-      textStyle: NcBaseText.style(fontSize: 15),
+      textStyle: NcBaseText.style(fontSize: 15, buttonText: true),
       decoration: BoxDecoration(
         color: NcThemes.current.tertiaryColor,
         borderRadius: BorderRadius.circular(5),

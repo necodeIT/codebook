@@ -67,13 +67,20 @@ class Sync {
     change();
     _log.write(ingredient, ADD);
 
-    // TODO: sync
+    sync();
   }
 
   static log(Ingredient ingredient, ActionType type) {
     if (!Settings.sync) return;
 
     _log.write(ingredient, type);
+  }
+
+  static Future sync() async {
+    // TODO: pull from cloud
+    // TODO: compare cloud input & current state with logs
+    // TODO: push to cloud
+    // TODO: clear log
   }
 
   static Future save() async {
@@ -141,9 +148,5 @@ class Sync {
         backgroundColor: NcThemes.current.tertiaryColor,
       ),
     );
-  }
-
-  static logout() {
-    _authorized = false;
   }
 }

@@ -21,7 +21,7 @@ class SettingsTitle extends StatelessWidget {
           ConditionalWrapper(
             condition: trailing != null,
             builder: (context, child) => Row(
-              children: [child, NcSpacing.medium(), trailing!],
+              children: [child, NcSpacing.small(), trailing!],
             ),
             child: child,
           ),

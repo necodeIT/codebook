@@ -4,7 +4,6 @@ import 'package:codebook/widgets/autocomplete/dropdown.dart';
 import 'package:codebook/widgets/codeblock/code_field.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
 import 'package:codebook/widgets/codeblock/tag/tag_input.dart';
-import 'package:codebook/widgets/codeblock/language_tag/language_input.dart';
 import 'package:codebook/widgets/codeblock/language_tag/language_tag.dart';
 import 'package:codebook/widgets/home/filter/filter.dart';
 import 'package:codebook/widgets/text_input/input.dart';
@@ -25,10 +24,7 @@ class CodeBlock extends StatefulWidget {
   /// desc, language, tags, code
   final Function(String, String, List<String>, String) onUpdate;
 
-  static const double elevation = 3;
   static const int copiedDelay = 1;
-  static const double padding = 10;
-  static const double borderRadius = LanguageInput.borderRadius;
   static const double iconSize = 20;
   static const double descSize = 16;
   static const copyTextPreset = "COPY";

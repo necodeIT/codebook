@@ -1,9 +1,9 @@
 import 'package:codebook/db/db.dart';
-import 'package:codebook/widgets/codeblock/code_block.dart';
 import 'package:codebook/widgets/home/filter/filter_header.dart';
 import 'package:codebook/widgets/home/filter/input.dart';
 import 'package:codebook/widgets/home/filter/selector.dart';
 import 'package:codebook/widgets/home/home_icon_button.dart';
+import 'package:codebook/widgets/themed_card.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
@@ -17,7 +17,7 @@ class Filter extends StatefulWidget {
   final String? forceDesc;
   final bool active;
 
-  static const double elevation = CodeBlock.elevation;
+  static const double elevation = ThemedCard.elevation;
   static const double width = 500;
   static const animationDuration = Duration(milliseconds: 500);
   static const animationCurve = Curves.easeOutExpo;

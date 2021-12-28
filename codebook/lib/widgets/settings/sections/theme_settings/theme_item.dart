@@ -1,8 +1,7 @@
-import 'package:codebook/widgets/codeblock/code_block.dart';
-import 'package:codebook/widgets/codeblock/tag/tag_input.dart';
 import 'package:codebook/widgets/conditional_wrap/condtional_wrapper.dart';
-import 'package:codebook/widgets/settings/code_theme.dart';
-import 'package:codebook/widgets/settings/selected_indicator.dart';
+import 'package:codebook/widgets/settings/sections/code_themes_settings/code_theme.dart';
+import 'package:codebook/widgets/selected_indicator.dart';
+import 'package:codebook/widgets/themed_card.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
@@ -14,7 +13,7 @@ class ThemeItem extends StatelessWidget {
   final Function() onTap;
 
   static const double width = CodeTheme.minWidth;
-  static const double height = 150;
+  static const double height = 160;
 
   @override
   Widget build(BuildContext context) {
@@ -22,25 +21,15 @@ class ThemeItem extends StatelessWidget {
       condition: !selected,
       builder: (context, child) => MouseRegion(
         cursor: SystemMouseCursors.click,
-        child: Material(
-          borderRadius: BorderRadius.circular(CodeBlock.borderRadius),
-          child: GestureDetector(
-            onTap: onTap,
-            child: child,
-          ),
-          color: NcThemes.current.primaryColor,
-          elevation: CodeBlock.elevation,
+        child: GestureDetector(
+          onTap: onTap,
+          child: child,
         ),
       ),
-      child: Container(
-        padding: const EdgeInsets.all(CodeTheme.padding),
+      child: ThemedCard(
         width: ThemeItem.width,
         height: ThemeItem.height,
-        decoration: BoxDecoration(
-          border: Border.all(color: selected ? NcThemes.current.accentColor : NcThemes.current.primaryColor),
-          borderRadius: BorderRadius.circular(CodeBlock.borderRadius),
-          color: selected ? NcThemes.current.accentColor.withOpacity(TagInput.backgroundOpacity) : NcThemes.current.primaryColor,
-        ),
+        outlined: selected,
         child: Column(
           children: [
             Align(

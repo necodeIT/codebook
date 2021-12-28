@@ -3,10 +3,9 @@ import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
 import 'package:codebook/db/settings.dart';
 import 'package:codebook/widgets/codeblock/code_block.dart';
-import 'package:codebook/widgets/codeblock/language_tag/language_input.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
-import 'package:codebook/widgets/settings/code_theme.dart';
-import 'package:codebook/widgets/settings/selected_indicator.dart';
+import 'package:codebook/widgets/selected_indicator.dart';
+import 'package:codebook/widgets/themed_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:nekolib.ui/ui.dart';
@@ -42,41 +41,32 @@ class _CodePreviewState extends State<CodePreview> {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: () => widget.onToggle(!widget.selected),
-        child: Material(
-          elevation: CodeBlock.elevation,
-          color: NcThemes.current.primaryColor,
-          borderRadius: BorderRadius.circular(CodeBlock.borderRadius),
-          child: Container(
-            width: CodePreview.width,
-            height: CodePreview.height,
-            padding: const EdgeInsets.all(CodeTheme.padding),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(CodeBlock.borderRadius),
-              color: widget.selected ? color.withOpacity(LanguageInput.backgroundOpacity) : color,
-              border: widget.selected ? Border.all(color: color) : null,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    NcBodyText(widget.data.desc, fontSize: CodeBlock.descSize),
-                    if (widget.selected) SelectedIndicator(color: duplicate ? NcThemes.current.warningColor : NcThemes.current.accentColor),
-                  ],
+        child: ThemedCard(
+          width: CodePreview.width,
+          height: CodePreview.height,
+          outlined: widget.selected,
+          color: color,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  NcBodyText(widget.data.desc, fontSize: CodeBlock.descSize),
+                  if (widget.selected) SelectedIndicator(color: duplicate ? NcThemes.current.warningColor : NcThemes.current.accentColor),
+                ],
+              ),
+              NcSpacing.medium(),
+              Expanded(
+                child: HighlightView(
+                  widget.data.code,
+                  language: widget.data.language,
+                  theme: kCodeThemes[Settings.codeTheme]!,
                 ),
-                NcSpacing.medium(),
-                Expanded(
-                  child: HighlightView(
-                    widget.data.code,
-                    language: widget.data.language,
-                    theme: kCodeThemes[Settings.codeTheme]!,
-                  ),
-                ),
-                if (duplicate) Tag(label: "Duplicate Code", color: NcThemes.current.errorColor, fontSize: CodePreview.duplicateFontSize, padding: CodePreview.duplicatePadding)
-              ],
-            ),
+              ),
+              if (duplicate) Tag(label: "Duplicate Code", color: NcThemes.current.errorColor, fontSize: CodePreview.duplicateFontSize, padding: CodePreview.duplicatePadding)
+            ],
           ),
         ),
       ),

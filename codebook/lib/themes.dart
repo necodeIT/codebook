@@ -44,9 +44,9 @@ class CustomThemes {
   });
 
   static void registerAll() {
-    NcThemes.registerExternalTheme(darkPurple);
-    NcThemes.registerExternalTheme(lightPurple);
-    NcThemes.registerExternalTheme(lightGreen);
-    NcThemes.registerExternalTheme(darkGreen);
+    NcThemes.registerTheme(darkPurple);
+    NcThemes.registerTheme(lightPurple);
+    NcThemes.registerTheme(lightGreen);
+    NcThemes.registerTheme(darkGreen);
   }
 }

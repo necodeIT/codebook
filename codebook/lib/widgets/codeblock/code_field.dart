@@ -4,6 +4,7 @@ import 'package:codebook/widgets/codeblock/view_mode.dart';
 import 'package:codebook/widgets/codeblock/language_tag/language_input.dart';
 import 'package:codebook/widgets/home/home_icon_button.dart';
 import 'package:codebook/widgets/text_input/input.dart';
+import 'package:codebook/widgets/themed_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:nekolib.ui/ui.dart';
@@ -41,89 +42,78 @@ class CodeField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: NcThemes.current.primaryColor,
-      borderRadius: BorderRadius.circular(CodeBlock.borderRadius),
-      elevation: CodeBlock.elevation,
-      child: Container(
-        padding: const EdgeInsets.all(CodeBlock.padding),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(CodeBlock.borderRadius),
-          color: NcThemes.current.primaryColor,
-        ),
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    HomeIconButton(
-                      toolTip: "Formatted view",
-                      onPressed: () => onModeChange(ViewMode.format),
-                      color: mode == ViewMode.format ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
-                      icon: Icons.remove_red_eye,
-                    ),
-                    NcSpacing.small(),
-                    HomeIconButton(
-                      toolTip: "Raw view",
-                      onPressed: () => onModeChange(ViewMode.raw),
-                      color: mode == ViewMode.raw ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
-                      icon: Icons.short_text,
-                    ),
-                    NcSpacing.small(),
-                    HomeIconButton(
-                      toolTip: "Edit view",
-                      onPressed: () => onModeChange(ViewMode.edit),
-                      color: mode == ViewMode.edit ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
-                      icon: Icons.edit,
-                    ),
-                  ],
+    return ThemedCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  HomeIconButton(
+                    toolTip: "Formatted view",
+                    onPressed: () => onModeChange(ViewMode.format),
+                    color: mode == ViewMode.format ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
+                    icon: Icons.remove_red_eye,
+                  ),
+                  NcSpacing.small(),
+                  HomeIconButton(
+                    toolTip: "Raw view",
+                    onPressed: () => onModeChange(ViewMode.raw),
+                    color: mode == ViewMode.raw ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
+                    icon: Icons.short_text,
+                  ),
+                  NcSpacing.small(),
+                  HomeIconButton(
+                    toolTip: "Edit view",
+                    onPressed: () => onModeChange(ViewMode.edit),
+                    color: mode == ViewMode.edit ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
+                    icon: Icons.edit,
+                  ),
+                ],
+              ),
+              OutlinedButton.icon(
+                onPressed: mode == ViewMode.edit ? onDelete : onCopy,
+                icon: Icon(
+                  mode == ViewMode.edit ? Icons.delete : copyIcon,
+                  color: copyColor,
+                  size: CodeBlock.iconSize,
                 ),
-                OutlinedButton.icon(
-                  onPressed: mode == ViewMode.edit ? onDelete : onCopy,
-                  icon: Icon(
-                    mode == ViewMode.edit ? Icons.delete : copyIcon,
+                label: Text(
+                  mode == ViewMode.edit ? deleteText : copyText,
+                  style: TextStyle(
                     color: copyColor,
-                    size: CodeBlock.iconSize,
+                    fontWeight: FontWeight.bold,
                   ),
-                  label: Text(
-                    mode == ViewMode.edit ? deleteText : copyText,
-                    style: TextStyle(
-                      color: copyColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: copyColor.withOpacity(LanguageInput.backgroundOpacity),
-                    side: BorderSide(width: 1.0, color: copyColor),
-                    padding: const EdgeInsets.all(8),
-                    primary: copyColor,
-                  ),
+                ),
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: copyColor.withOpacity(LanguageInput.backgroundOpacity),
+                  side: BorderSide(width: 1.0, color: copyColor),
+                  padding: const EdgeInsets.all(8),
+                  primary: copyColor,
+                ),
+              )
+            ],
+          ),
+          NcSpacing.medium(),
+          mode == ViewMode.format
+              ? HighlightView(
+                  code,
+                  language: language,
+                  theme: kCodeThemes[Settings.codeTheme]!,
                 )
-              ],
-            ),
-            NcSpacing.medium(),
-            mode == ViewMode.format
-                ? HighlightView(
-                    code,
-                    language: language,
-                    theme: kCodeThemes[Settings.codeTheme]!,
-                  )
-                : mode == ViewMode.raw
-                    ? SelectableText(
-                        code,
-                        style: NcBaseText.style(),
-                      )
-                    : TextInput(
-                        onChange: onCodeChange,
-                        label: codeLabel,
-                        inintialText: code,
-                      ),
-          ],
-        ),
+              : mode == ViewMode.raw
+                  ? SelectableText(
+                      code,
+                      style: NcBaseText.style(),
+                    )
+                  : TextInput(
+                      onChange: onCodeChange,
+                      label: codeLabel,
+                      inintialText: code,
+                    ),
+        ],
       ),
     );
   }
