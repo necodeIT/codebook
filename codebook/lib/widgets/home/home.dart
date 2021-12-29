@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
 import 'package:codebook/db/settings.dart';
+import 'package:codebook/db/sync/sync.dart';
 import 'package:codebook/updater/updater.dart';
 import 'package:codebook/utils.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
@@ -11,6 +12,7 @@ import 'package:codebook/widgets/home/home_icon_button.dart';
 import 'package:codebook/widgets/home/in_out_dialog/in_out_dialog.dart';
 import 'package:codebook/widgets/home/themed_tool_tip.dart';
 import 'package:codebook/widgets/settings/settings.dart';
+import 'package:codebook/widgets/themed_loading_indicator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
@@ -39,6 +41,14 @@ class _HomeState extends State<Home> {
   var _currentFilterTags = <String>[];
   var _settings = false;
   String? _currentFilterLanguage;
+
+  @override
+  void initState() {
+    super.initState();
+    Sync.onSync = () {
+      refresh();
+    };
+  }
 
   toggleSettings() {
     setState(() {
@@ -90,6 +100,24 @@ class _HomeState extends State<Home> {
                           curve: Filter.animationCurve,
                           child: Row(
                             children: [
+                              StreamBuilder<bool>(
+                                  stream: Sync.syncing,
+                                  builder: (context, snapshot) {
+                                    return snapshot.data ?? false
+                                        ? ThemedToolTip(
+                                            delay: 500,
+                                            message: "Syncing...",
+                                            child: SizedBox(
+                                              width: Home.iconSize - 8,
+                                              height: Home.iconSize - 8,
+                                              child: ThemedLoadingIndicator(
+                                                thickness: 2,
+                                                containerColor: Colors.transparent,
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox.shrink();
+                                  }),
                               if (Settings.sync)
                                 StreamBuilder<bool>(
                                   stream: connectivity.isConnected,

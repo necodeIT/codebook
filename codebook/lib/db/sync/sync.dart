@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:codebook/db/db.dart';
@@ -30,8 +31,14 @@ class Sync {
   static bool get authorized => _authorized;
 
   static String get username => Cloud.username;
+  static bool _isSyncing = false;
+  static final StreamController<bool> _syncing = StreamController<bool>();
+  static Stream<bool> get syncing => _syncing.stream;
+
+  static Function()? onSync;
 
   static Future load() async {
+    _syncing.sink.add(false);
     var f = await DB.syncFile;
     if (!f.existsSync()) return Settings.sync = false;
 
@@ -61,18 +68,23 @@ class Sync {
   }
 
   static Future sync() async {
-    if (!Settings.sync || !await connectivity.checkConnection()) return;
+    if (!Settings.sync || !await connectivity.checkConnection() || !Cloud.isReady || _isSyncing) return;
+
+    _isSyncing = true;
+    _syncing.sink.add(true);
 
     var data = await Cloud.pullIngredients();
     var settings = await Cloud.pullSettings();
 
     var cloudMap = <String, Ingredient>{};
 
+    // Add all ingredients from cloud to map for faster lookup
     for (var i in data) {
       cloudMap[i.hash] = i;
     }
-    var mergedData = [];
+    var mergedData = <Ingredient>[];
 
+    // Add ingredients that were changed locally
     for (var ingredient in DB.ingredients) {
       var hash = ingredient.hash;
 
@@ -82,23 +94,32 @@ class Sync {
       mergedData.add(ingredient);
     }
 
+    // Add ingredients that were changed remotely
     for (var ingredient in data) {
       var hash = ingredient.hash;
 
       if (_log.actionLog[hash] == DEL) continue;
+
       mergedData.add(ingredient);
     }
 
-    Cloud.pushIngredients(data);
+    // Update database
+    DB.clear();
+    DB.import(mergedData);
 
-    if (Settings.dirty) {
-      Cloud.pushSettings(Settings.toCloud());
-      Settings.markClean();
-    } else {
+    // Update settings
+    if (!Settings.dirty) {
       Settings.loadFromCloud(settings);
+    } else {
+      Settings.markClean();
     }
 
+    await Cloud.pushAll();
+
     _log.clear();
+    _syncing.sink.add(false);
+    _isSyncing = false;
+    onSync?.call();
   }
 
   static Future save() async {
@@ -122,8 +143,6 @@ class Sync {
   static Future pull() async {}
 
   static Future login(BuildContext context) async {
-    // await Cloud.findGist();
-    // return;
     var folder = await DB.appDir;
     var f = File('${folder.path}/auth.json');
 
@@ -178,6 +197,6 @@ class Sync {
       }
     }
 
-    showThemedSnackbar(context, _authorized ? "GitHub login successfull!" : "GitHub login failed or cancelled by user");
+    showThemedSnackbar(context, _authorized ? "GitHub login successfull!" : "GitHub login failed or cancelled by user!");
   }
 }

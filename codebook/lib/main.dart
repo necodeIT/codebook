@@ -14,7 +14,7 @@ void main() async {
   await Settings.load();
 
   runApp(
-    FutureBuilder(future: loadAll(), builder: (context, task) => task.connectionState == ConnectionState.done ? const App() : const ThemedLoadingIndicator()),
+    FutureBuilder(future: loadAll(), builder: (context, task) => task.connectionState == ConnectionState.done ? const App() : ThemedLoadingIndicator()),
   );
 }
 
@@ -22,6 +22,7 @@ Future loadAll() async {
   await DB.load();
   await Updater.init();
   await Sync.load();
+  if (Settings.sync) await Sync.sync();
 }
 
 class App extends StatefulWidget {

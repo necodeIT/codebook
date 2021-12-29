@@ -73,10 +73,17 @@ class DB {
     }
   }
 
+  static void clear() {
+    _ingredients.clear();
+    _tags.clear();
+    _languages.clear();
+    _tagCount.clear();
+  }
+
   /// Updates the metadata and saves the db to the file system.
   static void update() {
     updateMetaData();
-    Sync.sync();
+
     save();
   }
 

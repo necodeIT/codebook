@@ -66,11 +66,10 @@ class Settings {
 
   static Future load() async {
     NcThemes.onCurrentThemeChange = ncThemesCallback;
-
     var file = await DB.settingsFile;
 
     if (!file.existsSync()) {
-      codeTheme = defaultCodeTheme;
+      _codeTheme = defaultCodeTheme;
       NcThemes.current = defaultTheme;
       return;
     }
@@ -81,7 +80,7 @@ class Settings {
     _codeTheme = catgirl[codeThemeKey] ?? _codeTheme;
     _sync = catgirl[syncKey] ?? _sync;
     _dirty = catgirl[modifiedKey] ?? _dirty;
-    var theme = catgirl[themeKey];
+    _theme = catgirl[themeKey];
 
     NcThemes.current = NcThemes.all[theme] ?? defaultTheme;
   }
