@@ -457,7 +457,7 @@ packages:
     description:
       path: ui
       ref: flutter
-      resolved-ref: f793c690307e0aee36ae4b296f8502f21d00ec05
+      resolved-ref: "78c40092348120823cc2288fdfa71412add52d7b"
       url: "https://github.com/necodeIT/nekolib.git"
     source: git
     version: "0.0.1"
@@ -835,7 +835,7 @@ packages:
     description:
       path: "plugins/window_size"
       ref: HEAD
-      resolved-ref: "03d957e8b5c99fc83cd4a781031b154ab3de8753"
+      resolved-ref: c339fe7dd2e17a80f7bb839bfad89d21a6e084ba
       url: "git://github.com/google/flutter-desktop-embedding.git"
     source: git
     version: "0.1.0"

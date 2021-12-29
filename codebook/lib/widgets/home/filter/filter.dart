@@ -116,7 +116,7 @@ class _FilterState extends State<Filter> {
                   alignment: Alignment.centerRight,
                   width: double.infinity,
                   child: HomeIconButton(
-                    toolTip: "Close",
+                    tooltip: "Close",
                     onPressed: widget.onClose,
                     icon: Icons.close,
                   ),

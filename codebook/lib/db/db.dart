@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:codebook/db/ingredient.dart';
 import 'package:codebook/db/sync/action_type.dart';
 import 'package:codebook/db/sync/sync.dart';
@@ -77,6 +76,7 @@ class DB {
   /// Updates the metadata and saves the db to the file system.
   static void update() {
     updateMetaData();
+    Sync.sync();
     save();
   }
 

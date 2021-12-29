@@ -26,8 +26,6 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          NcCaptionText("Sync", fontSize: SettingsPage.titleSize),
-          NcSpacing.small(),
           SyncSettings(),
           NcSpacing.small(),
           const ThemeSettings(),
@@ -37,7 +35,5 @@ class _SettingsPageState extends State<SettingsPage> {
         ],
       ),
     );
-
-    // return NcBodyText("Settings");
   }
 }

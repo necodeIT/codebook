@@ -34,5 +34,8 @@ class ActionLog {
     _actionLog.addAll(jsonDecode(json));
   }
 
-  void clear() => _actionLog.clear();
+  void clear() {
+    _actionLog.clear();
+    save();
+  }
 }

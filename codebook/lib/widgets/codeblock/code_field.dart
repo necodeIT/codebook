@@ -52,21 +52,21 @@ class CodeField extends StatelessWidget {
               Row(
                 children: [
                   HomeIconButton(
-                    toolTip: "Formatted view",
+                    tooltip: "Formatted view",
                     onPressed: () => onModeChange(ViewMode.format),
                     color: mode == ViewMode.format ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
                     icon: Icons.remove_red_eye,
                   ),
                   NcSpacing.small(),
                   HomeIconButton(
-                    toolTip: "Raw view",
+                    tooltip: "Raw view",
                     onPressed: () => onModeChange(ViewMode.raw),
                     color: mode == ViewMode.raw ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
                     icon: Icons.short_text,
                   ),
                   NcSpacing.small(),
                   HomeIconButton(
-                    toolTip: "Edit view",
+                    tooltip: "Edit view",
                     onPressed: () => onModeChange(ViewMode.edit),
                     color: mode == ViewMode.edit ? NcThemes.current.accentColor : NcThemes.current.tertiaryColor,
                     icon: Icons.edit,

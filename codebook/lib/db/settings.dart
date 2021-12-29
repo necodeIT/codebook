@@ -4,6 +4,8 @@ import 'package:codebook/db/db.dart';
 import 'package:codebook/themes.dart';
 import 'package:nekolib.ui/ui/themes/themes.dart';
 
+import 'sync/sync.dart';
+
 class Settings {
   static const String defaultCodeTheme = "Github";
   static const String codeThemeKey = "codeTheme";
@@ -24,27 +26,42 @@ class Settings {
   static bool get sync => _sync;
   static String get codeTheme => _codeTheme;
 
+  static void markDirty() {
+    if (!_sync) return;
+    _dirty = true;
+  }
+
+  static void markClean() {
+    if (!_sync) return;
+    _dirty = false;
+  }
+
   static set codeTheme(String value) {
     if (value == _codeTheme) return;
+    markDirty();
     _codeTheme = value;
-    update();
+    _update();
   }
 
   static set sync(bool value) {
     if (value == _sync) return;
+    markDirty();
     _sync = value;
-    update();
+    _update();
   }
 
-  static void update() {
-    _dirty = true;
+  static void _update() {
     onUpdate?.call();
+
+    if (dirty) Sync.sync();
+
     save();
   }
 
   static void ncThemesCallback() {
     _theme = NcThemes.current.name;
-    update();
+    markDirty();
+    _update();
   }
 
   static Future load() async {
@@ -82,22 +99,20 @@ class Settings {
     await file.writeAsString(jsonEncode(json));
   }
 
-  static String toCloud() {
-    var json = {
+  static Map<String, dynamic> toCloud() {
+    return {
       themeKey: theme,
       codeThemeKey: codeTheme,
       syncKey: _sync,
     };
-
-    return jsonEncode(json);
   }
 
-  static loadFromCloud(String json) {
-    var catgirl = jsonDecode(json);
-    _codeTheme = catgirl[codeThemeKey] ?? _codeTheme;
-    _sync = catgirl[syncKey] ?? _sync;
-    _dirty = false;
-    var theme = catgirl[themeKey];
+  static loadFromCloud(Map<String, dynamic> json) {
+    _codeTheme = json[codeThemeKey] ?? _codeTheme;
+    _sync = json[syncKey] ?? _sync;
+    var theme = json[themeKey];
     NcThemes.current = NcThemes.all[theme] ?? defaultTheme;
+    markClean();
+    _update();
   }
 }
