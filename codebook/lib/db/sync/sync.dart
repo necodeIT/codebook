@@ -45,7 +45,7 @@ class Sync {
 
   static Future load() async {
     var f = await DB.syncFile;
-    if (!f.existsSync()) return Settings.sync = false;
+    if (!await f.exists()) return Settings.sync = false;
 
     var content = await f.readAsString();
 
@@ -86,7 +86,6 @@ class Sync {
     if (!Settings.sync || !await connectivity.checkConnection() || !Cloud.isReady || _isSyncing || !_authorized || _isLocked) return;
 
     try {
-      throw Exception("test");
       _isSyncing = true;
       _syncing.sink.add(true);
 
