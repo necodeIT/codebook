@@ -85,8 +85,6 @@ class Cloud {
     for (var gist in gists) {
       if (gist["description"] == gistDescription && gist["files"].containsKey(gistName)) {
         gistID = gist["id"];
-        print(_gistID);
-        print(_gistURL);
 
         return;
       }
@@ -106,7 +104,6 @@ class Cloud {
   static Future<List<Ingredient>> pullIngredients() async {
     if (!isReady) return [];
     var response = await client.get(Uri.parse(gistURL), headers: headers);
-    print(response.body);
     var content = jsonDecode(response.body)["files"][ingredientsFileName]["content"];
     var ingredients = jsonDecode(content);
     return List<Ingredient>.from(ingredients.map((model) => Ingredient.fromJson(model)));
