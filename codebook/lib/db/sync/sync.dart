@@ -30,10 +30,16 @@ class Sync {
   static bool _authorized = false;
   static bool get authorized => _authorized;
 
+  static bool _isLocked = false;
+  static bool get isLocked => _isLocked;
+
   static String get username => Cloud.username;
   static bool _isSyncing = false;
+  static const Duration lockCooldown = Duration(seconds: 15);
   static final StreamController<bool> _syncing = StreamController<bool>();
+  static final StreamController<bool> _locked = StreamController<bool>();
   static Stream<bool> get syncing => _syncing.stream;
+  static Stream<bool> get locked => _locked.stream;
 
   static Function()? onSync;
 
@@ -77,58 +83,71 @@ class Sync {
   }
 
   static Future sync() async {
-    if (!Settings.sync || !await connectivity.checkConnection() || !Cloud.isReady || _isSyncing || !_authorized) return;
+    if (!Settings.sync || !await connectivity.checkConnection() || !Cloud.isReady || _isSyncing || !_authorized || _isLocked) return;
 
-    _isSyncing = true;
-    _syncing.sink.add(true);
+    try {
+      throw Exception("test");
+      _isSyncing = true;
+      _syncing.sink.add(true);
 
-    var data = await Cloud.pullIngredients();
-    var settings = await Cloud.pullSettings();
+      var data = await Cloud.pullIngredients();
+      var settings = await Cloud.pullSettings();
 
-    var cloudMap = <String, Ingredient>{};
+      var cloudMap = <String, Ingredient>{};
 
-    // Add all ingredients from cloud to map for faster lookup
-    for (var i in data) {
-      cloudMap[i.hash] = i;
+      // Add all ingredients from cloud to map for faster lookup
+      for (var i in data) {
+        cloudMap[i.hash] = i;
+      }
+      var mergedData = <Ingredient>[];
+
+      // Add ingredients that were changed locally
+      for (var ingredient in DB.ingredients) {
+        var hash = ingredient.hash;
+
+        if (cloudMap.containsKey(hash)) continue;
+        if (_log.actionLog[hash] != ADD) continue;
+
+        mergedData.add(ingredient);
+      }
+
+      // Add ingredients that were changed remotely
+      for (var ingredient in data) {
+        var hash = ingredient.hash;
+
+        if (_log.actionLog[hash] == DEL) continue;
+
+        mergedData.add(ingredient);
+      }
+
+      // Update database
+      DB.clear();
+      DB.import(mergedData);
+
+      // Update settings
+      if (!Settings.dirty) {
+        Settings.loadFromCloud(settings);
+      } else {
+        Settings.markClean();
+      }
+
+      await Cloud.pushAll();
+
+      _log.clear();
+      _syncing.sink.add(false);
+      _isSyncing = false;
+      onSync?.call();
+    } catch (e) {
+      _syncing.sink.add(false);
+      _isSyncing = false;
+      _isLocked = true;
+      _locked.sink.add(true);
+
+      Future.delayed(lockCooldown).then((_) {
+        _isLocked = false;
+        _locked.sink.add(false);
+      });
     }
-    var mergedData = <Ingredient>[];
-
-    // Add ingredients that were changed locally
-    for (var ingredient in DB.ingredients) {
-      var hash = ingredient.hash;
-
-      if (cloudMap.containsKey(hash)) continue;
-      if (_log.actionLog[hash] != ADD) continue;
-
-      mergedData.add(ingredient);
-    }
-
-    // Add ingredients that were changed remotely
-    for (var ingredient in data) {
-      var hash = ingredient.hash;
-
-      if (_log.actionLog[hash] == DEL) continue;
-
-      mergedData.add(ingredient);
-    }
-
-    // Update database
-    DB.clear();
-    DB.import(mergedData);
-
-    // Update settings
-    if (!Settings.dirty) {
-      Settings.loadFromCloud(settings);
-    } else {
-      Settings.markClean();
-    }
-
-    await Cloud.pushAll();
-
-    _log.clear();
-    _syncing.sink.add(false);
-    _isSyncing = false;
-    onSync?.call();
   }
 
   static Future save() async {
@@ -154,6 +173,8 @@ class Sync {
     var config = File("${folder.path}/sync-auth-config.json");
     await config.writeAsString(jsonEncode({"path": f.path, "keyword": codeKeyWord, "pid": "$pid"}));
     await launch(generateAuthUrl());
+
+    bool successFull = false;
 
     var code = await Navigator.of(context).push<String>(
       MaterialPageRoute(
@@ -195,15 +216,22 @@ class Sync {
           await Cloud.findGist();
 
           _authorized = true;
+          successFull = true;
 
           await sync();
           await save();
         } catch (e) {
-          _authorized = false;
+          successFull = false;
         }
       }
     }
 
-    showThemedSnackbar(context, _authorized ? "GitHub login successfull!" : "GitHub login failed or cancelled by user!");
+    showThemedSnackbar(
+        context,
+        _authorized
+            ? successFull
+                ? "GitHub login successfull!"
+                : "GitHub login failed or cancelled by user! Falling back to previous account."
+            : "GitHub login failed or cancelled by user!");
   }
 }

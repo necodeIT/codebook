@@ -34,6 +34,7 @@ class Settings {
   static void markClean() {
     if (!_sync) return;
     _dirty = false;
+    save();
   }
 
   static set codeTheme(String value) {

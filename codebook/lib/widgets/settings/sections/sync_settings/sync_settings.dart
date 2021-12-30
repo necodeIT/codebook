@@ -26,6 +26,12 @@ class _SyncSettingsState extends State<SyncSettings> {
           trailingSpacing: 0,
         ),
         NcSpacing.small(),
+        StreamBuilder<bool>(
+            builder: (context, snapshot) {
+              return snapshot.data ?? false ? NcBodyText("Sync is temporarily disabled due to API issues. Cooldown: ${_printDuration(Sync.lockCooldown)}.", fontSize: 15) : const SizedBox.shrink();
+            },
+            stream: Sync.locked),
+        if (Sync.isLocked) NcSpacing.small(),
         Row(
           children: [
             NcBodyText(
@@ -53,7 +59,7 @@ class _SyncSettingsState extends State<SyncSettings> {
               fontSize: 18,
             ),
             NcSpacing.xs(),
-            if(Sync.authorized) NcBodyText("(${Sync.username})", fontSize: 15),
+            if (Sync.authorized) NcBodyText("(${Sync.username})", fontSize: 15),
           ],
         ),
         NcSpacing.xs(),
@@ -62,7 +68,21 @@ class _SyncSettingsState extends State<SyncSettings> {
           text: Sync.authorized ? "Change" : "Login",
           icon: Feather.github,
         ),
+        if (Sync.authorized) NcSpacing.small(),
+        if (Sync.authorized)
+          ThemedElevatedButton.icon(
+            onPressed: Sync.sync,
+            text: "Force sync",
+            icon: Icons.update,
+          ),
       ],
     );
+  }
+
+  String _printDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 }

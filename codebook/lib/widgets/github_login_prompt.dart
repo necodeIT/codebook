@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:codebook/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
@@ -52,18 +53,14 @@ class _GitHubLoginPromptState extends State<GitHubLoginPrompt> {
                         color: NcThemes.current.accentColor,
                       ),
                       NcSpacing.medium(),
-                      ElevatedButton(
+                      ThemedElevatedButton(
                         onPressed: () {
                           setState(() {
                             _cancel = true;
                           });
                           widget.onCancel();
                         },
-                        child: NcCaptionText(
-                          "Cancel",
-                          fontSize: 15,
-                        ),
-                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(NcThemes.current.accentColor)),
+                        text: "Cancel",
                       ),
                     ],
                   ),
