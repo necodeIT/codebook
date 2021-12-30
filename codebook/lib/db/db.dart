@@ -107,7 +107,7 @@ class DB {
       var book = await bookFile;
 
       var ingredients = await extractIngredientsFromPath(book.path);
-      import(ingredients);
+      import(ingredients, silent: true);
     });
   }
 
@@ -134,10 +134,10 @@ class DB {
   }
 
   /// Adds the given [ingredients] to the database.
-  static void import(List<Ingredient> ingredients) {
+  static void import(List<Ingredient> ingredients, {bool silent = true}) {
     for (var ingredient in ingredients) {
       _ingredients.add(ingredient);
-      Sync.log(ingredient, ADD);
+      if (!silent) Sync.log(ingredient, ADD);
     }
     update();
   }
