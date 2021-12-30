@@ -15,7 +15,11 @@ class Cloud {
   static String get username => _username;
   static String get gistURL => _gistURL;
 
-  static bool get isReady => _gistID.isNotEmpty && _gistURL.isNotEmpty && _username.isNotEmpty && token.isNotEmpty;
+  static bool get isReady =>
+      _gistID.isNotEmpty &&
+      _gistURL.isNotEmpty &&
+      _username.isNotEmpty &&
+      token.isNotEmpty;
 
   static set gistID(String id) {
     _gistID = id;
@@ -36,7 +40,8 @@ class Cloud {
   static const gistDescription = "CodeBook Sync";
   static const gistName = "!codebook-sync.codebook_indexer";
 
-  static Map<String, String> get headers => {"Authorization": "token $token", "Accept": "application/json"};
+  static Map<String, String> get headers =>
+      {"Authorization": "token $token", "Accept": "application/json"};
 
   static Future _createGist() async {
     if (!isReady) return;
@@ -55,12 +60,14 @@ class Cloud {
             settingsFileName: {
               "name": settingsFileName,
               // ignore: unnecessary_string_interpolations
-              "content": "${jsonEncode(Settings.toCloud())}", // throws exception if not interpolated idk why
+              "content":
+                  "${jsonEncode(Settings.toCloud())}", // throws exception if not interpolated idk why
             },
             ingredientsFileName: {
               "name": ingredientsFileName,
               // ignore: unnecessary_string_interpolations
-              "content": "${jsonEncode(DB.ingredients)}", // throws exception if not interpolated idk why
+              "content":
+                  "${jsonEncode(DB.ingredients)}", // throws exception if not interpolated idk why
             },
           },
         },
@@ -79,12 +86,15 @@ class Cloud {
     username = newUsername ?? username;
 
     // get all gists for user with token and username with file !codebook-sync.codebook_indexer
-    var gistsResponse = await client.get(Uri.parse("https://api.github.com/gists"), headers: headers);
+    var gistsResponse = await client
+        .get(Uri.parse("https://api.github.com/gists"), headers: headers);
     var gists = jsonDecode(gistsResponse.body);
     for (var gist in gists) {
-      if (gist["description"] == gistDescription && gist["files"].containsKey(gistName)) {
-        _gistID = gist["id"];
-        _gistURL = gist["html_url"];
+      if (gist["description"] == gistDescription &&
+          gist["files"].containsKey(gistName)) {
+        gistID = gist["id"];
+        print(_gistID);
+        print(_gistURL);
 
         return;
       }
@@ -96,17 +106,22 @@ class Cloud {
 
   static Future<Map<String, dynamic>> pullSettings() async {
     if (!isReady) return {};
-    var response = await client.get(Uri.parse(gistURL), headers: headers);
-    var content = jsonDecode(response.body)["files"][settingsFileName]["content"];
-    return jsonDecode(content); // double encode because it is encoded twice in the string interpolation
+    var response = await client.get(Uri.parse(_gistURL), headers: headers);
+    var content =
+        jsonDecode(response.body)["files"][settingsFileName]["content"];
+    return jsonDecode(
+        content); // double encode because it is encoded twice in the string interpolation
   }
 
   static Future<List<Ingredient>> pullIngredients() async {
     if (!isReady) return [];
     var response = await client.get(Uri.parse(gistURL), headers: headers);
-    var content = jsonDecode(response.body)["files"][ingredientsFileName]["content"];
+    print(response.body);
+    var content =
+        jsonDecode(response.body)["files"][ingredientsFileName]["content"];
     var ingredients = jsonDecode(content);
-    return List<Ingredient>.from(ingredients.map((model) => Ingredient.fromJson(model)));
+    return List<Ingredient>.from(
+        ingredients.map((model) => Ingredient.fromJson(model)));
   }
 
   static Future pushAll() async {
@@ -126,12 +141,14 @@ class Cloud {
             settingsFileName: {
               "name": settingsFileName,
               // ignore: unnecessary_string_interpolations
-              "content": "${jsonEncode(Settings.toCloud())}", // throws exception if not interpolated idk why
+              "content":
+                  "${jsonEncode(Settings.toCloud())}", // throws exception if not interpolated idk why
             },
             ingredientsFileName: {
               "name": ingredientsFileName,
               // ignore: unnecessary_string_interpolations
-              "content": "${jsonEncode(DB.ingredients)}", // throws exception if not interpolated idk why
+              "content":
+                  "${jsonEncode(DB.ingredients)}", // throws exception if not interpolated idk why
             },
           },
         },
