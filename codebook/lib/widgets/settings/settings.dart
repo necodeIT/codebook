@@ -28,7 +28,6 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          NcSpacing.large(),
           SyncSettings(),
           NcSpacing.small(),
           ThemeSettings(),

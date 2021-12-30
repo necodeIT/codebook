@@ -3,6 +3,7 @@
 import 'package:codebook/db/settings.dart';
 import 'package:codebook/db/sync/sync.dart';
 import 'package:codebook/widgets/button.dart';
+import 'package:codebook/widgets/settings/sections/sync_settings/count_down.dart';
 import 'package:codebook/widgets/settings/settings_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -29,9 +30,14 @@ class _SyncSettingsState extends State<SyncSettings> {
         StreamBuilder<bool>(
           stream: Sync.locked,
           builder: (context, snapshot) => snapshot.data ?? false
-              ? NcBodyText(
-                  "Sync is temporarily disabled due to API issues. Cooldown: ${_printDuration(Sync.currentLockCooldown)}.",
-                  fontSize: 15,
+              ? Row(
+                  children: [
+                    NcBodyText(
+                      "Sync is temporarily disabled due to API issues.",
+                      fontSize: 15,
+                    ),
+                    CountDown(fontSize: 15)
+                  ],
                 )
               : const SizedBox.shrink(),
         ),

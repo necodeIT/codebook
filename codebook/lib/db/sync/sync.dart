@@ -49,6 +49,9 @@ class Sync {
   static Duration get currentLockCooldown => _currentLockCooldown;
   static int _totalSyncFails = 0;
 
+  static DateTime _lockedTimestap = DateTime.now();
+  static DateTime get lockedTimestamp => _lockedTimestap;
+
   static Duration get _nextLockCooldown => _baseLockCooldown * _lockCooldownFactor * _totalSyncFails;
   static final StreamController<bool> _syncing = BehaviorSubject<bool>();
   static final StreamController<bool> _locked = BehaviorSubject<bool>();
@@ -87,7 +90,7 @@ class Sync {
       if (lockedTimestampSinceEpoch != 0) {
         var lockedTimestamp = DateTime.fromMillisecondsSinceEpoch(lockedTimestampSinceEpoch);
 
-        lockedDuration = DateTime.now().add(lockedDuration).difference(lockedTimestamp);
+        lockedDuration = lockedTimestamp.add(lockedDuration).difference(DateTime.now());
 
         lockSync(lockedDuration);
       }
@@ -132,9 +135,7 @@ class Sync {
       _isSyncing = true;
       _syncing.sink.add(true);
 
-      throw Exception("testytest");
-
-      // ---- Syncing ingredients ----
+      // ---- Sync ingredients ----
 
       var data = await Cloud.pullIngredients();
 
@@ -170,9 +171,9 @@ class Sync {
 
       // Update database
       DB.clear();
-      DB.import(mergedData, silent: true);
+      DB.import(mergedData);
 
-      // ---- Syncing settings ----
+      // ---- Sync settings ----
 
       var settings = await Cloud.pullSettings();
 
@@ -216,6 +217,7 @@ class Sync {
     _isLocked = true;
     _locked.sink.add(true);
     _currentLockCooldown = duration;
+    _lockedTimestap = DateTime.now();
     await save();
     log("temporarily locked sync for ${duration.inSeconds} seconds");
 
@@ -240,7 +242,7 @@ class Sync {
           usernameKey: Cloud.username,
           lockedKey: _isLocked,
           lockedDurationKey: currentLockCooldown.inMilliseconds,
-          lockedTimestampKey: DateTime.now().millisecondsSinceEpoch,
+          lockedTimestampKey: _lockedTimestap.millisecondsSinceEpoch,
         },
       ),
     );
