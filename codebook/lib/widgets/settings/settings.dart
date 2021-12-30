@@ -28,7 +28,7 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           SyncSettings(),
           NcSpacing.small(),
-          const ThemeSettings(),
+          ThemeSettings(),
           NcSpacing.xl(),
           CodeThemeSettings(),
           NcSpacing.xl(),

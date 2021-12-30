@@ -1,10 +1,12 @@
+// ignore_for_file: prefer_const_constructors_in_immutables
+
 import 'package:codebook/widgets/settings/settings_title.dart';
 import 'package:codebook/widgets/settings/sections/theme_settings/theme_item.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
 class ThemeSettings extends StatefulWidget {
-  const ThemeSettings({Key? key}) : super(key: key);
+  ThemeSettings({Key? key}) : super(key: key);
 
   @override
   State<ThemeSettings> createState() => _ThemeSettingsState();
