@@ -45,8 +45,11 @@ class Settings {
 
   static set sync(bool value) {
     if (value == _sync) return;
-    markDirty();
+
     _sync = value;
+
+    if (sync) Sync.sync();
+
     _update();
   }
 

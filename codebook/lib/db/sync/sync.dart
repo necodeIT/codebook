@@ -147,10 +147,6 @@ class Sync {
     );
   }
 
-  static Future push() async {}
-
-  static Future pull() async {}
-
   static Future login(BuildContext context) async {
     var folder = await DB.appDir;
     var f = File('${folder.path}/auth.json');
@@ -199,6 +195,8 @@ class Sync {
           await Cloud.findGist();
 
           _authorized = true;
+
+          await sync();
           await save();
         } catch (e) {
           _authorized = false;
