@@ -1,4 +1,6 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
+import 'package:codebook/db/logger.dart';
+import 'package:codebook/widgets/button.dart';
 import 'package:codebook/widgets/settings/sections/code_themes_settings/code_theme_settings.dart';
 import 'package:codebook/widgets/settings/sections/sync_settings/sync_settings.dart';
 import 'package:codebook/widgets/settings/sections/theme_settings/theme_settings.dart';
@@ -26,6 +28,7 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          NcSpacing.large(),
           SyncSettings(),
           NcSpacing.small(),
           ThemeSettings(),

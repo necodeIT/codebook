@@ -15,7 +15,7 @@ class Ingredient {
     _language = model["language"];
     _code = model["code"];
     _desc = model["desc"];
-    _tags = List.from(model["tags"]);
+    _tags = List.from(model["tags"], growable: true);
   }
 
   /// returns a sha256 hash of the ingredient (all attributes)
@@ -80,6 +80,7 @@ class Ingredient {
   }
 
   void update({required String desc, required String lang, required List<String> tags, required String code}) {
+    if (desc != this.desc && lang != language && tags.toSet().containsAll(_tags.toSet()) && code != this.code) return;
     Sync.reportChange(this, () {
       _desc = desc;
       _language = lang;

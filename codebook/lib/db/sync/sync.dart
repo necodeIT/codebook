@@ -3,12 +3,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
+import 'package:codebook/db/logger.dart';
 import 'package:codebook/db/settings.dart';
 import 'package:codebook/db/sync/cloud/cloud.dart';
 import 'package:codebook/db/sync/log.dart';
 import 'package:codebook/utils.dart';
 import 'package:codebook/widgets/github_login_prompt.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Sync {
@@ -26,6 +28,9 @@ class Sync {
   static const authorizedKey = "authorized";
   static const gistIDKey = "gist";
   static const usernameKey = "username";
+  static const lockedKey = "locked";
+  static const lockedDurationKey = "lockedDuration";
+  static const lockedTimestampKey = "lockedTimestamp";
 
   static bool _authorized = false;
   static bool get authorized => _authorized;
@@ -33,17 +38,31 @@ class Sync {
   static bool _isLocked = false;
   static bool get isLocked => _isLocked;
 
-  static String get username => Cloud.username;
   static bool _isSyncing = false;
-  static const Duration lockCooldown = Duration(seconds: 15);
-  static final StreamController<bool> _syncing = StreamController<bool>();
-  static final StreamController<bool> _locked = StreamController<bool>();
+
+  static String get username => Cloud.username;
+
+  static const Duration _baseLockCooldown = Duration(milliseconds: 7500);
+  static const int _lockCooldownFactor = 2;
+
+  static Duration _currentLockCooldown = Duration.zero;
+  static Duration get currentLockCooldown => _currentLockCooldown;
+  static int _totalSyncFails = 0;
+
+  static Duration get _nextLockCooldown => _baseLockCooldown * _lockCooldownFactor * _totalSyncFails;
+  static final StreamController<bool> _syncing = BehaviorSubject<bool>();
+  static final StreamController<bool> _locked = BehaviorSubject<bool>();
   static Stream<bool> get syncing => _syncing.stream;
   static Stream<bool> get locked => _locked.stream;
 
   static Function()? onSync;
 
   static Future load() async {
+    log("Loading sync settings");
+
+    _locked.sink.add(false);
+    _syncing.sink.add(false);
+
     var f = await DB.syncFile;
     if (!await f.exists()) return Settings.sync = false;
 
@@ -54,11 +73,30 @@ class Sync {
     _authorized = config[authorizedKey] ?? false;
     Cloud.gistID = config[gistIDKey] ?? "";
     Cloud.username = config[usernameKey] ?? "";
+    _isLocked = config[lockedKey] ?? false;
+
     if (!await checkCredentials()) _authorized = false;
+    log("credentials validated - valid: $_authorized");
+
+    log("Loaded sync config: $config");
+
+    if (_isLocked) {
+      Duration lockedDuration = Duration(milliseconds: config[lockedDurationKey] ?? 0);
+      int lockedTimestampSinceEpoch = config[lockedTimestampKey] ?? 0;
+
+      if (lockedTimestampSinceEpoch != 0) {
+        var lockedTimestamp = DateTime.fromMillisecondsSinceEpoch(lockedTimestampSinceEpoch);
+
+        lockedDuration = DateTime.now().add(lockedDuration).difference(lockedTimestamp);
+
+        lockSync(lockedDuration);
+      }
+    }
   }
 
   static Future<bool> checkCredentials() async {
     if (!await connectivity.checkConnection()) return false;
+    log("validating credentials...");
     var response = await client.get(
       Uri.parse("https://api.github.com/gists/starred"),
       headers: Cloud.headers,
@@ -76,21 +114,29 @@ class Sync {
     sync();
   }
 
-  static log(Ingredient ingredient, ActionType type) {
+  static writeLog(Ingredient ingredient, ActionType type) {
     if (!Settings.sync) return;
 
     _log.write(ingredient, type);
   }
 
   static Future sync() async {
-    if (!Settings.sync || !await connectivity.checkConnection() || !Cloud.isReady || _isSyncing || !_authorized || _isLocked) return;
+    log("----------------- SYNCING -----------------");
+    if (!Settings.sync || !await connectivity.checkConnection() || !Cloud.isReady || _isSyncing || !_authorized || _isLocked) {
+      log("Snyc not possible - is authorized: $_authorized, isLocked: $_isLocked, isSyncing: $_isSyncing");
+      log("----------------- SYNCING CANCELLED -----------------");
+      return;
+    }
 
     try {
       _isSyncing = true;
       _syncing.sink.add(true);
 
+      throw Exception("testytest");
+
+      // ---- Syncing ingredients ----
+
       var data = await Cloud.pullIngredients();
-      var settings = await Cloud.pullSettings();
 
       var cloudMap = <String, Ingredient>{};
 
@@ -107,6 +153,8 @@ class Sync {
         if (cloudMap.containsKey(hash)) continue;
         if (_log.actionLog[hash] != ADD) continue;
 
+        log("added ${ingredient.desc}@$hash from disk");
+
         mergedData.add(ingredient);
       }
 
@@ -116,18 +164,25 @@ class Sync {
 
         if (_log.actionLog[hash] == DEL) continue;
 
+        log("added ${ingredient.desc}@$hash from cloud");
         mergedData.add(ingredient);
       }
 
       // Update database
       DB.clear();
-      DB.import(mergedData);
+      DB.import(mergedData, silent: true);
+
+      // ---- Syncing settings ----
+
+      var settings = await Cloud.pullSettings();
 
       // Update settings
       if (!Settings.dirty) {
         Settings.loadFromCloud(settings);
+        log("loaded settings from cloud");
       } else {
         Settings.markClean();
+        log("loaded settings from disk");
       }
 
       await Cloud.pushAll();
@@ -135,18 +190,41 @@ class Sync {
       _log.clear();
       _syncing.sink.add(false);
       _isSyncing = false;
+
+      log("calling callback...");
+
       onSync?.call();
-    } catch (e) {
+      log("----------------- SYNCING DONE -----------------");
+    } catch (e, stack) {
+      log("error: $e");
+      log("stack: $stack");
+
+      _totalSyncFails++;
+
+      log("total sync fails: $_totalSyncFails");
+
       _syncing.sink.add(false);
       _isSyncing = false;
-      _isLocked = true;
-      _locked.sink.add(true);
 
-      Future.delayed(lockCooldown).then((_) {
-        _isLocked = false;
-        _locked.sink.add(false);
-      });
+      await lockSync(_nextLockCooldown);
+
+      log("----------------- SYNCING CANCELLED -----------------");
     }
+  }
+
+  static Future lockSync(Duration duration) async {
+    _isLocked = true;
+    _locked.sink.add(true);
+    _currentLockCooldown = duration;
+    await save();
+    log("temporarily locked sync for ${duration.inSeconds} seconds");
+
+    Future.delayed(duration).then((_) {
+      _isLocked = false;
+      _locked.sink.add(false);
+      log("unlocked sync");
+      save();
+    });
   }
 
   static Future save() async {
@@ -160,6 +238,9 @@ class Sync {
           tokenKey: Cloud.token,
           authorizedKey: authorized,
           usernameKey: Cloud.username,
+          lockedKey: _isLocked,
+          lockedDurationKey: currentLockCooldown.inMilliseconds,
+          lockedTimestampKey: DateTime.now().millisecondsSinceEpoch,
         },
       ),
     );

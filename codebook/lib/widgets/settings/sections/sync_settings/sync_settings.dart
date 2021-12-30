@@ -27,10 +27,14 @@ class _SyncSettingsState extends State<SyncSettings> {
         ),
         NcSpacing.small(),
         StreamBuilder<bool>(
-            builder: (context, snapshot) {
-              return snapshot.data ?? false ? NcBodyText("Sync is temporarily disabled due to API issues. Cooldown: ${_printDuration(Sync.lockCooldown)}.", fontSize: 15) : const SizedBox.shrink();
-            },
-            stream: Sync.locked),
+          stream: Sync.locked,
+          builder: (context, snapshot) => snapshot.data ?? false
+              ? NcBodyText(
+                  "Sync is temporarily disabled due to API issues. Cooldown: ${_printDuration(Sync.currentLockCooldown)}.",
+                  fontSize: 15,
+                )
+              : const SizedBox.shrink(),
+        ),
         if (Sync.isLocked) NcSpacing.small(),
         Row(
           children: [

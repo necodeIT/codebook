@@ -81,34 +81,32 @@ class DB {
   }
 
   /// Updates the metadata and saves the db to the file system.
-  static void update() {
+  static void update({bool silent = true}) {
     updateMetaData();
 
-    save();
+    if (!silent) save();
   }
 
   /// Adds an ingredient to the database.
   static void addIngredient(Ingredient value) {
     _ingredients.add(value);
-    Sync.log(value, ADD);
+    Sync.writeLog(value, ADD);
     update();
   }
 
   /// Removes an ingredient from the database.
   static void rmIngredient(Ingredient value) {
     _ingredients.remove(value);
-    Sync.log(value, DEL);
+    Sync.writeLog(value, DEL);
     update();
   }
 
   /// Loads the db from the local file system.
   static Future load() async {
-    return Future(() async {
-      var book = await bookFile;
+    var book = await bookFile;
 
-      var ingredients = await extractIngredientsFromPath(book.path);
-      import(ingredients, silent: true);
-    });
+    var ingredients = await extractIngredientsFromPath(book.path);
+    import(ingredients, silent: true);
   }
 
   /// Saves the db to the local file system.
@@ -134,12 +132,12 @@ class DB {
   }
 
   /// Adds the given [ingredients] to the database.
-  static void import(List<Ingredient> ingredients, {bool silent = true}) {
+  static void import(List<Ingredient> ingredients, {bool silent = false}) {
     for (var ingredient in ingredients) {
       _ingredients.add(ingredient);
-      if (!silent) Sync.log(ingredient, ADD);
+      if (!silent) Sync.writeLog(ingredient, ADD);
     }
-    update();
+    update(silent: silent);
   }
 
   /// Exports the given [ingredients] to the given [path].
