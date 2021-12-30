@@ -53,7 +53,7 @@ class _SyncSettingsState extends State<SyncSettings> {
               fontSize: 18,
             ),
             NcSpacing.xs(),
-            NcBodyText("(${Sync.username})", fontSize: 15),
+            if(Sync.authorized) NcBodyText("(${Sync.username})", fontSize: 15),
           ],
         ),
         NcSpacing.xs(),

@@ -16,7 +16,8 @@ class Sync {
   static const clientSecret = "acbb2d67e9360f1f80ad3aa5ecfcc962793ec4c3";
   static const codeKeyWord = "?code=";
 
-  static String get authUrl => "https://github.com/login/oauth/authorize?client_id=$clientID&scope=gist";
+  static String get authUrl =>
+      "https://github.com/login/oauth/authorize?client_id=$clientID&scope=gist";
 
   static final _log = ActionLog();
 
@@ -38,7 +39,6 @@ class Sync {
   static Function()? onSync;
 
   static Future load() async {
-    _syncing.sink.add(false);
     var f = await DB.syncFile;
     if (!f.existsSync()) return Settings.sync = false;
 
@@ -49,6 +49,16 @@ class Sync {
     _authorized = config[authorizedKey] ?? false;
     Cloud.gistID = config[gistIDKey] ?? "";
     Cloud.username = config[usernameKey] ?? "";
+    if (!await checkCredentials()) _authorized = false;
+  }
+
+  static Future<bool> checkCredentials() async {
+    if (!await connectivity.checkConnection()) return false;
+    var response = await client.get(
+      Uri.parse("https://api.github.com/gists/starred"),
+      headers: Cloud.headers,
+    );
+    return response.statusCode != 401;
   }
 
   static reportChange(Ingredient ingredient, Function() change) {
@@ -68,7 +78,12 @@ class Sync {
   }
 
   static Future sync() async {
-    if (!Settings.sync || !await connectivity.checkConnection() || !Cloud.isReady || _isSyncing) return;
+    if (!Settings.sync ||
+        !await connectivity.checkConnection() ||
+        !Cloud.isReady ||
+        _isSyncing ||
+        !_authorized
+        ) return;
 
     _isSyncing = true;
     _syncing.sink.add(true);
@@ -147,7 +162,8 @@ class Sync {
     var f = File('${folder.path}/auth.json');
 
     var config = File("${folder.path}/sync-auth-config.json");
-    await config.writeAsString(jsonEncode({"path": f.path, "keyword": codeKeyWord, "pid": "$pid"}));
+    await config.writeAsString(
+        jsonEncode({"path": f.path, "keyword": codeKeyWord, "pid": "$pid"}));
     await launch(generateAuthUrl());
 
     var code = await Navigator.of(context).push<String>(
@@ -169,7 +185,8 @@ class Sync {
 
     if (code != null) {
       var response = await client.post(
-        Uri.parse("https://github.com/login/oauth/access_token$codeKeyWord$code&client_id=$clientID&client_secret=$clientSecret"),
+        Uri.parse(
+            "https://github.com/login/oauth/access_token$codeKeyWord$code&client_id=$clientID&client_secret=$clientSecret"),
         headers: {"Accept": "application/json"},
       );
 
@@ -185,7 +202,7 @@ class Sync {
           );
 
           var user = jsonDecode(userResponse.body);
-          Cloud.username = user["name"];
+          Cloud.username = user["name"] ?? user["login"];
 
           await Cloud.findGist();
 
@@ -197,6 +214,10 @@ class Sync {
       }
     }
 
-    showThemedSnackbar(context, _authorized ? "GitHub login successfull!" : "GitHub login failed or cancelled by user!");
+    showThemedSnackbar(
+        context,
+        _authorized
+            ? "GitHub login successfull!"
+            : "GitHub login failed or cancelled by user!");
   }
 }
