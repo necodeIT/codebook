@@ -126,7 +126,7 @@ class Sync {
   static Future sync() async {
     log("----------------- SYNCING -----------------");
     if (!Settings.sync || !await connectivity.checkConnection() || !Cloud.isReady || _isSyncing || !_authorized || _isLocked) {
-      log("Snyc not possible - is authorized: $_authorized, isLocked: $_isLocked, isSyncing: $_isSyncing");
+      log("Snyc not possible - is authorized: $_authorized, isLocked: $_isLocked, isSyncing: $_isSyncing, isReady: ${Cloud.isReady}, hasConnection: ${await connectivity.checkConnection()}, syncEnabled: ${Settings.sync}");
       log("----------------- SYNCING CANCELLED -----------------");
       return;
     }
@@ -230,8 +230,6 @@ class Sync {
   }
 
   static Future save() async {
-    if (!Settings.sync) return;
-
     var f = await DB.syncFile;
     await f.writeAsString(
       jsonEncode(
@@ -300,8 +298,8 @@ class Sync {
           _authorized = true;
           successFull = true;
 
-          await sync();
           await save();
+          await sync();
         } catch (e) {
           successFull = false;
         }

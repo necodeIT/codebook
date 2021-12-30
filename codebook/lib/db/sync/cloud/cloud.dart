@@ -40,7 +40,8 @@ class Cloud {
   static Map<String, String> get headers => {"Authorization": "token $token", "Accept": "application/json"};
 
   static Future _createGist() async {
-    if (!isReady) return;
+    if (token.isEmpty || username.isEmpty) return;
+
     var response = await client.post(
       Uri.parse("https://api.github.com/gists"),
       headers: headers,
