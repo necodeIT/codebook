@@ -80,7 +80,7 @@ class Ingredient {
   }
 
   void update({required String desc, required String lang, required List<String> tags, required String code}) {
-    if (desc != this.desc && lang != language && tags.toSet().containsAll(_tags.toSet()) && code != this.code) return;
+    if (desc == this.desc && lang == language && tags.toSet().containsAll(_tags.toSet()) && code == this.code) return;
     Sync.reportChange(this, () {
       _desc = desc;
       _language = lang;

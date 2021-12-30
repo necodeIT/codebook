@@ -137,6 +137,9 @@ class DB {
       _ingredients.add(ingredient);
       if (!silent) Sync.writeLog(ingredient, ADD);
     }
+
+    if (!silent) Sync.sync();
+
     update(silent: silent);
   }
 
