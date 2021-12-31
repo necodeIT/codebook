@@ -3,7 +3,9 @@
 import 'dart:async';
 
 import 'package:codebook/db/sync/sync.dart';
+import 'package:codebook/widgets/settings/sections/sync_settings/device_card.dart';
 import 'package:flutter/material.dart';
+import 'package:nekolib.ui/ui.dart';
 import 'package:nekolib.ui/ui/widgets/widgets.dart';
 
 class CountDown extends StatefulWidget {
@@ -44,9 +46,12 @@ class _CountDownState extends State<CountDown> {
 
   @override
   Widget build(BuildContext context) {
-    return NcBodyText(
-      "Please wait $_seconds seconds.",
-      fontSize: widget.fontSize,
+    return DeviceCard(
+      icon: Icons.warning_amber_rounded,
+      label: "Sync disabled ${_seconds}s",
+      tooltip: "Sync is temporarily disabled (${Sync.currentLockCooldown.inSeconds}s) due to API issues.",
+      color: NcThemes.current.warningColor,
+      outlined: true,
     );
   }
 }

@@ -39,6 +39,7 @@ class Sync {
   static bool get isLocked => _isLocked;
 
   static bool _isSyncing = false;
+  static bool get isSyncing => _isSyncing;
 
   static String get username => Cloud.username;
 

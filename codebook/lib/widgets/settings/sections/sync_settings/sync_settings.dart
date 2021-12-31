@@ -2,8 +2,8 @@
 
 import 'package:codebook/db/settings.dart';
 import 'package:codebook/db/sync/sync.dart';
-import 'package:codebook/widgets/button.dart';
 import 'package:codebook/widgets/settings/sections/sync_settings/count_down.dart';
+import 'package:codebook/widgets/settings/sections/sync_settings/device_card.dart';
 import 'package:codebook/widgets/settings/settings_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -25,30 +25,12 @@ class _SyncSettingsState extends State<SyncSettings> {
         SettingsTitle(
           title: "Sync",
           trailingSpacing: 0,
-        ),
-        NcSpacing.small(),
-        StreamBuilder<bool>(
-          stream: Sync.locked,
-          builder: (context, snapshot) => snapshot.data ?? false
-              ? Row(
-                  children: [
-                    NcBodyText(
-                      "Sync is temporarily disabled due to API issues.",
-                      fontSize: 15,
-                    ),
-                    CountDown(fontSize: 15)
-                  ],
-                )
-              : const SizedBox.shrink(),
-        ),
-        if (Sync.isLocked) NcSpacing.small(),
-        Row(
-          children: [
-            NcBodyText(
-              "Enable sync",
-              fontSize: 18,
-            ),
-            Switch(
+          trailing: Transform.scale(
+            alignment: Alignment.centerLeft,
+            origin: const Offset(0, 5), // Don't ask why but this alings the swtich vertically with the label
+            transformHitTests: true,
+            scale: 0.8,
+            child: Switch(
               value: Settings.sync,
               activeColor: NcThemes.current.accentColor,
               inactiveThumbColor: NcThemes.current.primaryColor,
@@ -59,32 +41,34 @@ class _SyncSettingsState extends State<SyncSettings> {
                 });
               },
             ),
-          ],
+          ),
         ),
         NcSpacing.small(),
-        Row(
+        Wrap(
+          spacing: NcSpacing.smallSpacing,
+          runSpacing: NcSpacing.smallSpacing,
           children: [
-            NcBodyText(
-              "Account",
-              fontSize: 18,
+            DeviceCard(
+              icon: Feather.github,
+              label: Sync.authorized ? Sync.username : "Login",
+              onTap: () => Sync.login(context).then((value) => setState(() {})),
+              // outlined: Sync.authorized,
+              tooltip: Sync.authorized ? "Change account" : null,
             ),
-            NcSpacing.xs(),
-            if (Sync.authorized) NcBodyText("(${Sync.username})", fontSize: 15),
+            if (Settings.sync && Sync.authorized)
+              StreamBuilder<bool>(
+                stream: Sync.locked,
+                builder: (context, snapshot) => snapshot.data ?? false
+                    ? CountDown()
+                    : DeviceCard(
+                        icon: Feather.refresh_ccw,
+                        label: "Sync",
+                        onTap: Sync.sync,
+                        tooltip: "Force sync",
+                      ),
+              ),
           ],
         ),
-        NcSpacing.xs(),
-        ThemedElevatedButton.icon(
-          onPressed: () => Sync.login(context).then((value) => setState(() {})),
-          text: Sync.authorized ? "Change" : "Login",
-          icon: Feather.github,
-        ),
-        if (Sync.authorized) NcSpacing.small(),
-        if (Sync.authorized)
-          ThemedElevatedButton.icon(
-            onPressed: Sync.sync,
-            text: "Force sync",
-            icon: Icons.update,
-          ),
       ],
     );
   }
