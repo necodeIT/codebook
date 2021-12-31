@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "CodeBook"
-#define MyAppVersion "2.0.0"
+#define MyAppVersion "2.0.1"
 #define MyAppPublisher "necodeIT"
 #define MyAppURL "https://necodeit.github.io/codebook/"
 #define MyAppExeName "codebook.exe"
