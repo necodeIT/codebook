@@ -12,7 +12,7 @@ class Updater {
   static const repoUrl = "$githubApiUrl/$repoOwner/$repoName";
 
   static const appName = "CodeBook";
-  static const version = "1.0.1";
+  static const version = "2.0.0";
 
   static var _latestVersion = "";
   static var _latestReleaseName = "";
