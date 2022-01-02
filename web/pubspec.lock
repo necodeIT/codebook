@@ -182,7 +182,7 @@ packages:
     description:
       path: ui
       ref: flutter
-      resolved-ref: "24eeb55b0368987feb1f7c65efe67abe39544517"
+      resolved-ref: "78c40092348120823cc2288fdfa71412add52d7b"
       url: "https://github.com/necodeIT/nekolib.git"
     source: git
     version: "0.0.1"
@@ -470,7 +470,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.1"
+    version: "2.3.3"
   xdg_directories:
     dependency: transitive
     description:

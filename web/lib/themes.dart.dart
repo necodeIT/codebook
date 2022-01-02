@@ -31,22 +31,10 @@ class CustomThemes {
     accentColor: const Color(0xFF18CC0A),
   );
 
-  static final recommendedCodeThemes = Map<NcTheme, String>.unmodifiable({
-    lightPurple: "Routeros",
-    lightGreen: "Qtcreator Light",
-    darkPurple: "Atelier Cave Dark",
-    darkGreen: "Obsidian",
-    NcThemes.dark: "Dracula",
-    NcThemes.ocean: "Ocean",
-    NcThemes.light: "Brown Paper",
-    NcThemes.sakura: "Kimbie Light"
-    // NcThemes.
-  });
-
   static void registerAll() {
-    NcThemes.registerExternalTheme(darkPurple);
-    NcThemes.registerExternalTheme(lightPurple);
-    NcThemes.registerExternalTheme(lightGreen);
-    NcThemes.registerExternalTheme(darkGreen);
+    NcThemes.registerTheme(darkPurple);
+    NcThemes.registerTheme(lightPurple);
+    NcThemes.registerTheme(lightGreen);
+    NcThemes.registerTheme(darkGreen);
   }
 }
