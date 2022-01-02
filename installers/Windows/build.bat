@@ -1,5 +1,4 @@
 cd ..\codebook
-call git pull --recurse-submodules
 call flutter pub get
 call flutter build windows
 cd "..\url protocol handler"
