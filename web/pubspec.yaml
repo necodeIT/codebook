@@ -37,6 +37,7 @@ dependencies:
       path: ui
       ref: flutter
   platform_detect: ^2.0.0
+  timeline_tile: ^2.0.0
   url_launcher: ^6.0.17
   url_strategy: ^0.2.0
   velocity_x: ^3.3.0

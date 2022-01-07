@@ -16,7 +16,9 @@ class DownloadButton extends StatelessWidget {
     TargetPlatform.windows,
   ];
 
-  static const Map<TargetPlatform, String> downloadLinks = {TargetPlatform.windows: "https://github.com/necodeIT/code-book/releases/latest/download/WindowsSetup.exe"};
+  static const baseUrl = "https://github.com/necodeIT/codebook/releases/latest/download";
+
+  static const Map<TargetPlatform, String> downloadLinks = {TargetPlatform.windows: "$baseUrl/WindowsSetup.exe"};
 
   static const Map<TargetPlatform, IconData> platformIcons = {
     TargetPlatform.windows: FontAwesome.windows,

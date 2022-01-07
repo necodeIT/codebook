@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:web/themes.dart.dart';
+import 'package:web/widgets/404.dart';
+import 'package:web/widgets/auth/auth.dart';
 import 'package:web/widgets/home/home.dart';
 
 void main() {
@@ -20,9 +22,13 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       title: 'CodeBook',
       routeInformationParser: VxInformationParser(),
-      routerDelegate: VxNavigator(routes: {
-        '/': (_, __) => MaterialPage(child: Home()),
-      }),
+      routerDelegate: VxNavigator(
+        routes: {
+          Home.route: (_, __) => MaterialPage(child: Home()),
+          Auth.route: (_, __) => MaterialPage(child: Auth()),
+        },
+        notFoundPage: (uri, params) => MaterialPage(child: NotFoundPage()),
+      ),
     );
   }
 }

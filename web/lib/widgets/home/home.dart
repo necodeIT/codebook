@@ -14,6 +14,8 @@ import 'package:web/widgets/home/layouts/tablet.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
+  static const route = "/";
+
   static const repo = "https://github.com/necodeIT/code-book";
   static const double tabletBreakpoint = 1550;
   static const double mobileBreakpoint = 600;
