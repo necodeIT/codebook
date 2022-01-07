@@ -16,7 +16,7 @@ class Home extends StatefulWidget {
 
   static const route = "/";
 
-  static const repo = "https://github.com/necodeIT/code-book";
+  static const repo = "https://github.com/necodeIT/codebook";
   static const double tabletBreakpoint = 1550;
   static const double mobileBreakpoint = 600;
 

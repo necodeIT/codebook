@@ -17763,7 +17763,7 @@ return A.NN(s==null?"":s)},
 rx:function rx(a){this.a=a},
 Bx:function Bx(a){this.a=a},
 QH:function QH(a){this.a=a},
-aoo(){A.NN("https://github.com/necodeIT/code-book")},
+aoo(){A.NN("https://github.com/necodeIT/codebook")},
 rZ:function rZ(a){this.a=a},
 t3:function t3(a){this.a=a},
 J3:function J3(a,b){var _=this
