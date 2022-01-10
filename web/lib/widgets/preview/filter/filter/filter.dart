@@ -6,17 +6,19 @@ import 'package:web/widgets/preview/filter/filter/filter_header.dart';
 import 'package:web/widgets/preview/filter/filter/input.dart';
 import 'package:web/widgets/preview/filter/filter/selector.dart';
 import 'package:web/widgets/preview/home_icon_button.dart';
+import 'package:web/widgets/preview/preview.dart';
 import 'package:web/widgets/preview/themed_card.dart';
 
 class Filter extends StatefulWidget {
-  Filter({Key? key, required this.tags, required this.languages, required this.language}) : super(key: key);
+  Filter({Key? key, required this.tags, required this.languages, required this.language, required this.width}) : super(key: key);
 
   final Map<String, bool> tags;
   final List<String> languages;
   final String language;
+  final double width;
 
   static const double elevation = ThemedCard.elevation;
-  static const double width = 350;
+  static const double defaultWidth = 350;
   static const animationDuration = Duration(milliseconds: 500);
   static const animationCurve = Curves.easeOutExpo;
 
@@ -37,10 +39,14 @@ class _FilterState extends State<Filter> {
             blurRadius: Filter.elevation,
           ),
         ],
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(ncRadius),
+          bottomRight: Radius.circular(ncRadius),
+        ),
       ),
       height: double.infinity,
-      width: Filter.width,
-      padding: const EdgeInsets.symmetric(horizontal: NcSpacing.largeSpacing, vertical: NcSpacing.smallSpacing),
+      width: widget.width,
+      padding: const EdgeInsets.symmetric(horizontal: NcSpacing.largeSpacing, vertical: NcSpacing.mediumSpacing),
       child: ListView(
         controller: ScrollController(),
         children: [

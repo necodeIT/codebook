@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -17,13 +18,18 @@ class Preview extends StatefulWidget {
   static const double navIconSize = 30;
   static const Duration animDuration = Duration(milliseconds: 300);
   static const Curve animCurve = Curves.easeInOut;
-  static const tag = "prev";
 
   @override
   State<Preview> createState() => _PreviewState();
 }
 
 class _PreviewState extends State<Preview> {
+  List<Widget> _views = [
+    HomePreview(),
+    FilterPreview(),
+  ];
+  int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return ConditionalWrapper(
@@ -37,11 +43,17 @@ class _PreviewState extends State<Preview> {
           mainAxisSize: MainAxisSize.min,
           children: [
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                if (_currentIndex > 0) {
+                  setState(() {
+                    _currentIndex--;
+                  });
+                }
+              },
               child: Icon(
                 FontAwesome.chevron_left,
                 size: Preview.navIconSize,
-                color: NcThemes.current.textColor,
+                color: _currentIndex > 0 ? NcThemes.current.textColor : NcThemes.current.tertiaryColor,
               ),
             ),
             NcSpacing.xl(),
@@ -49,11 +61,18 @@ class _PreviewState extends State<Preview> {
             NcSpacing.xl(),
             InkWell(
               splashFactory: NoSplash.splashFactory,
-              onTap: () {},
+              highlightColor: Colors.transparent,
+              onTap: () {
+                if (_currentIndex < _views.length - 1) {
+                  setState(() {
+                    _currentIndex++;
+                  });
+                }
+              },
               child: Icon(
                 FontAwesome.chevron_right,
                 size: Preview.navIconSize,
-                color: NcThemes.current.textColor,
+                color: _currentIndex < _views.length - 1 ? NcThemes.current.textColor : NcThemes.current.tertiaryColor,
               ),
             ),
           ],
@@ -66,9 +85,7 @@ class _PreviewState extends State<Preview> {
             child,
           ],
         ),
-        child: AnimatedContainer(
-          duration: Preview.animDuration,
-          curve: Preview.animCurve,
+        child: Container(
           width: widget.width ?? 900,
           height: widget.height ?? 550,
           decoration: BoxDecoration(
@@ -76,7 +93,19 @@ class _PreviewState extends State<Preview> {
             boxShadow: ncShadow,
             color: NcThemes.current.secondaryColor,
           ),
-          child: HomePreview(),
+          child: PageTransitionSwitcher(
+            transitionBuilder: (child, animation, secondaryAnimation) => FadeThroughTransition(
+              animation: animation,
+              secondaryAnimation: secondaryAnimation,
+              child: child,
+              fillColor: Colors.transparent,
+            ),
+            child: AnimatedContainer(
+              duration: Preview.animDuration,
+              curve: Preview.animCurve,
+              child: _views[_currentIndex],
+            ),
+          ),
         ),
       ),
     );

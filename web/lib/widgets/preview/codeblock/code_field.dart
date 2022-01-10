@@ -33,6 +33,7 @@ class CodeField extends StatelessWidget {
                 children: [
                   HomeIconButton(
                     icon: Icons.remove_red_eye,
+                    color: NcThemes.current.accentColor,
                   ),
                   NcSpacing.small(),
                   HomeIconButton(
@@ -45,7 +46,7 @@ class CodeField extends StatelessWidget {
                 ],
               ),
               OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: null,
                 icon: Icon(
                   Icons.copy,
                   color: NcThemes.current.accentColor,
@@ -54,12 +55,15 @@ class CodeField extends StatelessWidget {
                 label: NcTitleText(
                   "COPY",
                   color: NcThemes.current.accentColor,
+                  selectable: false,
                 ),
                 style: OutlinedButton.styleFrom(
                   backgroundColor: NcThemes.current.accentColor.withOpacity(LanguageInput.backgroundOpacity),
                   side: BorderSide(width: 1.0, color: NcThemes.current.accentColor),
                   padding: const EdgeInsets.all(8),
                   primary: NcThemes.current.accentColor,
+                  disabledMouseCursor: SystemMouseCursors.basic,
+                  enabledMouseCursor: SystemMouseCursors.basic,
                 ),
               )
             ],

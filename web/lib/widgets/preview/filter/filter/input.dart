@@ -11,6 +11,7 @@ class FilterInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      enabled: false,
       cursorColor: NcThemes.current.accentColor,
       style: TextStyle(color: NcThemes.current.textColor),
       decoration: InputDecoration(
@@ -18,6 +19,7 @@ class FilterInput extends StatelessWidget {
         hintStyle: TextStyle(color: NcThemes.current.textColor),
         border: border(),
         enabledBorder: border(color: NcThemes.current.tertiaryColor),
+        disabledBorder: border(color: NcThemes.current.tertiaryColor),
         focusedBorder: border(),
         suffixIcon: Icon(
           Icons.search,

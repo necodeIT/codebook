@@ -34,6 +34,7 @@ class _CodeBlockState extends State<CodeBlock> {
             widget.desc,
             overflow: TextOverflow.visible,
             fontSize: CodeBlock.descSize,
+            selectable: false,
           ),
           NcSpacing.xs(),
           CodeField(

@@ -12,7 +12,7 @@ class HomePreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(NcSpacing.largeSpacing),
+      padding: const EdgeInsets.symmetric(horizontal: NcSpacing.largeSpacing, vertical: NcSpacing.mediumSpacing),
       child: Column(
         children: [
           Row(
@@ -39,11 +39,9 @@ class HomePreview extends StatelessWidget {
           Expanded(
               child: ListView(
             children: [
-              CodeBlock(code: 'print("Hello World!")', desc: "Python hello world", language: "python", tags: ["example"]),
-              NcSpacing.small(),
-              CodeBlock(code: 'print("Hello World!")', desc: "sdasdsdasd", language: "python", tags: ["catgirl"]),
-              NcSpacing.small(),
-              CodeBlock(code: 'print("Hello World!")', desc: "sdasdsdasd", language: "python", tags: ["catgirl"]),
+              CodeBlock(code: 'print("Hello World!")', desc: "Python hello world", language: "python", tags: const ["example", "preview"]),
+              CodeBlock(code: 'path = "Test.txt"\ncontent = "Hello World!"\nf = open(path, "a")\nf.write(content)\nf.close()', desc: "Write file", language: "python", tags: const ["example", "preview"]),
+              CodeBlock(code: 'print("Hello World!")', desc: "Hello world in dart", language: "dart", tags: const ["example", "preview"]),
             ],
           ))
         ],

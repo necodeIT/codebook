@@ -49,6 +49,7 @@ class Tag extends StatelessWidget {
             label,
             color: color,
             fontSize: fontSize,
+            selectable: false,
           ),
         ],
       ),

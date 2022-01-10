@@ -6,17 +6,20 @@ import 'package:web/widgets/preview/codeblock/code_block.dart';
 import 'package:web/widgets/preview/filter/filter/filter.dart';
 
 class FilterPreview extends StatelessWidget {
-  FilterPreview({Key? key}) : super(key: key);
+  FilterPreview({Key? key, this.filterWidth = Filter.defaultWidth}) : super(key: key);
+
+  final double filterWidth;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(NcSpacing.largeSpacing),
+      padding: const EdgeInsets.only(left: NcSpacing.largeSpacing),
       child: Row(
         children: [
           Expanded(
             child: Column(
               children: [
+                NcSpacing.medium(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -32,8 +35,6 @@ class FilterPreview extends StatelessWidget {
                         Icon(Icons.download, color: NcThemes.current.tertiaryColor),
                         NcSpacing.xs(),
                         Icon(Icons.settings, color: NcThemes.current.tertiaryColor),
-                        NcSpacing.xs(),
-                        Icon(Icons.filter_alt_sharp, color: NcThemes.current.tertiaryColor),
                       ],
                     ),
                   ],
@@ -41,8 +42,10 @@ class FilterPreview extends StatelessWidget {
                 NcSpacing.medium(),
                 Expanded(
                   child: ListView(
+                    physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      CodeBlock(code: 'print("Hello World!")', desc: "Python hello world", language: "python", tags: const ["example"]),
+                      CodeBlock(code: 'print("Hello World!")', desc: "Python hello world", language: "python", tags: const ["example", "preview"]),
+                      CodeBlock(code: 'path = "Test.txt"\ncontent = "Hello World!"\nf = open(path, "a")\nf.write(content)\nf.close()', desc: "Write file", language: "python", tags: const ["example", "preview"]),
                     ],
                   ),
                 ),
@@ -50,7 +53,7 @@ class FilterPreview extends StatelessWidget {
             ),
           ),
           NcSpacing.medium(),
-          Filter(tags: {"example": true, "catgirl": false}, languages: ["python"], language: "python"),
+          Filter(tags: {"example": true, "preview": false}, languages: ["python"], language: "python", width: filterWidth),
         ],
       ),
     );
