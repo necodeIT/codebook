@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:web/widgets/condtional_wrapper.dart.dart';
+import 'package:web/widgets/preview/filter/filter.dart';
+import 'package:web/widgets/preview/home/home.dart';
+import 'package:web/widgets/preview/transform.dart';
 
 class Preview extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -25,54 +28,56 @@ class _PreviewState extends State<Preview> {
   Widget build(BuildContext context) {
     return ConditionalWrapper(
       condition: widget.stack,
-      builder: (context, child) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          GestureDetector(
-            onTap: () {},
-            child: Icon(
-              FontAwesome.chevron_left,
-              size: Preview.navIconSize,
-              color: NcThemes.current.textColor,
-            ),
-          ),
-          NcSpacing.xl(),
-          child,
-          NcSpacing.xl(),
-          InkWell(
-            splashFactory: NoSplash.splashFactory,
-            onTap: () {},
-            child: Icon(
-              FontAwesome.chevron_right,
-              size: Preview.navIconSize,
-              color: NcThemes.current.textColor,
-            ),
-          ),
-        ],
+      builder: (context, child) => PreviewTransform(
+        child: child,
       ),
-      falseBuilder: (context, child) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          child,
-          NcSpacing.large(),
-          child,
-        ],
-      ),
-      child: AnimatedContainer(
-        duration: Preview.animDuration,
-        curve: Preview.animCurve,
-        width: widget.width ?? 900,
-        height: widget.height ?? 550,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(ncRadius),
-          boxShadow: ncShadow,
-          color: NcThemes.current.primaryColor,
+      child: ConditionalWrapper(
+        condition: widget.stack,
+        builder: (context, child) => Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GestureDetector(
+              onTap: () {},
+              child: Icon(
+                FontAwesome.chevron_left,
+                size: Preview.navIconSize,
+                color: NcThemes.current.textColor,
+              ),
+            ),
+            NcSpacing.xl(),
+            child,
+            NcSpacing.xl(),
+            InkWell(
+              splashFactory: NoSplash.splashFactory,
+              onTap: () {},
+              child: Icon(
+                FontAwesome.chevron_right,
+                size: Preview.navIconSize,
+                color: NcThemes.current.textColor,
+              ),
+            ),
+          ],
         ),
-        child: Center(
-            child: NcTitleText(
-          "Work In Progress",
-          fontSize: 20,
-        )),
+        falseBuilder: (context, child) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            child,
+            NcSpacing.large(),
+            child,
+          ],
+        ),
+        child: AnimatedContainer(
+          duration: Preview.animDuration,
+          curve: Preview.animCurve,
+          width: widget.width ?? 900,
+          height: widget.height ?? 550,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(ncRadius),
+            boxShadow: ncShadow,
+            color: NcThemes.current.secondaryColor,
+          ),
+          child: HomePreview(),
+        ),
       ),
     );
   }

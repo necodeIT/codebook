@@ -97,6 +97,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_highlight:
+    dependency: "direct main"
+    description:
+      path: flutter_highlight
+      ref: HEAD
+      resolved-ref: b281f6102d410d37835ba361e9b8d38a4af8c648
+      url: "https://github.com/necodeIT/highlight.dart.git"
+    source: git
+    version: "0.7.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -128,6 +137,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  highlight:
+    dependency: transitive
+    description:
+      name: highlight
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.0"
   http:
     dependency: transitive
     description:
