@@ -37,13 +37,15 @@ class HomePreview extends StatelessWidget {
           ),
           NcSpacing.medium(),
           Expanded(
-              child: ListView(
-            children: [
-              CodeBlock(code: 'print("Hello World!")', desc: "Python hello world", language: "python", tags: const ["example", "preview"]),
-              CodeBlock(code: 'path = "Test.txt"\ncontent = "Hello World!"\nf = open(path, "a")\nf.write(content)\nf.close()', desc: "Write file", language: "python", tags: const ["example", "preview"]),
-              CodeBlock(code: 'print("Hello World!")', desc: "Hello world in dart", language: "dart", tags: const ["example", "preview"]),
-            ],
-          ))
+            child: ListView(
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                CodeBlock(code: 'print("Hello World!")', desc: "Python hello world", language: "python", tags: const ["example", "preview"]),
+                CodeBlock(code: 'path = "Test.txt"\ncontent = "Hello World!"\nf = open(path, "a")\nf.write(content)\nf.close()', desc: "Write file", language: "python", tags: const ["example", "preview"]),
+                CodeBlock(code: 'print("Hello World!")', desc: "Hello world in dart", language: "dart", tags: const ["example", "preview"]),
+              ],
+            ),
+          )
         ],
       ),
     );

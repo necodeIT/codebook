@@ -24,14 +24,15 @@ class Preview extends StatefulWidget {
 }
 
 class _PreviewState extends State<Preview> {
-  List<Widget> _views = [
-    HomePreview(),
-    FilterPreview(),
-  ];
   int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _views = [
+      HomePreview(),
+      FilterPreview(),
+    ];
+
     return ConditionalWrapper(
       condition: widget.stack,
       builder: (context, child) => PreviewTransform(
@@ -80,33 +81,48 @@ class _PreviewState extends State<Preview> {
         falseBuilder: (context, child) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            child,
-            NcSpacing.large(),
-            child,
+            for (var view in _views)
+              Container(
+                margin: EdgeInsets.only(bottom: NcSpacing.xlSpacing),
+                width: widget.width ?? 900,
+                height: widget.height ?? 550,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(ncRadius),
+                  boxShadow: ncShadow,
+                  color: NcThemes.current.secondaryColor,
+                ),
+                child: AnimatedContainer(
+                  duration: Preview.animDuration,
+                  curve: Preview.animCurve,
+                  child: view,
+                ),
+              ),
           ],
         ),
         child: Container(
-          width: widget.width ?? 900,
-          height: widget.height ?? 550,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(ncRadius),
-            boxShadow: ncShadow,
-            color: NcThemes.current.secondaryColor,
-          ),
-          child: PageTransitionSwitcher(
-            transitionBuilder: (child, animation, secondaryAnimation) => FadeThroughTransition(
-              animation: animation,
-              secondaryAnimation: secondaryAnimation,
-              child: child,
-              fillColor: Colors.transparent,
+            width: widget.width ?? 900,
+            height: widget.height ?? 550,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(ncRadius),
+              boxShadow: ncShadow,
+              color: NcThemes.current.secondaryColor,
             ),
-            child: AnimatedContainer(
-              duration: Preview.animDuration,
-              curve: Preview.animCurve,
+            child: PageTransitionSwitcher(
+              transitionBuilder: (child, animation, secondaryAnimation) => FadeThroughTransition(
+                // transitionType: SharedAxisTransitionType.horizontal,
+                animation: animation,
+                secondaryAnimation: secondaryAnimation,
+                child: child,
+                fillColor: Colors.transparent,
+              ),
               child: _views[_currentIndex],
+            )
+
+            //   duration: Preview.animDuration,
+            //   curve: Preview.animCurve,
+            // child: _currentIndex == 0 ? HomePreview() : FilterPreview(),
+            // ),
             ),
-          ),
-        ),
       ),
     );
   }
