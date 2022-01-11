@@ -11,11 +11,13 @@ import 'dart:async';
 
 class Preview extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
-  Preview({Key? key, this.width, this.height, this.stack = true}) : super(key: key);
+  Preview({Key? key, this.width = 950, this.height = 520, this.stack = true, this.scale = 1, this.mainAxisSize = MainAxisSize.min}) : super(key: key);
 
-  final double? width;
-  final double? height;
+  final double width;
+  final double height;
+  final double scale;
   final bool stack;
+  final MainAxisSize mainAxisSize;
 
   static const double navIconSize = 30;
   static const double indicatorSize = 15;
@@ -74,6 +76,14 @@ class _PreviewState extends State<Preview> {
     });
   }
 
+  jumpToINdex(int index) {
+    if (index == _currentIndex) return;
+    setState(() {
+      _currentIndex = index;
+    });
+    resetTimer(true);
+  }
+
   @override
   void dispose() {
     _timer.cancel();
@@ -90,49 +100,57 @@ class _PreviewState extends State<Preview> {
 
     return ConditionalWrapper(
       condition: widget.stack,
-      builder: (context, child) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          GestureDetector(
-            onTap: prevPage,
-            child: Icon(
-              FontAwesome.chevron_left,
-              size: Preview.navIconSize,
-              color: NcThemes.current.textColor,
+      builder: (context, child) => Transform.scale(
+        scale: widget.scale,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            InkWell(
+              splashFactory: NoSplash.splashFactory,
+              highlightColor: Colors.transparent,
+              onTap: prevPage,
+              child: Icon(
+                FontAwesome.chevron_left,
+                size: Preview.navIconSize,
+                color: NcThemes.current.textColor,
+              ),
             ),
-          ),
-          NcSpacing.xl(),
-          child,
-          NcSpacing.xl(),
-          InkWell(
-            splashFactory: NoSplash.splashFactory,
-            highlightColor: Colors.transparent,
-            onTap: nextPage,
-            child: Icon(
-              FontAwesome.chevron_right,
-              size: Preview.navIconSize,
-              color: NcThemes.current.textColor,
+            NcSpacing.xl(),
+            child,
+            NcSpacing.xl(),
+            InkWell(
+              splashFactory: NoSplash.splashFactory,
+              highlightColor: Colors.transparent,
+              onTap: nextPage,
+              child: Icon(
+                FontAwesome.chevron_right,
+                size: Preview.navIconSize,
+                color: NcThemes.current.textColor,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       falseBuilder: (context, child) => Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: widget.mainAxisSize,
         children: [
           for (var view in views)
-            Container(
-              margin: const EdgeInsets.only(bottom: NcSpacing.xlSpacing),
-              width: widget.width ?? 900,
-              height: widget.height ?? 550,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(ncRadius),
-                boxShadow: ncShadow,
-                color: NcThemes.current.secondaryColor,
-              ),
-              child: AnimatedContainer(
-                duration: Preview.animDuration,
-                curve: Preview.animCurve,
-                child: view,
+            Transform.scale(
+              scale: widget.scale,
+              child: Container(
+                margin: const EdgeInsets.only(bottom: NcSpacing.xlSpacing),
+                width: widget.width,
+                height: widget.height,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(ncRadius),
+                  boxShadow: ncShadow,
+                  color: NcThemes.current.secondaryColor,
+                ),
+                child: AnimatedContainer(
+                  duration: Preview.animDuration,
+                  curve: Preview.animCurve,
+                  child: view,
+                ),
               ),
             ),
         ],
@@ -141,8 +159,8 @@ class _PreviewState extends State<Preview> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: widget.width ?? 900,
-            height: widget.height ?? 550,
+            width: widget.width,
+            height: widget.height,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(ncRadius),
               boxShadow: ncShadow,
@@ -170,6 +188,7 @@ class _PreviewState extends State<Preview> {
                   currentIndex: _currentIndex,
                   length: views.length,
                   duration: Preview.nextViewTimer,
+                  onTap: () => jumpToINdex(i),
                 ),
             ],
           )

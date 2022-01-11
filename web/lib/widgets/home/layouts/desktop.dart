@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
+import 'package:web/widgets/adaptive_layout_property.dart';
 import 'package:web/widgets/background_path.dart';
 import 'package:web/widgets/home/buttons/download_button.dart';
 import 'package:web/widgets/home/buttons/guthub_button.dart';
@@ -8,7 +9,12 @@ import 'package:web/widgets/preview/preview.dart';
 import 'package:web/widgets/theme_selector.dart';
 
 class HomeDesktopLayout extends StatelessWidget {
-  const HomeDesktopLayout({Key? key}) : super(key: key);
+  HomeDesktopLayout({Key? key}) : super(key: key);
+
+  final previewScales = AdaptiveLayoutProperty<double>(breakPoints: {
+    double.infinity: 1,
+    1562: .9,
+  });
 
   static const double titleSize = 60;
   static const double captionSize = 20;
@@ -51,7 +57,10 @@ class HomeDesktopLayout extends StatelessWidget {
             ),
             NcSpacing.xl(),
             NcSpacing.xl(),
-            Preview(),
+            Preview(
+              scale: previewScales.value(context),
+              mainAxisSize: MainAxisSize.max,
+            ),
             NcSpacing.xl(),
           ],
         ),

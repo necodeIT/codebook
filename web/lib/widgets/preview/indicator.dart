@@ -3,16 +3,18 @@
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 import 'package:web/themes.dart.dart';
+import 'package:web/widgets/condtional_wrapper.dart.dart';
 import 'package:web/widgets/preview/preview.dart';
 import 'dart:async';
 
 class PreviewIndicator extends StatefulWidget {
-  PreviewIndicator({Key? key, required this.index, required this.currentIndex, required this.length, required this.duration}) : super(key: key);
+  const PreviewIndicator({Key? key, required this.index, required this.currentIndex, required this.length, required this.duration, this.onTap}) : super(key: key);
 
   final int index;
   final int currentIndex;
   final int length;
   final Duration duration;
+  final Function()? onTap;
 
   static const updateInterval = Duration(milliseconds: 5);
 
@@ -20,6 +22,7 @@ class PreviewIndicator extends StatefulWidget {
     NcThemes.light.name: NcThemes.light.tertiaryColor.withOpacity(.5),
     NcThemes.sakura.name: NcThemes.sakura.tertiaryColor.withOpacity(.5),
     NcThemes.dark.name: NcThemes.dark.tertiaryColor,
+    NcThemes.ocean.name: NcThemes.ocean.tertiaryColor,
     CustomThemes.darkPurple.name: CustomThemes.darkPurple.tertiaryColor,
   });
 
@@ -57,23 +60,33 @@ class _PreviewIndicatorState extends State<PreviewIndicator> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: NcSpacing.smallSpacing),
-      height: Preview.indicatorSize,
-      width: Preview.indicatorSize,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(Preview.indicatorRadius),
-        color: widget.index == widget.currentIndex ? NcThemes.current.primaryColor : PreviewIndicator.indicatorBackgroundColor.value,
-        border: widget.index == widget.currentIndex ? Border.all(color: NcThemes.current.accentColor) : null,
+    return ConditionalWrapper(
+      condition: widget.currentIndex != widget.index,
+      builder: (context, child) => MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: child,
+        ),
       ),
-      child: useTimer
-          ? CircularProgressIndicator(
-              color: NcThemes.current.accentColor,
-              backgroundColor: PreviewIndicator.indicatorBackgroundColor.value,
-              strokeWidth: 1,
-              value: _seconds / _duration,
-            )
-          : null,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: NcSpacing.smallSpacing),
+        height: Preview.indicatorSize,
+        width: Preview.indicatorSize,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(Preview.indicatorRadius),
+          color: widget.index == widget.currentIndex ? NcThemes.current.primaryColor : PreviewIndicator.indicatorBackgroundColor.value,
+          border: widget.index == widget.currentIndex ? Border.all(color: NcThemes.current.accentColor) : null,
+        ),
+        child: useTimer
+            ? CircularProgressIndicator(
+                color: NcThemes.current.accentColor,
+                backgroundColor: PreviewIndicator.indicatorBackgroundColor.value,
+                strokeWidth: 1,
+                value: _seconds / _duration,
+              )
+            : null,
+      ),
     );
   }
 }

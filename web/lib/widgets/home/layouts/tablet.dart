@@ -10,11 +10,11 @@ import 'package:web/widgets/preview/preview.dart';
 class HomeTabletLayout extends StatelessWidget {
   HomeTabletLayout({Key? key}) : super(key: key);
 
-  final previewSizes = AdaptiveLayoutProperty(breakPoints: {
-    double.infinity: const Size(950, 520),
-    1150: const Size(770, 450),
-    953: const Size(700, 380),
-    890: const Size(700, 380),
+  final previewScales = AdaptiveLayoutProperty<double>(breakPoints: {
+    double.infinity: 1,
+    1150: .9,
+    953: .6,
+    890: .5,
   });
 
   final previewState = AdaptiveLayoutProperty(breakPoints: {
@@ -24,8 +24,6 @@ class HomeTabletLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var previewSize = previewSizes.value(context);
-
     return SingleChildScrollView(
       child: Container(
         padding: const EdgeInsets.all(NcSpacing.xlSpacing),
@@ -70,8 +68,7 @@ class HomeTabletLayout extends StatelessWidget {
             NcSpacing.large(),
             Preview(
               stack: previewState.value(context),
-              width: previewSize.width,
-              height: previewSize.height,
+              scale: previewScales.value(context),
             ),
             NcSpacing.xl(),
           ],
