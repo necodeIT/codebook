@@ -1,8 +1,10 @@
+// ignore_for_file: prefer_const_constructors_in_immutables
+
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
 class FilterInput extends StatelessWidget {
-  const FilterInput({Key? key, this.placeholder}) : super(key: key);
+  FilterInput({Key? key, this.placeholder}) : super(key: key);
 
   final String? placeholder;
 

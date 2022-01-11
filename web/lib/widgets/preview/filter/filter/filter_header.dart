@@ -1,8 +1,10 @@
+// ignore_for_file: prefer_const_constructors_in_immutables
+
 import 'package:flutter/material.dart';
 import 'package:nekolib.ui/ui.dart';
 
 class FilterHeader extends StatelessWidget {
-  const FilterHeader({Key? key, required this.title, required this.active}) : super(key: key);
+  FilterHeader({Key? key, required this.title, required this.active}) : super(key: key);
 
   final bool active;
   final String title;

@@ -5,7 +5,9 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:web/widgets/condtional_wrapper.dart.dart';
 import 'package:web/widgets/preview/filter/filter.dart';
 import 'package:web/widgets/preview/home/home.dart';
-import 'package:web/widgets/preview/transform.dart';
+import 'package:web/widgets/preview/indicator.dart';
+import 'package:web/widgets/preview/settings/settings.dart';
+import 'dart:async';
 
 class Preview extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -16,7 +18,10 @@ class Preview extends StatefulWidget {
   final bool stack;
 
   static const double navIconSize = 30;
+  static const double indicatorSize = 15;
+  static const double indicatorRadius = 30;
   static const Duration animDuration = Duration(milliseconds: 300);
+  static const Duration nextViewTimer = Duration(seconds: 10);
   static const Curve animCurve = Curves.easeInOut;
 
   @override
@@ -25,81 +30,117 @@ class Preview extends StatefulWidget {
 
 class _PreviewState extends State<Preview> {
   int _currentIndex = 0;
+  late Timer _timer;
+
+  late List<Widget> views;
+
+  @override
+  void initState() {
+    resetTimer(false);
+
+    super.initState();
+  }
+
+  nextPage({bool reset = true}) {
+    if (reset) {
+      resetTimer(true);
+    }
+    setState(() {
+      if (_currentIndex < views.length - 1) {
+        _currentIndex++;
+      } else {
+        _currentIndex = 0;
+      }
+    });
+  }
+
+  resetTimer(bool hasTimer) {
+    if (hasTimer) {
+      _timer.cancel();
+    }
+    _timer = Timer.periodic(Preview.nextViewTimer, (_) => nextPage(reset: false));
+  }
+
+  prevPage({bool reset = true}) {
+    if (reset) {
+      resetTimer(true);
+    }
+    setState(() {
+      if (_currentIndex > 0) {
+        _currentIndex--;
+      } else {
+        _currentIndex = views.length - 1;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _views = [
+    views = [
       HomePreview(),
       FilterPreview(),
+      SettingsPreview(),
     ];
 
     return ConditionalWrapper(
       condition: widget.stack,
-      builder: (context, child) => PreviewTransform(
-        child: child,
+      builder: (context, child) => Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GestureDetector(
+            onTap: prevPage,
+            child: Icon(
+              FontAwesome.chevron_left,
+              size: Preview.navIconSize,
+              color: NcThemes.current.textColor,
+            ),
+          ),
+          NcSpacing.xl(),
+          child,
+          NcSpacing.xl(),
+          InkWell(
+            splashFactory: NoSplash.splashFactory,
+            highlightColor: Colors.transparent,
+            onTap: nextPage,
+            child: Icon(
+              FontAwesome.chevron_right,
+              size: Preview.navIconSize,
+              color: NcThemes.current.textColor,
+            ),
+          ),
+        ],
       ),
-      child: ConditionalWrapper(
-        condition: widget.stack,
-        builder: (context, child) => Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            GestureDetector(
-              onTap: () {
-                if (_currentIndex > 0) {
-                  setState(() {
-                    _currentIndex--;
-                  });
-                }
-              },
-              child: Icon(
-                FontAwesome.chevron_left,
-                size: Preview.navIconSize,
-                color: _currentIndex > 0 ? NcThemes.current.textColor : NcThemes.current.tertiaryColor,
+      falseBuilder: (context, child) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (var view in views)
+            Container(
+              margin: const EdgeInsets.only(bottom: NcSpacing.xlSpacing),
+              width: widget.width ?? 900,
+              height: widget.height ?? 550,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(ncRadius),
+                boxShadow: ncShadow,
+                color: NcThemes.current.secondaryColor,
+              ),
+              child: AnimatedContainer(
+                duration: Preview.animDuration,
+                curve: Preview.animCurve,
+                child: view,
               ),
             ),
-            NcSpacing.xl(),
-            child,
-            NcSpacing.xl(),
-            InkWell(
-              splashFactory: NoSplash.splashFactory,
-              highlightColor: Colors.transparent,
-              onTap: () {
-                if (_currentIndex < _views.length - 1) {
-                  setState(() {
-                    _currentIndex++;
-                  });
-                }
-              },
-              child: Icon(
-                FontAwesome.chevron_right,
-                size: Preview.navIconSize,
-                color: _currentIndex < _views.length - 1 ? NcThemes.current.textColor : NcThemes.current.tertiaryColor,
-              ),
-            ),
-          ],
-        ),
-        falseBuilder: (context, child) => Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            for (var view in _views)
-              Container(
-                margin: EdgeInsets.only(bottom: NcSpacing.xlSpacing),
-                width: widget.width ?? 900,
-                height: widget.height ?? 550,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(ncRadius),
-                  boxShadow: ncShadow,
-                  color: NcThemes.current.secondaryColor,
-                ),
-                child: AnimatedContainer(
-                  duration: Preview.animDuration,
-                  curve: Preview.animCurve,
-                  child: view,
-                ),
-              ),
-          ],
-        ),
-        child: Container(
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
             width: widget.width ?? 900,
             height: widget.height ?? 550,
             decoration: BoxDecoration(
@@ -115,14 +156,24 @@ class _PreviewState extends State<Preview> {
                 child: child,
                 fillColor: Colors.transparent,
               ),
-              child: _views[_currentIndex],
-            )
-
-            //   duration: Preview.animDuration,
-            //   curve: Preview.animCurve,
-            // child: _currentIndex == 0 ? HomePreview() : FilterPreview(),
-            // ),
+              child: views[_currentIndex],
             ),
+          ),
+          NcSpacing.medium(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              for (int i = 0; i < views.length; i++)
+                PreviewIndicator(
+                  key: GlobalKey(),
+                  index: i,
+                  currentIndex: _currentIndex,
+                  length: views.length,
+                  duration: Preview.nextViewTimer,
+                ),
+            ],
+          )
+        ],
       ),
     );
   }

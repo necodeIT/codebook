@@ -6,7 +6,6 @@ import 'package:web/widgets/preview/filter/filter/filter_header.dart';
 import 'package:web/widgets/preview/filter/filter/input.dart';
 import 'package:web/widgets/preview/filter/filter/selector.dart';
 import 'package:web/widgets/preview/home_icon_button.dart';
-import 'package:web/widgets/preview/preview.dart';
 import 'package:web/widgets/preview/themed_card.dart';
 
 class Filter extends StatefulWidget {

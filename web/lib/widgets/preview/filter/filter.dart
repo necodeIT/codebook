@@ -53,7 +53,7 @@ class FilterPreview extends StatelessWidget {
             ),
           ),
           NcSpacing.medium(),
-          Filter(tags: {"example": true, "preview": false}, languages: ["python"], language: "python", width: filterWidth),
+          Filter(tags: const {"example": true, "preview": false}, languages: const ["python"], language: "python", width: filterWidth),
         ],
       ),
     );

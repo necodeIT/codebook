@@ -38,6 +38,7 @@ class HomePreview extends StatelessWidget {
           NcSpacing.medium(),
           Expanded(
             child: ListView(
+              controller: ScrollController(),
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 CodeBlock(code: 'print("Hello World!")', desc: "Python hello world", language: "python", tags: const ["example", "preview"]),
