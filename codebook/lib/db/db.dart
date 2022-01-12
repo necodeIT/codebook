@@ -85,20 +85,21 @@ class DB {
     updateMetaData();
 
     if (!silent) save();
+    if (!silent) Sync.sync();
   }
 
   /// Adds an ingredient to the database.
   static void addIngredient(Ingredient value) {
     _ingredients.add(value);
     Sync.writeLog(value, ADD);
-    update();
+    update(silent: false);
   }
 
   /// Removes an ingredient from the database.
   static void rmIngredient(Ingredient value) {
     _ingredients.remove(value);
     Sync.writeLog(value, DEL);
-    update();
+    update(silent: false);
   }
 
   /// Loads the db from the local file system.
@@ -137,8 +138,6 @@ class DB {
       _ingredients.add(ingredient);
       if (!silent) Sync.writeLog(ingredient, ADD);
     }
-
-    if (!silent) Sync.sync();
 
     update(silent: silent);
   }

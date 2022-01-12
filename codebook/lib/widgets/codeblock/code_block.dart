@@ -183,8 +183,8 @@ class _CodeBlockState extends State<CodeBlock> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: NcTitleText("U sure?"),
-        content: NcBodyText("U sure you wanna delete this? Missclick?"),
+        title: NcTitleText("Are you sure?"),
+        content: NcBodyText("Are you sure you want to delete this ingredient?"),
         backgroundColor: NcThemes.current.primaryColor,
         actions: [
           TextButton(
@@ -196,9 +196,9 @@ class _CodeBlockState extends State<CodeBlock> {
               });
               widget.onDelete();
             },
-            child: NcCaptionText("Ye"),
+            child: NcCaptionText("Yes"),
           ),
-          TextButton(onPressed: () => Navigator.of(context).pop(), child: NcCaptionText("Missclick"))
+          TextButton(onPressed: () => Navigator.of(context).pop(), child: NcCaptionText("No"))
         ],
       ),
     );
