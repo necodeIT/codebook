@@ -13,6 +13,7 @@ class HomeTabletLayout extends StatelessWidget {
   final previewScales = AdaptiveLayoutProperty<double>(breakPoints: {
     double.infinity: 1,
     1150: .9,
+    1131: .8,
     953: .6,
     890: .5,
   });

@@ -76,7 +76,7 @@ class _PreviewState extends State<Preview> {
     });
   }
 
-  jumpToINdex(int index) {
+  jumpToIndex(int index) {
     if (index == _currentIndex) return;
     setState(() {
       _currentIndex = index;
@@ -188,7 +188,7 @@ class _PreviewState extends State<Preview> {
                   currentIndex: _currentIndex,
                   length: views.length,
                   duration: Preview.nextViewTimer,
-                  onTap: () => jumpToINdex(i),
+                  onTap: () => jumpToIndex(i),
                 ),
             ],
           )
