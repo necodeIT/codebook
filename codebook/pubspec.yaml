@@ -41,7 +41,6 @@ dependencies:
       url: https://github.com/necodeIT/highlight.dart.git
       path: flutter_highlight
   flutter_vector_icons: ^1.0.0
-  freezed_annotation: any
   http: ^0.13.4
   intl: ^0.17.0
   nekolib.ui:

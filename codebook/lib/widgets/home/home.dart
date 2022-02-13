@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Builder(builder: (context) {
-        WidgetsBinding.instance!.addPostFrameCallback((_) => Updater.showErrorMessage(context));
+        WidgetsBinding.instance.addPostFrameCallback((_) => Updater.showErrorMessage(context));
         return Row(
           children: [
             Expanded(
