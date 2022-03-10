@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class LanguageInput extends StatelessWidget {
   const LanguageInput({Key? key, required this.controller, required this.focus, this.disabled = false, this.onValueChange}) : super(key: key);

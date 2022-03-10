@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class FilterInput extends StatelessWidget {
   const FilterInput({Key? key, required this.onChanged, this.placeholder}) : super(key: key);

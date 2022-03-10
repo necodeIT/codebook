@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
 
 class FilterSelect extends StatelessWidget {

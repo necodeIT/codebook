@@ -1,7 +1,7 @@
 import 'package:codebook/widgets/codeblock/language_tag/language_input.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class TagInput extends StatelessWidget {
   const TagInput({Key? key, required this.controller, required this.focus, this.onValueChange, this.onSubmit}) : super(key: key);

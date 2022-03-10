@@ -5,7 +5,7 @@ import 'package:codebook/widgets/selected_indicator.dart';
 import 'package:codebook/widgets/themed_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class CodeTheme extends StatelessWidget {
   const CodeTheme({Key? key, required this.theme, required this.recomended, required this.selected, required this.onTap}) : super(key: key);

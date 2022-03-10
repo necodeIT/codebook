@@ -8,7 +8,7 @@ import 'package:codebook/widgets/selected_indicator.dart';
 import 'package:codebook/widgets/themed_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class CodePreview extends StatefulWidget {
   const CodePreview({Key? key, required this.onToggle, required this.checkDuplicate, required this.data, required this.selected}) : super(key: key);

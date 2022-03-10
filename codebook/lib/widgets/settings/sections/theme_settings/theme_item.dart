@@ -3,7 +3,7 @@ import 'package:codebook/widgets/settings/sections/code_themes_settings/code_the
 import 'package:codebook/widgets/selected_indicator.dart';
 import 'package:codebook/widgets/themed_card.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class ThemeItem extends StatelessWidget {
   const ThemeItem({Key? key, required this.theme, required this.selected, required this.onTap}) : super(key: key);

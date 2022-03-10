@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class ThemedElevatedButton extends StatelessWidget {
   ThemedElevatedButton({Key? key, required this.onPressed, required this.text, this.fontSize}) : super(key: key) {

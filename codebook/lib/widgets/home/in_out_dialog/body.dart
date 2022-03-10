@@ -1,7 +1,7 @@
 import 'package:codebook/db/ingredient.dart';
 import 'package:codebook/widgets/home/home.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 import 'code_preview.dart';
 

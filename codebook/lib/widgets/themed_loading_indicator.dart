@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class ThemedLoadingIndicator extends StatelessWidget {
   ThemedLoadingIndicator({Key? key, this.containerColor, this.thickness = 4}) : super(key: key);

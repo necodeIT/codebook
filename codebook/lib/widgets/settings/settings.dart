@@ -5,7 +5,7 @@ import 'package:codebook/widgets/settings/sections/code_themes_settings/code_the
 import 'package:codebook/widgets/settings/sections/sync_settings/sync_settings.dart';
 import 'package:codebook/widgets/settings/sections/theme_settings/theme_settings.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class SettingsPage extends StatefulWidget {
   SettingsPage({Key? key}) : super(key: key);

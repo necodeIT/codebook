@@ -8,7 +8,7 @@ import 'package:codebook/widgets/codeblock/language_tag/language_tag.dart';
 import 'package:codebook/widgets/home/filter/filter.dart';
 import 'package:codebook/widgets/text_input/input.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 import 'view_mode.dart';
 

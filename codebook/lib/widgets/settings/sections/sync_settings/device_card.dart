@@ -4,7 +4,7 @@ import 'package:codebook/widgets/conditional_wrap/condtional_wrapper.dart';
 import 'package:codebook/widgets/home/themed_tool_tip.dart';
 import 'package:codebook/widgets/themed_card.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class DeviceCard extends StatelessWidget {
   DeviceCard({Key? key, required this.icon, required this.label, this.onTap, this.outlined = false, this.tooltip, this.color}) : super(key: key);

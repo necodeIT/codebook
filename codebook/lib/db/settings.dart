@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/logger.dart';
 import 'package:codebook/themes.dart';
-import 'package:nekolib.ui/ui/themes/themes.dart';
+import 'package:nekolib_ui/core.dart';
 
 import 'sync/sync.dart';
 
@@ -19,8 +19,6 @@ class Settings {
   static String _codeTheme = "Ocean";
   static bool _sync = false;
   static bool _dirty = false;
-
-  static void Function()? onUpdate;
 
   static bool get dirty => _dirty;
   static String get theme => _theme;
@@ -56,28 +54,26 @@ class Settings {
   }
 
   static void _update() {
-    onUpdate?.call();
-
     if (dirty) Sync.sync();
 
     save();
   }
 
-  static void ncThemesCallback() {
-    if (_theme == NcThemes.current.name) return;
+  static void ncThemesCallback(NcTheme theme) {
+    if (_theme == theme.name) return;
     markDirty();
-    _theme = NcThemes.current.name;
+    _theme = theme.name;
     _update();
   }
 
   static Future load() async {
     log("loading settings");
-    NcThemes.onCurrentThemeChange = ncThemesCallback;
+    NcThemes.onCurrentThemeChanged.listen(ncThemesCallback);
     var file = await DB.settingsFile;
 
     if (!file.existsSync()) {
       _codeTheme = defaultCodeTheme;
-      NcThemes.current = defaultTheme;
+      NcThemes.setTheme(defaultTheme);
       return;
     }
 
@@ -90,12 +86,12 @@ class Settings {
 
     _theme = catgirl[themeKey];
 
-    log("code theme: ${_codeTheme}");
-    log("theme: ${_theme}");
-    log("sync: ${_sync}");
-    log("dirty: ${_dirty}");
+    log("code theme: $_codeTheme");
+    log("theme: $_theme");
+    log("sync: $_sync");
+    log("dirty: $_dirty");
 
-    NcThemes.current = NcThemes.all[theme] ?? defaultTheme;
+    NcThemes.setTheme(NcThemes.all[theme] ?? defaultTheme);
     log("loaded settings");
   }
 
@@ -124,7 +120,7 @@ class Settings {
     _codeTheme = json[codeThemeKey] ?? _codeTheme;
     _sync = json[syncKey] ?? _sync;
     var theme = json[themeKey];
-    NcThemes.current = NcThemes.all[theme] ?? defaultTheme;
+    NcThemes.setTheme(NcThemes.all[theme] ?? defaultTheme);
     markClean();
     _update();
   }

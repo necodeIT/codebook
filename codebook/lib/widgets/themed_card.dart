@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class ThemedCard extends StatelessWidget {
   ThemedCard({Key? key, required this.child, this.width, this.height, this.outlined = false, this.color}) : super(key: key);

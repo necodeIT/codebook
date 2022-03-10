@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class ThemedToolTip extends StatelessWidget {
   ThemedToolTip({key, required this.message, this.child, this.delay = 1000}) : super(key: key);

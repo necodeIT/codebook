@@ -5,7 +5,7 @@ import 'package:codebook/widgets/home/filter/selector.dart';
 import 'package:codebook/widgets/home/home_icon_button.dart';
 import 'package:codebook/widgets/themed_card.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class Filter extends StatefulWidget {
   const Filter({Key? key, required this.onClose, required this.onQuerry, this.forceTags, this.forceLangugae, this.forceDesc, required this.active}) : super(key: key);

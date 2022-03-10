@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:cross_connectivity/cross_connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showThemedSnackbar(BuildContext context, String message) {
   return ScaffoldMessenger.of(context).showSnackBar(

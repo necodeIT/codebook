@@ -3,7 +3,7 @@
 import 'package:codebook/widgets/settings/settings_title.dart';
 import 'package:codebook/widgets/settings/sections/theme_settings/theme_item.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class ThemeSettings extends StatefulWidget {
   ThemeSettings({Key? key}) : super(key: key);
@@ -42,7 +42,7 @@ class _ThemeSettingsState extends State<ThemeSettings> {
 
   updateTheme(NcTheme theme) {
     setState(() {
-      NcThemes.current = theme;
+      NcThemes.setTheme(theme);
     });
   }
 }

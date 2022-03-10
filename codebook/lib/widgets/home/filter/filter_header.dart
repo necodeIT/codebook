@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class FilterHeader extends StatelessWidget {
   const FilterHeader({Key? key, required this.title, required this.active, this.onToggle}) : super(key: key);

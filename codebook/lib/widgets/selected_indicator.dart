@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class SelectedIndicator extends StatelessWidget {
   // no const because the color wont update otherwise

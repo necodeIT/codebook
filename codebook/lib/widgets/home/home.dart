@@ -15,7 +15,7 @@ import 'package:codebook/widgets/settings/settings.dart';
 import 'package:codebook/widgets/themed_loading_indicator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Builder(builder: (context) {
-        WidgetsBinding.instance.addPostFrameCallback((_) => Updater.showErrorMessage(context));
+        WidgetsBinding.instance!.addPostFrameCallback((_) => Updater.showErrorMessage(context));
         return Row(
           children: [
             Expanded(

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:codebook/widgets/button.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class GitHubLoginPrompt extends StatefulWidget {
   const GitHubLoginPrompt({Key? key, required this.onSuccess, required this.onCancel, required this.sucesssFile}) : super(key: key);

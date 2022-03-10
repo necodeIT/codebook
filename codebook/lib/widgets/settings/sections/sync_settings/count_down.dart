@@ -5,8 +5,7 @@ import 'dart:async';
 import 'package:codebook/db/sync/sync.dart';
 import 'package:codebook/widgets/settings/sections/sync_settings/device_card.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
-import 'package:nekolib.ui/ui/widgets/widgets.dart';
+import 'package:nekolib_ui/core.dart';
 
 class CountDown extends StatefulWidget {
   CountDown({Key? key, this.fontSize}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:codebook/widgets/autocomplete/button.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui/themes/themes.dart';
+import 'package:nekolib_ui/core.dart';
 
 class AutoCompleteDropdown extends StatelessWidget {
   const AutoCompleteDropdown({Key? key, required this.options, required this.insert}) : super(key: key);

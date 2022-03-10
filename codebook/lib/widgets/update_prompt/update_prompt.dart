@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:codebook/updater/updater.dart';
 import 'package:codebook/widgets/home/in_out_dialog/in_out_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UpdatePrompt extends StatefulWidget {
@@ -50,14 +50,19 @@ class _UpdatePromptState extends State<UpdatePrompt> {
                 ),
               NcSpacing.large(),
               if (_downloadError)
-                NcTextButton(
-                  text: "An error occured while automatically updating. Please try updating manually.",
+                GestureDetector(
                   onTap: () => launch(Updater.setupDownloadUrl),
-                  trailingIcon: Icon(
-                    Icons.arrow_forward_outlined,
-                    color: NcThemes.current.textColor,
-                  ),
-                  fontSize: 20,
+                  child: Row(children: [
+                    NcCaptionText(
+                      "An error occured while automatically updating. Please try updating manually.",
+                      fontSize: 20,
+                    ),
+                    NcSpacing.small(),
+                    Icon(
+                      Icons.arrow_forward_outlined,
+                      color: NcThemes.current.textColor,
+                    ),
+                  ]),
                 ),
               if (!_downloading && !_downloadError)
                 NcCaptionText(
@@ -71,9 +76,14 @@ class _UpdatePromptState extends State<UpdatePrompt> {
                 ),
               NcSpacing.medium(),
               if (!_downloading && !_downloadError)
-                NcButton(
-                  text: 'Update',
-                  onTap: () {
+                ElevatedButton(
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(accentColor)),
+                  child: NcTitleText(
+                    'Update to ${Updater.latestVersionName}',
+                    buttonText: true,
+                    fontSize: 15,
+                  ),
+                  onPressed: () {
                     setState(() {
                       _downloading = true;
                     });
@@ -96,7 +106,6 @@ class _UpdatePromptState extends State<UpdatePrompt> {
                       exit(0);
                     });
                   },
-                  width: 150,
                 ),
               if (_downloading && !_downloadError)
                 SizedBox(

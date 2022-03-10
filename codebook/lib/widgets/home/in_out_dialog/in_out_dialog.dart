@@ -5,7 +5,7 @@ import 'package:codebook/widgets/home/in_out_dialog/body.dart';
 import 'package:codebook/widgets/home/in_out_dialog/code_preview.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 class InOutDialog extends StatefulWidget {
   InOutDialog.export({Key? key, required this.onSubmit}) : super(key: key) {

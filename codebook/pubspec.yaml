@@ -43,7 +43,7 @@ dependencies:
   flutter_vector_icons: ^1.0.0
   http: ^0.13.4
   intl: ^0.17.0
-  nekolib.ui:
+  nekolib_ui:
     git:
       url: https://github.com/necodeIT/nekolib.git
       ref: flutter

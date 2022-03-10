@@ -7,7 +7,7 @@ import 'package:codebook/widgets/text_input/input.dart';
 import 'package:codebook/widgets/themed_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 
 import 'code_block.dart';
 

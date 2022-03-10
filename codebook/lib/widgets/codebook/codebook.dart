@@ -2,7 +2,7 @@ import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
 import 'package:codebook/widgets/codebook/svg/no_data.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui.dart';
+import 'package:nekolib_ui/core.dart';
 import '../codeblock/code_block.dart';
 
 class CodeBook extends StatefulWidget {

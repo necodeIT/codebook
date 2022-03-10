@@ -1,6 +1,6 @@
 import 'package:codebook/widgets/codeblock/language_tag/language_input.dart';
 import 'package:flutter/material.dart';
-import 'package:nekolib.ui/ui/themes/themes.dart';
+import 'package:nekolib_ui/core.dart';
 
 class TextInput extends StatefulWidget {
   const TextInput({Key? key, this.inintialText, this.onChange, this.onSubmit, this.controller, required this.label}) : super(key: key);
