@@ -1,4 +1,3 @@
-# CodeBook
+# CodeBook - Extension
 
-CodeBook is an easy way to manage your code snippets.
-
+This extion syncs your CodeBook snippets with vscode.
