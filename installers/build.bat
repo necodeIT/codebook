@@ -1,1 +1,0 @@
-call "Windows/build.bat"
