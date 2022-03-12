@@ -62,7 +62,7 @@ class Sync {
   static Function()? onSync;
 
   static Future load() async {
-    log("Loading sync settings", type: LogTypes.tracking);
+    log("Loading sync settings", LogTypes.tracking);
 
     _locked.sink.add(false);
     _syncing.sink.add(false);
@@ -125,10 +125,10 @@ class Sync {
   }
 
   static Future sync() async {
-    log("----------------- SYNCING -----------------", type: LogTypes.tracking);
+    log("----------------- SYNCING -----------------", LogTypes.tracking);
     if (!Settings.sync || !await connectivity.checkConnection() || !Cloud.isReady || _isSyncing || !_authorized || _isLocked) {
-      log("Snyc not possible - is authorized: $_authorized, isLocked: $_isLocked, isSyncing: $_isSyncing, isReady: ${Cloud.isReady}, hasConnection: ${await connectivity.checkConnection()}, syncEnabled: ${Settings.sync}", type: LogTypes.debug);
-      log("----------------- SYNCING CANCELLED -----------------", type: LogTypes.tracking);
+      log("Snyc not possible - is authorized: $_authorized, isLocked: $_isLocked, isSyncing: $_isSyncing, isReady: ${Cloud.isReady}, hasConnection: ${await connectivity.checkConnection()}, syncEnabled: ${Settings.sync}", LogTypes.debug);
+      log("----------------- SYNCING CANCELLED -----------------", LogTypes.tracking);
       return;
     }
 
@@ -155,7 +155,7 @@ class Sync {
         if (cloudMap.containsKey(hash)) continue;
         if (_log.actionLog[hash] != ADD) continue;
 
-        log("added ${ingredient.desc}@$hash from disk", type: LogTypes.success);
+        log("added ${ingredient.desc}@$hash from disk", LogTypes.success);
 
         mergedData.add(ingredient);
       }
@@ -166,7 +166,7 @@ class Sync {
 
         if (_log.actionLog[hash] == DEL) continue;
 
-        log("added ${ingredient.desc}@$hash from cloud", type: LogTypes.success);
+        log("added ${ingredient.desc}@$hash from cloud", LogTypes.success);
         mergedData.add(ingredient);
       }
 
@@ -181,10 +181,10 @@ class Sync {
       // Update settings
       if (!Settings.dirty) {
         Settings.loadFromCloud(settings);
-        log("loaded settings from cloud", type: LogTypes.debug);
+        log("loaded settings from cloud", LogTypes.debug);
       } else {
         Settings.markClean();
-        log("loaded settings from disk", type: LogTypes.debug);
+        log("loaded settings from disk", LogTypes.debug);
       }
 
       await Cloud.pushAll();
@@ -193,24 +193,24 @@ class Sync {
       _syncing.sink.add(false);
       _isSyncing = false;
 
-      log("calling callback...", type: LogTypes.tracking);
+      log("calling callback...", LogTypes.tracking);
 
       onSync?.call();
-      log("----------------- SYNCING DONE -----------------", type: LogTypes.tracking);
+      log("----------------- SYNCING DONE -----------------", LogTypes.tracking);
     } catch (e, stack) {
-      log("error: $e", type: LogTypes.error);
-      log("stack: $stack", type: LogTypes.error);
+      log("error: $e", LogTypes.error);
+      log("stack: $stack", LogTypes.error);
 
       _totalSyncFails++;
 
-      log("total sync fails: $_totalSyncFails", type: LogTypes.debug);
+      log("total sync fails: $_totalSyncFails", LogTypes.debug);
 
       _syncing.sink.add(false);
       _isSyncing = false;
 
       await lockSync(_nextLockCooldown);
 
-      log("----------------- SYNCING CANCELLED -----------------", type: LogTypes.tracking);
+      log("----------------- SYNCING CANCELLED -----------------", LogTypes.tracking);
     }
   }
 
@@ -220,12 +220,12 @@ class Sync {
     _currentLockCooldown = duration;
     _lockedTimestap = DateTime.now();
     await save();
-    log("temporarily locked sync for ${duration.inSeconds} seconds", type: LogTypes.debug);
+    log("temporarily locked sync for ${duration.inSeconds} seconds", LogTypes.debug);
 
     Future.delayed(duration).then((_) {
       _isLocked = false;
       _locked.sink.add(false);
-      log("unlocked sync", type: LogTypes.debug);
+      log("unlocked sync", LogTypes.debug);
       save();
     });
   }

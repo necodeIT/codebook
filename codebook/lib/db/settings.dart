@@ -67,7 +67,7 @@ class Settings {
   }
 
   static Future load() async {
-    log("loading settings", type: LogTypes.tracking);
+    log("loading settings", LogTypes.tracking);
     NcThemes.onCurrentThemeChanged.listen(ncThemesCallback);
     var file = await DB.settingsFile;
 
@@ -86,13 +86,13 @@ class Settings {
 
     _theme = catgirl[themeKey];
 
-    log("code theme: $_codeTheme", type: LogTypes.info);
-    log("theme: $_theme", type: LogTypes.info);
-    log("sync: $_sync", type: LogTypes.info);
-    log("dirty: $_dirty", type: LogTypes.info);
+    log("code theme: $_codeTheme", LogTypes.info);
+    log("theme: $_theme", LogTypes.info);
+    log("sync: $_sync", LogTypes.info);
+    log("dirty: $_dirty", LogTypes.info);
 
     NcThemes.setTheme(NcThemes.all[theme] ?? defaultTheme);
-    log("loaded settings", type: LogTypes.tracking);
+    log("loaded settings", LogTypes.tracking);
   }
 
   static Future save() async {
