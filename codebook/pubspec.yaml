@@ -55,6 +55,11 @@ dependencies:
     git:
       url: git://github.com/google/flutter-desktop-embedding.git
       path: plugins/window_size
+  nekolib_utils:
+    git:
+      url: https://github.com/necodeIT/nekolib.git
+      ref: flutter
+      path: utils
 
 dev_dependencies:
   build_runner: any

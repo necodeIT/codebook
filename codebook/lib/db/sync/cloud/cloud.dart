@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
-import 'package:codebook/db/logger.dart';
 import 'package:codebook/db/settings.dart';
 import 'package:codebook/utils.dart';
+import 'package:nekolib_utils/log.dart';
 
 class Cloud {
   static String _gistID = "";
@@ -97,10 +97,10 @@ class Cloud {
   }
 
   static Future<Map<String, dynamic>> pullSettings() async {
-    log("----------------- PULLING SETTINGS -----------------");
+    log("----------------- PULLING SETTINGS -----------------", type: LogTypes.tracking);
     if (!isReady) {
-      log("Missing credentials - cloud not ready");
-      log("----------------- PULL CANCELLED  -----------------");
+      log("Missing credentials - cloud not ready", type: LogTypes.warning);
+      log("----------------- PULL CANCELLED  -----------------", type: LogTypes.tracking);
       return {};
     }
     try {
@@ -108,27 +108,27 @@ class Cloud {
 
       log("Status code: ${response.statusCode}");
       if (response.statusCode != 200) {
-        log("Error message from server: ${response.body}");
+        log("Error message from server: ${response.body}", type: LogTypes.error);
         throw Exception(response.body);
       }
 
       var content = jsonDecode(response.body)["files"][settingsFileName]["content"];
-      log("----------------- PULL SUCCESS  -----------------");
+      log("----------------- PULL SUCCESS  -----------------", type: LogTypes.tracking);
       return jsonDecode(content); // double encode because it is encoded twice in the string interpolation
     } catch (e, stack) {
-      log("Error pulling ingredients: $e");
-      log("Stack: $stack");
-      log("----------------- PULL FAILED  -----------------");
+      log("Error pulling ingredients: $e", type: LogTypes.error);
+      log("Stack: $stack", type: LogTypes.error);
+      log("----------------- PULL FAILED  -----------------", type: LogTypes.tracking);
 
       return {};
     }
   }
 
   static Future<List<Ingredient>> pullIngredients() async {
-    log("----------------- PULLING INGREDIENTS -----------------");
+    log("----------------- PULLING INGREDIENTS -----------------", type: LogTypes.tracking);
     if (!isReady) {
-      log("Missing credentials - cloud not ready");
-      log("----------------- PULL CANCELLED  -----------------");
+      log("Missing credentials - cloud not ready", type: LogTypes.warning);
+      log("----------------- PULL CANCELLED  -----------------", type: LogTypes.tracking);
       return [];
     }
 
@@ -137,7 +137,7 @@ class Cloud {
 
       log("Status code: ${response.statusCode}");
       if (response.statusCode != 200) {
-        log("Error message from server: ${response.body}");
+        log("Error message from server: ${response.body}", type: LogTypes.error);
         throw Exception(response.body);
       }
 
@@ -145,22 +145,22 @@ class Cloud {
       var ingredients = jsonDecode(content);
       var data = List<Ingredient>.from(ingredients.map((model) => Ingredient.fromJson(model)));
 
-      log("----------------- PULL SUCCESS  -----------------");
+      log("----------------- PULL SUCCESS  -----------------", type: LogTypes.tracking);
       return data;
     } catch (e, stack) {
-      log("Error pulling ingredients: $e");
-      log("Stack: $stack");
-      log("----------------- PULL FAILED  -----------------");
+      log("Error pulling ingredients: $e", type: LogTypes.error);
+      log("Stack: $stack", type: LogTypes.error);
+      log("----------------- PULL FAILED  -----------------", type: LogTypes.tracking);
 
       return [];
     }
   }
 
   static Future pushAll() async {
-    log("----------------- UPLOADING DATA -----------------");
+    log("----------------- UPLOADING DATA -----------------", type: LogTypes.tracking);
     if (!isReady) {
-      log("Missing credentials - cloud not ready");
-      log("----------------- UPLOADING CANCELLED  -----------------");
+      log("Missing credentials - cloud not ready", type: LogTypes.warning);
+      log("----------------- UPLOADING CANCELLED  -----------------", type: LogTypes.tracking);
       return;
     }
 
@@ -191,12 +191,12 @@ class Cloud {
       ),
     );
 
-    log("Status code: ${r.statusCode}");
+    log("Status code: ${r.statusCode}", type: LogTypes.debug);
     if (r.statusCode != 200) {
-      log("Error message from server: ${r.body}");
-      log("----------------- UPLOADING FAILED  -----------------");
+      log("Error message from server: ${r.body}", type: LogTypes.error);
+      log("----------------- UPLOADING FAILED  -----------------", type: LogTypes.tracking);
     } else {
-      log("----------------- UPLOADING SUCCESS  -----------------");
+      log("----------------- UPLOADING SUCCESS  -----------------", type: LogTypes.tracking);
     }
   }
 }

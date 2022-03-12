@@ -8,9 +8,11 @@ import 'package:codebook/widgets/themed_loading_indicator.dart';
 import 'package:codebook/widgets/update_prompt/update_prompt.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib_ui/core.dart';
+import 'package:nekolib_utils/log.dart';
 
 void main() async {
   CustomThemes.init();
+  Logger.init(autoSave: true, appStoragePath: (await DB.appDir).path);
 
   NcThemes.initPredefinedThemes();
   await Settings.load();

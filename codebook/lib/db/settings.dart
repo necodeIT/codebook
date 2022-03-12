@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:codebook/db/db.dart';
-import 'package:codebook/db/logger.dart';
 import 'package:codebook/themes.dart';
 import 'package:nekolib_ui/core.dart';
+import 'package:nekolib_utils/log.dart';
 
 import 'sync/sync.dart';
 
@@ -67,7 +67,7 @@ class Settings {
   }
 
   static Future load() async {
-    log("loading settings");
+    log("loading settings", type: LogTypes.tracking);
     NcThemes.onCurrentThemeChanged.listen(ncThemesCallback);
     var file = await DB.settingsFile;
 
@@ -86,13 +86,13 @@ class Settings {
 
     _theme = catgirl[themeKey];
 
-    log("code theme: $_codeTheme");
-    log("theme: $_theme");
-    log("sync: $_sync");
-    log("dirty: $_dirty");
+    log("code theme: $_codeTheme", type: LogTypes.info);
+    log("theme: $_theme", type: LogTypes.info);
+    log("sync: $_sync", type: LogTypes.info);
+    log("dirty: $_dirty", type: LogTypes.info);
 
     NcThemes.setTheme(NcThemes.all[theme] ?? defaultTheme);
-    log("loaded settings");
+    log("loaded settings", type: LogTypes.tracking);
   }
 
   static Future save() async {

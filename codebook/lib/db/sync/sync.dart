@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
-import 'package:codebook/db/logger.dart';
 import 'package:codebook/db/settings.dart';
 import 'package:codebook/db/sync/cloud/cloud.dart';
 import 'package:codebook/db/sync/log.dart';
 import 'package:codebook/utils.dart';
 import 'package:codebook/widgets/github_login_prompt.dart';
 import 'package:flutter/material.dart';
+import 'package:nekolib_utils/log.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -62,7 +62,7 @@ class Sync {
   static Function()? onSync;
 
   static Future load() async {
-    log("Loading sync settings");
+    log("Loading sync settings", type: LogTypes.tracking);
 
     _locked.sink.add(false);
     _syncing.sink.add(false);
@@ -125,10 +125,10 @@ class Sync {
   }
 
   static Future sync() async {
-    log("----------------- SYNCING -----------------");
+    log("----------------- SYNCING -----------------", type: LogTypes.tracking);
     if (!Settings.sync || !await connectivity.checkConnection() || !Cloud.isReady || _isSyncing || !_authorized || _isLocked) {
-      log("Snyc not possible - is authorized: $_authorized, isLocked: $_isLocked, isSyncing: $_isSyncing, isReady: ${Cloud.isReady}, hasConnection: ${await connectivity.checkConnection()}, syncEnabled: ${Settings.sync}");
-      log("----------------- SYNCING CANCELLED -----------------");
+      log("Snyc not possible - is authorized: $_authorized, isLocked: $_isLocked, isSyncing: $_isSyncing, isReady: ${Cloud.isReady}, hasConnection: ${await connectivity.checkConnection()}, syncEnabled: ${Settings.sync}", type: LogTypes.debug);
+      log("----------------- SYNCING CANCELLED -----------------", type: LogTypes.tracking);
       return;
     }
 
@@ -155,7 +155,7 @@ class Sync {
         if (cloudMap.containsKey(hash)) continue;
         if (_log.actionLog[hash] != ADD) continue;
 
-        log("added ${ingredient.desc}@$hash from disk");
+        log("added ${ingredient.desc}@$hash from disk", type: LogTypes.success);
 
         mergedData.add(ingredient);
       }
@@ -166,7 +166,7 @@ class Sync {
 
         if (_log.actionLog[hash] == DEL) continue;
 
-        log("added ${ingredient.desc}@$hash from cloud");
+        log("added ${ingredient.desc}@$hash from cloud", type: LogTypes.success);
         mergedData.add(ingredient);
       }
 
@@ -181,10 +181,10 @@ class Sync {
       // Update settings
       if (!Settings.dirty) {
         Settings.loadFromCloud(settings);
-        log("loaded settings from cloud");
+        log("loaded settings from cloud", type: LogTypes.debug);
       } else {
         Settings.markClean();
-        log("loaded settings from disk");
+        log("loaded settings from disk", type: LogTypes.debug);
       }
 
       await Cloud.pushAll();
@@ -193,24 +193,24 @@ class Sync {
       _syncing.sink.add(false);
       _isSyncing = false;
 
-      log("calling callback...");
+      log("calling callback...", type: LogTypes.tracking);
 
       onSync?.call();
-      log("----------------- SYNCING DONE -----------------");
+      log("----------------- SYNCING DONE -----------------", type: LogTypes.tracking);
     } catch (e, stack) {
-      log("error: $e");
-      log("stack: $stack");
+      log("error: $e", type: LogTypes.error);
+      log("stack: $stack", type: LogTypes.error);
 
       _totalSyncFails++;
 
-      log("total sync fails: $_totalSyncFails");
+      log("total sync fails: $_totalSyncFails", type: LogTypes.debug);
 
       _syncing.sink.add(false);
       _isSyncing = false;
 
       await lockSync(_nextLockCooldown);
 
-      log("----------------- SYNCING CANCELLED -----------------");
+      log("----------------- SYNCING CANCELLED -----------------", type: LogTypes.tracking);
     }
   }
 
@@ -220,12 +220,12 @@ class Sync {
     _currentLockCooldown = duration;
     _lockedTimestap = DateTime.now();
     await save();
-    log("temporarily locked sync for ${duration.inSeconds} seconds");
+    log("temporarily locked sync for ${duration.inSeconds} seconds", type: LogTypes.debug);
 
     Future.delayed(duration).then((_) {
       _isLocked = false;
       _locked.sink.add(false);
-      log("unlocked sync");
+      log("unlocked sync", type: LogTypes.debug);
       save();
     });
   }
