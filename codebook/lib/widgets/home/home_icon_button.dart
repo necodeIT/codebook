@@ -49,15 +49,19 @@ class _Icon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(
+    return ConditionalWrapper(
+      condition: onPressed != null,
+      child: Icon(
         icon,
         color: color ?? NcThemes.current.tertiaryColor,
         size: Home.iconSize,
       ),
-      splashColor: Colors.transparent,
-      splashRadius: 0.1,
-      onPressed: onPressed,
+      wrapper: (context, child) => IconButton(
+        icon: child,
+        splashColor: Colors.transparent,
+        splashRadius: 0.1,
+        onPressed: onPressed ?? () {},
+      ),
     );
   }
 }
