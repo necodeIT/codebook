@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
-import 'package:codebook/widgets/conditional_wrap/condtional_wrapper.dart';
 import 'package:codebook/widgets/home/filter/input.dart';
 import 'package:codebook/widgets/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib_ui/core.dart';
+import 'package:nekolib_ui/utils.dart';
 
 class SettingsTitle extends StatelessWidget {
   SettingsTitle({Key? key, this.onQuerry, required this.title, this.trailing, this.trailingSpacing = NcSpacing.smallSpacing}) : super(key: key);
@@ -20,7 +20,7 @@ class SettingsTitle extends StatelessWidget {
       condition: onQuerry != null,
       child: ConditionalWrapper(
         condition: trailing != null,
-        builder: (context, child) => Row(
+        wrapper: (context, child) => Row(
           children: [child, SizedBox(width: trailingSpacing), trailing!],
         ),
         child: NcCaptionText(
@@ -29,7 +29,7 @@ class SettingsTitle extends StatelessWidget {
           textAlign: TextAlign.start,
         ),
       ),
-      builder: (context, child) => Stack(
+      wrapper: (context, child) => Stack(
         children: [
           child,
           Center(

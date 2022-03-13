@@ -2,6 +2,7 @@
 
 import 'package:codebook/code_themes.dart';
 import 'package:codebook/db/settings.dart';
+import 'package:codebook/main.dart';
 import 'package:codebook/themes.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
 import 'package:codebook/widgets/settings/sections/code_themes_settings/code_theme.dart';
@@ -9,6 +10,7 @@ import 'package:codebook/widgets/settings/settings.dart';
 import 'package:codebook/widgets/settings/settings_title.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib_ui/core.dart';
+import 'package:nekolib_ui/utils.dart';
 
 class CodeThemeSettings extends StatefulWidget {
   CodeThemeSettings({Key? key}) : super(key: key);

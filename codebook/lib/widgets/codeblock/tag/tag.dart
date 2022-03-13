@@ -1,8 +1,8 @@
-import 'package:codebook/widgets/conditional_wrap/condtional_wrapper.dart';
 import 'package:codebook/widgets/codeblock/language_tag/language_input.dart';
 import 'package:codebook/widgets/home/filter/filter.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib_ui/core.dart';
+import 'package:nekolib_ui/utils.dart';
 
 class Tag extends StatelessWidget {
   Tag({Key? key, required this.label, this.editMode = false, this.onTap, this.fontSize = defaultFontSize, this.padding = defaultPadding, this.color}) : super(key: key) {
@@ -40,7 +40,7 @@ class Tag extends StatelessWidget {
       curve: Filter.animationCurve,
       child: ConditionalWrapper(
         condition: detectAll && onTap != null,
-        builder: (context, child) => MouseRegion(
+        wrapper: (context, child) => MouseRegion(
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
             onTap: onTap,
@@ -69,7 +69,7 @@ class Tag extends StatelessWidget {
               if (!detectAll && editMode && icon != null) NcSpacing.xs(),
               if (!detectAll && editMode && icon != null)
                 ConditionalWrapper(
-                  builder: (context, child) => MouseRegion(
+                  wrapper: (context, child) => MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
                       onTap: onTap,

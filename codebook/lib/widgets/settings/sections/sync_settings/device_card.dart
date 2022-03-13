@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
-import 'package:codebook/widgets/conditional_wrap/condtional_wrapper.dart';
 import 'package:codebook/widgets/home/themed_tool_tip.dart';
 import 'package:codebook/widgets/themed_card.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib_ui/core.dart';
+import 'package:nekolib_ui/utils.dart';
 
 class DeviceCard extends StatelessWidget {
   DeviceCard({Key? key, required this.icon, required this.label, this.onTap, this.outlined = false, this.tooltip, this.color}) : super(key: key);
@@ -25,7 +25,7 @@ class DeviceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConditionalWrapper(
       condition: onTap == null && tooltip != null,
-      builder: (context, child) => ThemedToolTip(message: tooltip!, child: child),
+      wrapper: (context, child) => ThemedToolTip(message: tooltip!, child: child),
       child: ThemedCard(
         width: width,
         height: height,
@@ -43,7 +43,7 @@ class DeviceCard extends StatelessWidget {
             onTap != null
                 ? ConditionalWrapper(
                     condition: tooltip != null,
-                    builder: (context, child) => ThemedToolTip(
+                    wrapper: (context, child) => ThemedToolTip(
                       message: tooltip!,
                       child: child,
                     ),

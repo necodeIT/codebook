@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:nekolib_ui/core.dart';
 import 'package:nekolib_utils/log.dart';
 
+const kHoverDuration = Duration(milliseconds: 50);
+const kHoverScale = 1.025;
+
 void main() async {
   CustomThemes.init();
   Logger.init(autoSave: true, appStoragePath: (await DB.appDir).path);

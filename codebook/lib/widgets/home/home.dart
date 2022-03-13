@@ -3,6 +3,7 @@ import 'package:codebook/db/db.dart';
 import 'package:codebook/db/ingredient.dart';
 import 'package:codebook/db/settings.dart';
 import 'package:codebook/db/sync/sync.dart';
+import 'package:codebook/main.dart';
 import 'package:codebook/updater/updater.dart';
 import 'package:codebook/utils.dart';
 import 'package:codebook/widgets/codeblock/tag/tag.dart';
@@ -16,6 +17,7 @@ import 'package:codebook/widgets/themed_loading_indicator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib_ui/core.dart';
+import 'package:nekolib_ui/utils.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -174,13 +176,17 @@ class _HomeState extends State<Home> {
       floatingActionButton: !_settings
           ? ThemedToolTip(
               message: "New ingredient",
-              child: FloatingActionButton.small(
-                onPressed: addIngredient,
-                child: Icon(
-                  Icons.add,
-                  color: NcThemes.current.buttonTextColor,
+              child: ScaleOnHover(
+                duration: kHoverDuration,
+                scale: kHoverScale,
+                child: FloatingActionButton.small(
+                  onPressed: addIngredient,
+                  child: Icon(
+                    Icons.add,
+                    color: NcThemes.current.buttonTextColor,
+                  ),
+                  backgroundColor: NcThemes.current.accentColor,
                 ),
-                backgroundColor: NcThemes.current.accentColor,
               ),
             )
           : null,

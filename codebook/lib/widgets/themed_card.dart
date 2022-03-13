@@ -25,7 +25,8 @@ class ThemedCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(borderRadius),
       color: NcThemes.current.primaryColor,
       elevation: !outlined ? elevation : 0,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.all(padding),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius),

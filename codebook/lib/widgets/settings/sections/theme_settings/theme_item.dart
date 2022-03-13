@@ -1,9 +1,10 @@
-import 'package:codebook/widgets/conditional_wrap/condtional_wrapper.dart';
+import 'package:codebook/main.dart';
 import 'package:codebook/widgets/settings/sections/code_themes_settings/code_theme.dart';
 import 'package:codebook/widgets/selected_indicator.dart';
 import 'package:codebook/widgets/themed_card.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib_ui/core.dart';
+import 'package:nekolib_ui/utils.dart';
 
 class ThemeItem extends StatelessWidget {
   const ThemeItem({Key? key, required this.theme, required this.selected, required this.onTap}) : super(key: key);
@@ -19,7 +20,9 @@ class ThemeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConditionalWrapper(
       condition: !selected,
-      builder: (context, child) => MouseRegion(
+      wrapper: (context, child) => ScaleOnHover(
+        duration: kHoverDuration,
+        scale: kHoverScale,
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
           onTap: onTap,

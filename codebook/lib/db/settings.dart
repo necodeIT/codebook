@@ -79,7 +79,14 @@ class Settings {
 
     var content = file.readAsStringSync();
 
-    var catgirl = jsonDecode(content);
+    var catgirl = {};
+
+    if (content.isEmpty) {
+      log("Settings file is empty", LogTypes.warning);
+    } else {
+      catgirl = jsonDecode(content);
+    }
+
     _codeTheme = catgirl[codeThemeKey] ?? _codeTheme;
     _sync = catgirl[syncKey] ?? _sync;
     _dirty = catgirl[modifiedKey] ?? _dirty;
