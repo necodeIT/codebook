@@ -5,6 +5,7 @@ import 'package:codebook/widgets/home/themed_tool_tip.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib_ui/core.dart';
 import 'package:nekolib_ui/utils.dart';
+import 'package:nekolib_utils/log.dart';
 
 import 'home.dart';
 
@@ -60,7 +61,10 @@ class _Icon extends StatelessWidget {
         icon: child,
         splashColor: Colors.transparent,
         splashRadius: 0.1,
-        onPressed: onPressed ?? () {},
+        onPressed: () {
+          log("triggered: $onPressed", LogTypes.tracking);
+          onPressed!();
+        },
       ),
     );
   }

@@ -18,6 +18,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:nekolib_ui/core.dart';
 import 'package:nekolib_ui/utils.dart';
+import 'package:nekolib_utils/log.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -53,12 +54,16 @@ class _HomeState extends State<Home> {
   }
 
   toggleSettings() {
+    log("user ${_settings ? "closed" : "opened"} settings", LogTypes.tracking);
+
     setState(() {
       _settings = !_settings;
     });
   }
 
   toggleFilterMode() {
+    log("user ${_filterMode ? "disabled" : "enabled"} filter mode", LogTypes.tracking);
+
     setState(() {
       _forceFilterMode = false;
       _filterMode = !_filterMode;
@@ -69,109 +74,111 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Builder(builder: (context) {
-        WidgetsBinding.instance!.addPostFrameCallback((_) => Updater.showErrorMessage(context));
-        return Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: NcSpacing.largeSpacing),
-                child: Column(
-                  children: [
-                    NcSpacing.small(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            NcTitleText(
-                              !_settings ? Updater.appName : "Settings",
-                              fontSize: CodeBook.titleSize,
-                            ),
-                            NcSpacing.small(),
-                            if (!_settings)
-                              Tag(
-                                label: Updater.version,
-                                fontSize: SettingsPage.recommendedFontSize,
-                                padding: SettingsPage.recommendedPadding,
-                              ),
-                          ],
-                        ),
-                        AnimatedSize(
-                          duration: Filter.animationDuration,
-                          curve: Filter.animationCurve,
-                          child: Row(
+      body: Builder(
+        builder: (context) {
+          WidgetsBinding.instance!.addPostFrameCallback((_) => Updater.showErrorMessage(context));
+          return Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: NcSpacing.largeSpacing),
+                  child: Column(
+                    children: [
+                      NcSpacing.small(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
                             children: [
-                              StreamBuilder<bool>(
-                                  stream: Sync.syncing,
-                                  builder: (context, snapshot) {
-                                    return snapshot.data ?? false
-                                        ? ThemedToolTip(
-                                            delay: 500,
-                                            message: "Syncing...",
-                                            child: SizedBox(
-                                              width: Home.iconSize - 8,
-                                              height: Home.iconSize - 8,
-                                              child: ThemedLoadingIndicator(
-                                                thickness: 2,
-                                                containerColor: Colors.transparent,
-                                              ),
-                                            ),
-                                          )
-                                        : const SizedBox.shrink();
-                                  }),
-                              if (Settings.sync)
-                                StreamBuilder<bool>(
-                                  stream: connectivity.isConnected,
-                                  builder: (context, snaphot) => !(snaphot.data ?? true)
-                                      ? HomeIconButton(
-                                          tooltip: "Sync is unavailable due to the device beeing offline",
-                                          icon: Icons.wifi_off,
-                                        )
-                                      : const SizedBox.shrink(),
-                                ),
-                              if (!_settings) HomeIconButton(tooltip: Home.exportTitle, onPressed: () => exportIngredients(context), icon: Icons.upload),
-                              if (!_settings) HomeIconButton(tooltip: Home.importTitle, onPressed: () => importIngredients(context), icon: Icons.download),
-                              HomeIconButton(tooltip: _settings ? "Close" : "Settings", onPressed: toggleSettings, icon: _settings ? Icons.close : Icons.settings),
-                              if (!_filterMode && !_settings)
-                                HomeIconButton(
-                                  tooltip: "Filter",
-                                  onPressed: toggleFilterMode,
-                                  icon: Icons.filter_alt_sharp,
+                              NcTitleText(
+                                !_settings ? Updater.appName : "Settings",
+                                fontSize: CodeBook.titleSize,
+                              ),
+                              NcSpacing.small(),
+                              if (!_settings)
+                                Tag(
+                                  label: Updater.version,
+                                  fontSize: SettingsPage.recommendedFontSize,
+                                  padding: SettingsPage.recommendedPadding,
                                 ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    NcSpacing.medium(),
-                    Expanded(
-                      child: PageTransitionSwitcher(
-                        // duration: Duration(seconds: 2),
-                        transitionBuilder: (child, animationIn, animationOut) => FadeThroughTransition(
-                          fillColor: NcThemes.current.secondaryColor,
-                          animation: animationIn,
-                          secondaryAnimation: animationOut,
-                          child: child,
-                        ),
-                        child: _settings ? SettingsPage() : CodeBook(ingredients: _ingredients, onDeleteIngredient: deleteIngredient),
+                          AnimatedSize(
+                            duration: Filter.animationDuration,
+                            curve: Filter.animationCurve,
+                            child: Row(
+                              children: [
+                                StreamBuilder<bool>(
+                                    stream: Sync.syncing,
+                                    builder: (context, snapshot) {
+                                      return snapshot.data ?? false
+                                          ? ThemedToolTip(
+                                              delay: 500,
+                                              message: "Syncing...",
+                                              child: SizedBox(
+                                                width: Home.iconSize - 8,
+                                                height: Home.iconSize - 8,
+                                                child: ThemedLoadingIndicator(
+                                                  thickness: 2,
+                                                  containerColor: Colors.transparent,
+                                                ),
+                                              ),
+                                            )
+                                          : const SizedBox.shrink();
+                                    }),
+                                if (Settings.sync)
+                                  StreamBuilder<bool>(
+                                    stream: connectivity.isConnected,
+                                    builder: (context, snaphot) => !(snaphot.data ?? true)
+                                        ? HomeIconButton(
+                                            tooltip: "Sync is unavailable due to the device beeing offline",
+                                            icon: Icons.wifi_off,
+                                          )
+                                        : const SizedBox.shrink(),
+                                  ),
+                                if (!_settings) HomeIconButton(tooltip: Home.exportTitle, onPressed: () => exportIngredients(context), icon: Icons.upload),
+                                if (!_settings) HomeIconButton(tooltip: Home.importTitle, onPressed: () => importIngredients(context), icon: Icons.download),
+                                HomeIconButton(tooltip: _settings ? "Close" : "Settings", onPressed: toggleSettings, icon: _settings ? Icons.close : Icons.settings),
+                                if (!_filterMode && !_settings)
+                                  HomeIconButton(
+                                    tooltip: "Filter",
+                                    onPressed: toggleFilterMode,
+                                    icon: Icons.filter_alt_sharp,
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                      NcSpacing.medium(),
+                      Expanded(
+                        child: PageTransitionSwitcher(
+                          // duration: Duration(seconds: 2),
+                          transitionBuilder: (child, animationIn, animationOut) => FadeThroughTransition(
+                            fillColor: NcThemes.current.secondaryColor,
+                            animation: animationIn,
+                            secondaryAnimation: animationOut,
+                            child: child,
+                          ),
+                          child: _settings ? SettingsPage() : CodeBook(ingredients: _ingredients, onDeleteIngredient: deleteIngredient),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Filter(
-              onClose: toggleFilterMode,
-              onQuerry: filterIngredients,
-              forceDesc: _forceFilterMode ? "" : null,
-              forceTags: _forceFilterMode ? Home.newTags : null,
-              forceLangugae: null,
-              active: _filterMode && !_settings,
-            )
-          ],
-        );
-      }),
+              Filter(
+                onClose: toggleFilterMode,
+                onQuerry: filterIngredients,
+                forceDesc: _forceFilterMode ? "" : null,
+                forceTags: _forceFilterMode ? Home.newTags : null,
+                forceLangugae: null,
+                active: _filterMode && !_settings,
+              )
+            ],
+          );
+        },
+      ),
       backgroundColor: NcThemes.current.secondaryColor,
       floatingActionButton: !_settings
           ? ThemedToolTip(

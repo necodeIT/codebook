@@ -47,39 +47,41 @@ class Tag extends StatelessWidget {
             child: child,
           ),
         ),
-        child: Container(
-          padding: padding,
-          decoration: BoxDecoration(
-            border: Border.all(color: color),
-            borderRadius: BorderRadius.circular(Tag.defaultBorderRadius),
-            color: color.withOpacity(LanguageInput.backgroundOpacity),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (detectAll && icon != null) Icon(icon, color: color, size: Tag.defaultFontSize),
-              if (detectAll && icon != null) NcSpacing.xs(),
-              Text(
-                label,
-                style: TextStyle(
-                  color: color,
+        child: HoverBuilder(
+          builder: (context, hovering) => AnimatedContainer(
+            duration: Filter.animationDuration,
+            curve: Filter.animationCurve,
+            padding: padding,
+            decoration: BoxDecoration(
+              border: Border.all(color: hovering ? accentColor : color),
+              borderRadius: BorderRadius.circular(Tag.defaultBorderRadius),
+              color: (hovering ? accentColor : color).withOpacity(LanguageInput.backgroundOpacity),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (detectAll && icon != null) Icon(icon, color: color, size: Tag.defaultFontSize),
+                if (detectAll && icon != null) NcSpacing.xs(),
+                NcBodyText(
+                  label,
+                  color: hovering ? accentColor : color,
                   fontSize: fontSize,
                 ),
-              ),
-              if (!detectAll && editMode && icon != null) NcSpacing.xs(),
-              if (!detectAll && editMode && icon != null)
-                ConditionalWrapper(
-                  wrapper: (context, child) => MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      onTap: onTap,
-                      child: child,
+                if (!detectAll && editMode && icon != null) NcSpacing.xs(),
+                if (!detectAll && editMode && icon != null)
+                  ConditionalWrapper(
+                    wrapper: (context, child) => MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: onTap,
+                        child: child,
+                      ),
                     ),
+                    child: Icon(icon, color: hovering ? accentColor : color, size: fontSize),
+                    condition: onTap != null,
                   ),
-                  child: Icon(icon, color: color, size: fontSize),
-                  condition: onTap != null,
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

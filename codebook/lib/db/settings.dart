@@ -27,17 +27,26 @@ class Settings {
 
   static void markDirty() {
     if (!_sync) return;
+
+    log("maked settings dirty", LogTypes.debug);
+
     _dirty = true;
   }
 
   static void markClean() {
     if (!_sync) return;
+
+    log("maked settings clean", LogTypes.debug);
+
     _dirty = false;
     save();
   }
 
   static set codeTheme(String value) {
     if (value == _codeTheme) return;
+
+    log("changed code theme from $_codeTheme to $value", LogTypes.debug);
+
     markDirty();
     _codeTheme = value;
     _update();
@@ -47,6 +56,8 @@ class Settings {
     if (value == _sync) return;
 
     _sync = value;
+
+    log("sync set to $value", LogTypes.debug);
 
     if (sync) Sync.sync();
 
@@ -61,13 +72,13 @@ class Settings {
 
   static void ncThemesCallback(NcTheme theme) {
     if (_theme == theme.name) return;
+    log("changed theme from $_theme to ${theme.name}", LogTypes.debug);
     markDirty();
     _theme = theme.name;
     _update();
   }
 
   static Future load() async {
-    log("loading settings", LogTypes.tracking);
     NcThemes.onCurrentThemeChanged.listen(ncThemesCallback);
     var file = await DB.settingsFile;
 
@@ -113,6 +124,8 @@ class Settings {
     };
 
     await file.writeAsString(jsonEncode(json));
+
+    log("saved settings", LogTypes.tracking);
   }
 
   static Map<String, dynamic> toCloud() {

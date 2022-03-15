@@ -26,8 +26,11 @@ void main() async {
 }
 
 Future loadAll() async {
-  await DB.load();
   await Updater.init();
+
+  if (Updater.updateAvailable) return;
+
+  await DB.load();
   await Sync.load();
   if (Settings.sync) await Sync.sync();
 }
