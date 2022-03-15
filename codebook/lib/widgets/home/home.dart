@@ -264,6 +264,9 @@ class _HomeState extends State<Home> {
     _currentFilterDesc = desc;
     _currentFilterTags = tags;
     _currentFilterLanguage = language;
+
+    log("user filtered for: $desc, $tags, $language");
+
     setState(() {
       _ingredients = DB.ingredients.where((ingredient) => ingredient.desc.toLowerCase().contains(desc.toLowerCase()) && (language == null || ingredient.language == language) && ingredient.tags.toSet().containsAll(tags.toSet())).toList();
     });
