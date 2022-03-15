@@ -84,17 +84,17 @@ class _CodeBlockState extends State<CodeBlock> {
   void updateLanguage(String lang) {
     if (_language == lang) return;
 
-    _language = lang;
-
     log("${widget.desc}@${widget.id}: user changed language from '$_language' to '$lang'", LogTypes.tracking);
+
+    _language = lang;
   }
 
   void updateCode(String code) {
     if (code == _code) return;
 
-    _code = code;
-
     log("${widget.desc}@${widget.id}: user changed code from '$_code' to '$code'", LogTypes.tracking);
+
+    _code = code;
   }
 
   void changeMode(ViewMode mode) {
@@ -105,19 +105,19 @@ class _CodeBlockState extends State<CodeBlock> {
       DB.update();
     }
 
+    log("${widget.desc}@${widget.id}: user changed mode from '$_mode' to '$mode'", LogTypes.tracking);
+
     setState(() {
       _mode = mode;
     });
-
-    log("${widget.desc}@${widget.id}: user changed mode from '$_mode' to '$mode'", LogTypes.tracking);
   }
 
   void updateDesc(String desc) {
     if (desc == _desc) return;
 
-    _desc = desc;
-
     log("${widget.desc}@${widget.id}: user changed desc from '$_desc' to '$desc'", LogTypes.tracking);
+
+    _desc = desc;
   }
 
   @override
