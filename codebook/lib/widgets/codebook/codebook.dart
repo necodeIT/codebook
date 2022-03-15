@@ -28,6 +28,7 @@ class _CodeBookState extends State<CodeBook> {
             itemBuilder: (context, index) {
               var data = widget.ingredients[index];
               return CodeBlock(
+                id: data.hash,
                 code: data.code,
                 desc: data.desc,
                 language: data.language,

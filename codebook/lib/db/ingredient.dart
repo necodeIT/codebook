@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:codebook/db/sync/sync.dart';
 import 'package:crypto/crypto.dart';
+import 'package:nekolib_utils/log.dart';
 
 class Ingredient {
   Ingredient({required String language, required String code, required List<String> tags, required String desc}) {
@@ -52,11 +53,15 @@ class Ingredient {
   set language(String value) {
     if (value == language) return;
 
+    log("$this: language changed from '$language' to '$value'", LogTypes.debug);
+
     Sync.reportChange(this, () => _language = value);
   }
 
   set code(String value) {
     if (value == code) return;
+
+    log("$this: code changed from '$code' to '$value'", LogTypes.debug);
 
     Sync.reportChange(this, () => _code = value);
   }
@@ -64,11 +69,15 @@ class Ingredient {
   set desc(String value) {
     if (value == desc) return;
 
+    log("$this: desc changed from '$desc' to '$value'", LogTypes.debug);
+
     Sync.reportChange(this, () => _desc = value);
   }
 
   void addTag(String tag) {
     if (_tags.contains(tag)) return;
+
+    log("$this: tag added: '$tag'", LogTypes.debug);
 
     Sync.reportChange(this, () => _tags.add(tag));
   }
@@ -76,16 +85,26 @@ class Ingredient {
   void rmTag(String tag) {
     if (!_tags.contains(tag)) return;
 
+    log("$this: tag removed: '$tag'", LogTypes.debug);
+
     Sync.reportChange(this, () => _tags.remove(tag));
   }
 
   void update({required String desc, required String lang, required List<String> tags, required String code}) {
     if (desc == this.desc && lang == language && tags.toSet().containsAll(_tags.toSet()) && code == this.code) return;
+
     Sync.reportChange(this, () {
-      _desc = desc;
-      _language = lang;
+      this.desc = desc;
+      language = lang;
+      this.code = code;
+      if (_tags.toSet().containsAll(tags.toSet())) return;
+      log("$this: changed tags to '$tags'");
       _tags = tags;
-      _code = code;
     });
+  }
+
+  @override
+  String toString() {
+    return '$desc@$hash';
   }
 }

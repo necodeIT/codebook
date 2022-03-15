@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:codebook/db/ingredient.dart';
 import 'package:codebook/db/sync/action_type.dart';
 import 'package:codebook/db/sync/sync.dart';
+import 'package:nekolib_utils/log.dart';
 import 'package:path_provider/path_provider.dart';
+
+const _kNewIngredientHash = "0b7beefeddc41a459b0bfbdce95bd0ee607ad7323d771b2b6bade1e3fb1280c5";
 
 class DB {
   static Future<Directory> get appDir async {
@@ -91,15 +94,25 @@ class DB {
   /// Adds an ingredient to the database.
   static void addIngredient(Ingredient value) {
     _ingredients.add(value);
+
+    var newIngredient = value.hash == _kNewIngredientHash;
+    log("$value: added to database ${newIngredient ? "(skipped sync)" : ""}", LogTypes.debug);
+
     Sync.writeLog(value, ADD);
-    update(silent: false);
+
+    update(silent: newIngredient);
   }
 
   /// Removes an ingredient from the database.
   static void rmIngredient(Ingredient value) {
     _ingredients.remove(value);
+
+    var newIngredient = value.hash == _kNewIngredientHash;
+    log("$value: removed from database ${newIngredient ? "(skipped sync)" : ""}", LogTypes.debug);
+
     Sync.writeLog(value, DEL);
-    update(silent: false);
+
+    update(silent: newIngredient);
   }
 
   /// Loads the db from the local file system.
@@ -126,6 +139,7 @@ class DB {
       var content = await file.readAsString();
       Iterable l = jsonDecode(content);
       List<Ingredient> ingredients = List<Ingredient>.from(l.map((model) => Ingredient.fromJson(model)));
+      log("Loaded ${ingredients.length} ingredients from $path", LogTypes.debug);
       return ingredients;
     }
 
@@ -139,6 +153,7 @@ class DB {
       if (!silent) Sync.writeLog(ingredient, ADD);
     }
 
+    log("Imported ${ingredients.length} ingredients.", LogTypes.debug);
     update(silent: silent);
   }
 
@@ -149,5 +164,6 @@ class DB {
     var json = jsonEncode(ingredients);
 
     file.writeAsStringSync(json);
+    log("exported ${ingredients.length} ingredients to $path", LogTypes.debug);
   }
 }
