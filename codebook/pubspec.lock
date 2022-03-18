@@ -77,7 +77,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.7"
+    version: "2.1.8"
   build_runner_core:
     dependency: transitive
     description:
@@ -492,7 +492,7 @@ packages:
     description:
       path: ui
       ref: flutter
-      resolved-ref: "2c6d85cda0823f41337d66a192004f4dbe031c88"
+      resolved-ref: "81594c165be0f21c7099cfe15a3ef68e19071e62"
       url: "https://github.com/necodeIT/nekolib.git"
     source: git
     version: "0.0.1"
@@ -501,7 +501,7 @@ packages:
     description:
       path: utils
       ref: flutter
-      resolved-ref: "2c6d85cda0823f41337d66a192004f4dbe031c88"
+      resolved-ref: "81594c165be0f21c7099cfe15a3ef68e19071e62"
       url: "https://github.com/necodeIT/nekolib.git"
     source: git
     version: "0.0.1"
@@ -831,7 +831,7 @@ packages:
       path: "plugins/window_size"
       ref: HEAD
       resolved-ref: "5c51870ced62a00e809ba4b81a846a052d241c9f"
-      url: "git://github.com/google/flutter-desktop-embedding.git"
+      url: "https://github.com/google/flutter-desktop-embedding.git"
     source: git
     version: "0.1.0"
   xdg_directories:

@@ -109,7 +109,11 @@ class Sync {
   }
 
   static reportChange(Ingredient ingredient, Function() change) {
-    if (!Settings.sync) return change();
+    if (!Settings.sync) {
+      change();
+      DB.save();
+      return;
+    }
 
     _log.write(ingredient, DEL);
     change();
