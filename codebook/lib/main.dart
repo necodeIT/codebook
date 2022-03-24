@@ -10,7 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:nekolib_ui/core.dart';
 import 'package:nekolib_utils/log.dart';
 
+/// Default duration for hover animations.
 const kHoverDuration = Duration(milliseconds: 50);
+
+/// Default scale for hover animations.
 const kHoverScale = 1.025;
 
 void main() async {
@@ -20,11 +23,14 @@ void main() async {
   NcThemes.initPredefinedThemes();
   await Settings.load();
 
-  runApp(
-    FutureBuilder(future: loadAll(), builder: (context, task) => task.connectionState == ConnectionState.done ? const App() : ThemedLoadingIndicator()),
+  runThemedApp(
+    appBuilder: (context) => App(),
+    onLoad: loadAll(),
+    loadingWidgetBuilder: (context) => ThemedLoadingIndicator(),
   );
 }
 
+/// Loads all the data required for the app to work.
 Future loadAll() async {
   await Updater.init();
 
@@ -35,7 +41,9 @@ Future loadAll() async {
   if (Settings.sync) await Sync.sync();
 }
 
+/// The main app widget.
 class App extends StatefulWidget {
+  /// The main app widget.
   const App({Key? key}) : super(key: key);
 
   @override

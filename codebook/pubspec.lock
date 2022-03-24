@@ -7,14 +7,14 @@ packages:
       name: _fe_analyzer_shared
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "36.0.0"
+    version: "38.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.1"
+    version: "3.4.1"
   animations:
     dependency: "direct main"
     description:
@@ -231,7 +231,7 @@ packages:
       name: dbus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.1"
+    version: "0.7.2"
   dependency_validator:
     dependency: "direct dev"
     description:
@@ -492,7 +492,7 @@ packages:
     description:
       path: ui
       ref: flutter
-      resolved-ref: "81594c165be0f21c7099cfe15a3ef68e19071e62"
+      resolved-ref: "308c3b300459562fe25f531bdd989b8ad0a3080f"
       url: "https://github.com/necodeIT/nekolib.git"
     source: git
     version: "0.0.1"
@@ -501,7 +501,7 @@ packages:
     description:
       path: utils
       ref: flutter
-      resolved-ref: "81594c165be0f21c7099cfe15a3ef68e19071e62"
+      resolved-ref: "308c3b300459562fe25f531bdd989b8ad0a3080f"
       url: "https://github.com/necodeIT/nekolib.git"
     source: git
     version: "0.0.1"
@@ -824,7 +824,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.1"
+    version: "2.4.4"
   window_size:
     dependency: "direct main"
     description:

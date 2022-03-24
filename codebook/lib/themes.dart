@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nekolib_ui/core.dart';
 
+/// Contains some custom themes, that are not predifined in [NcThemes.initPredefinedThemes].
 class CustomThemes {
+  /// Dark purple theme.
   static final darkPurple = darkTheme.copyWith(
     "Dark Purple",
     icon: Icons.nightlight_outlined,
@@ -9,6 +11,7 @@ class CustomThemes {
     accentColor: const Color(0xFF8E45F6),
   );
 
+  /// Light purple theme.
   static final lightPurple = lightTheme.copyWith(
     "Light Purple",
     icon: lightTheme.icon,
@@ -16,6 +19,7 @@ class CustomThemes {
     accentColor: const Color(0xFF6200EE),
   );
 
+  /// Dark green theme.
   static final darkGreen = darkTheme.copyWith(
     "Dark Green",
     icon: Icons.nightlight_outlined,
@@ -24,6 +28,7 @@ class CustomThemes {
     accentColor: const Color(0xFF0C8004),
   );
 
+  /// Light green theme.
   static final lightGreen = lightTheme.copyWith(
     "Light Green",
     icon: lightTheme.icon,
@@ -31,6 +36,7 @@ class CustomThemes {
     accentColor: const Color(0xFF18CC0A),
   );
 
+  /// Maps every theme with a recomended code theme.
   static final recommendedCodeThemes = Map<NcTheme, String>.unmodifiable({
     lightPurple: "Routeros",
     lightGreen: "Qtcreator Light",
@@ -43,6 +49,7 @@ class CustomThemes {
     // NcThemes.
   });
 
+  /// Initializes the custom themes.
   static void init() {
     lightGreen;
     lightPurple;

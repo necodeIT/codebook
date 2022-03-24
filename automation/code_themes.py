@@ -55,7 +55,7 @@ code += "import 'package:flutter/material.dart';\n"
 for file in themeFiles:
     code += f"import 'package:flutter_highlight/themes/{file}';\n"
 
-code += f'\nconst {data_type} {variable_name} = '
+code += f'\n/// A list of all code themes.\nconst {data_type} {variable_name} = '
 code += "{\n"
 
 for key, value in themes.items():

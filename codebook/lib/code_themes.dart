@@ -92,6 +92,7 @@ import 'package:flutter_highlight/themes/xcode.dart';
 import 'package:flutter_highlight/themes/xt256.dart';
 import 'package:flutter_highlight/themes/zenburn.dart';
 
+/// A list of all code themes.
 const Map<String, Map<String, TextStyle>> kCodeThemes = {
 'A11Y Dark': a11yDarkTheme,
 'A11Y Light': a11yLightTheme,

@@ -48,7 +48,7 @@ path = f"../codebook/lib/{filename}.dart"
 
 print(f"Writing file at '{path}' ...")
 
-code = "// GENERATED CODE - DO NOT MODIFY BY HAND\n\n"
+code = "// GENERATED CODE - DO NOT MODIFY BY HAND\n\n/// List of all supported languages\n"
 
 code += f'const {data_type} {variable_name} = {languages};'
 
