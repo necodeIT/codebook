@@ -78,9 +78,11 @@ class Sync {
     Cloud.gistID = config[gistIDKey] ?? "";
     Cloud.username = config[usernameKey] ?? "";
     _isLocked = config[lockedKey] ?? false;
+    config[gistIDKey] = "************************";
+    config[tokenKey] = "************************";
 
-    if (!await checkCredentials()) _authorized = false;
-    log("credentials validated - valid: $_authorized");
+    _authorized = await checkCredentials();
+    config["authorized"] = _authorized;
 
     log("Loaded sync config: $config");
 

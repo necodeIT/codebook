@@ -2,6 +2,7 @@
 
 import 'package:codebook/db/settings.dart';
 import 'package:codebook/db/sync/sync.dart';
+import 'package:codebook/utils.dart';
 import 'package:codebook/widgets/settings/sections/sync_settings/count_down.dart';
 import 'package:codebook/widgets/settings/sections/sync_settings/device_card.dart';
 import 'package:codebook/widgets/settings/settings_title.dart';
@@ -67,6 +68,12 @@ class _SyncSettingsState extends State<SyncSettings> {
                         tooltip: "Force sync",
                       ),
               ),
+            DeviceCard(
+              icon: FontAwesome.file_text_o,
+              label: "Clear logs",
+              onTap: clearLogs,
+              tooltip: "Clear all log files except the current seession",
+            ),
           ],
         ),
       ],
