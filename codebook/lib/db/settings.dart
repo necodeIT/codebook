@@ -16,7 +16,7 @@ class Settings {
   static final defaultTheme = CustomThemes.lightPurple;
 
   static String _theme = "";
-  static String _codeTheme = "Ocean";
+  static String _codeTheme = "Atelier Cave Dark";
   static bool _sync = false;
   static bool _dirty = false;
 
@@ -64,10 +64,10 @@ class Settings {
     _update();
   }
 
-  static void _update() {
+  static void _update() async {
     if (dirty) Sync.sync();
 
-    save();
+    await save();
   }
 
   static void ncThemesCallback(NcTheme theme) {
@@ -95,14 +95,19 @@ class Settings {
     if (content.isEmpty) {
       log("Settings file is empty", LogTypes.warning);
     } else {
-      catgirl = jsonDecode(content);
+      try {
+        catgirl = jsonDecode(content);
+      } catch (e) {
+        log("Settings file is corrupted", LogTypes.warning);
+        log("Error in settings file: $e", LogTypes.error);
+      }
     }
 
     _codeTheme = catgirl[codeThemeKey] ?? _codeTheme;
     _sync = catgirl[syncKey] ?? _sync;
     _dirty = catgirl[modifiedKey] ?? _dirty;
 
-    _theme = catgirl[themeKey];
+    _theme = catgirl[themeKey] ?? defaultTheme.name;
 
     log("code theme: $_codeTheme", LogTypes.info);
     log("theme: $_theme", LogTypes.info);
