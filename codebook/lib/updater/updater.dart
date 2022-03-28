@@ -23,7 +23,7 @@ class Updater {
   static const appName = "CodeBook";
 
   /// The current version of the app.
-  static const version = "2.1.3";
+  static const version = "2.1.4";
 
   static var _latestVersion = "";
   static var _latestReleaseName = "";
