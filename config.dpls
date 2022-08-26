@@ -1,0 +1,33 @@
+{
+    "engineVersion": "0.0.0",
+    "projectType": "_$_FlutterProject",
+    "projectData": {
+        "name": "CodeBook",
+        "sdkVersion": "2.10.5",
+        "path": "codebook",
+        "soundNullSafety": true
+    },
+    "config": {
+        "appName": "CodeBook",
+        "version": "2.1.4",
+        "publisher": "necodeIT",
+        "outputFileName": "Setup",
+        "outputDir": "installers",
+        "executeableBinaryFile": "codebook",
+        "uuid": "{{A2AA70B8-9515-442C-9245-4EDE260504A7}",
+        "iconFile": "codebook\\windows\\runner\\resources\\app_icon.ico",
+        "prebuildCommands": {
+            "windows": [
+                "cd '.\\url protocol handler\\' && dotnet publish -c Release --self-contained true -r win-x86"
+            ]
+        },
+        "postbuildCommands": {},
+        "additionalFiles": {},
+        "additionalDirectories": {
+            "windows": [
+                "url protocol handler\\url protocol handler\bin\\Release\netcoreapp3.1\\win-x86\\publish"
+            ]
+        },
+        "url": "https://necodeit.github.io/codebook/"
+    }
+}
