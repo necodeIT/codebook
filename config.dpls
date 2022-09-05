@@ -25,7 +25,7 @@
         "additionalFiles": {},
         "additionalDirectories": {
             "windows": [
-                "url protocol handler\\url protocol handler\bin\\Release\netcoreapp3.1\\win-x86\\publish"
+                "url protocol handler\\url protocol handler\\bin\\Release\\netcoreapp3.1\\win-x86\\publish"
             ]
         },
         "url": "https://necodeit.github.io/codebook/"
